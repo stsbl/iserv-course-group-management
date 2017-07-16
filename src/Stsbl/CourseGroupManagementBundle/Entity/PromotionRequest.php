@@ -64,7 +64,7 @@ class PromotionRequest implements CrudInterface
     private $group;
 
     /**
-     * @Assert\NotBlank(message="Please select the owner of the promotion request.")
+     * @Assert\NotBlank(message="Please select the filer of the promotion.")
      * @ORM\ManyToOne(targetEntity="\IServ\CoreBundle\Entity\User", fetch="EAGER")
      * @ORM\JoinColumn(name="actusr", referencedColumnName="act", nullable=false)
      *

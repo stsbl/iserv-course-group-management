@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-17 01:45+0200\n"
+"POT-Creation-Date: 2017-07-17 01:49+0200\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -37,6 +37,18 @@ msgid ""
 msgstr ""
 "Gruppen mit diesem Merkmal werden versetzt, wenn ein Versetzungsantrag "
 "gestellt wurde. Andernfalls werden sie am Ende des Schuljahrs gelöscht."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:43
+msgid "There is already a promotion request for this group."
+msgstr "Es existiert bereits ein Versetzungsantrag für diese Gruppe."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:44
+msgid "Please select the group which should promoted."
+msgstr "Bitte wählen Sie die Gruppe, welche versetzt werden soll."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:45
+msgid "Please select the filer of the promotion."
+msgstr "Bitte wählen Sie den Antragsteller für die Versetzung."
 
 #: src/Stsbl/CourseGroupManagementBundle/Entity/PromotionRequest.php:106
 #, php-format

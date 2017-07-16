@@ -38,3 +38,8 @@ _('Manage Promotions');
 _('Course Group Management');
 _('Group is a Course Group');
 _('Groups with this flag will promoted if a promotion request was put in. Elsewhere there will deleted a the end of the school year.');
+
+// Validator
+_('There is already a promotion request for this group.');
+_('Please select the group which should promoted.');
+_('Please select the filer of the promotion.');
