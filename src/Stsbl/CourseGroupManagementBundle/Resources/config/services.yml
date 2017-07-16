@@ -1,0 +1,8 @@
+services:
+    stsbl.course_group_management.admin.promotion_requests:
+      class: Stsbl\CourseGroupManagementBundle\Admin\PromotionRequestAdmin
+      arguments: ['Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest']
+      calls:
+        - [ setLogger, ["@iserv.logger"]]
+      tags:
+        - { name: iserv.crud }

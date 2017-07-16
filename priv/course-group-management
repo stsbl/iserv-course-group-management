@@ -1,0 +1,10 @@
+priv.manage_promotions:
+module          Course Group Management
+description     Manage Promotions
+assign          admins
+assignroles     admin
+
+flag.course_group:
+module		Course Group Management
+title		Group is a Course Group
+description	Groups with this flag will promoted if a promotion request was put in. Elsewhere there will deleted a the end of the school year.
