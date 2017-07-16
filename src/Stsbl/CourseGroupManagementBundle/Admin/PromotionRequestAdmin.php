@@ -74,14 +74,14 @@ class PromotionRequestAdmin extends AbstractAdmin
         if (!$mapper instanceof FormMapper) {
             $mapper
                 ->add('created', null, [
-                    'label' => _('Created')
+                    'label' => _p('course-group-management','Created')
                 ])
             ;
         }
 
         $mapper
             ->add('comment', null, [
-                'label' => _('Comment')
+                'label' => _p('course-group-management', 'Comment')
             ])
         ;
     }
