@@ -11,3 +11,10 @@ services:
         class: Stsbl\CourseGroupManagementBundle\EventListener\MenuSubscriber # Out MenuSubscriber Class
         tags:
             - { name: kernel.event_subscriber } # Tells IServ about our subsriber
+
+    stsbl.course_group_management.dashboard:
+        class: Stsbl\CourseGroupManagementBundle\EventListener\DashboardListener # Out DashboardListener Class
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+          - { name: kernel.event_listener, event: iserv.manage.dashboard, method: onBuildManageDashboard}
+          - { name: kernel.event_listener, event: iserv_portal.build_idesk, method: onBuildIDesk }

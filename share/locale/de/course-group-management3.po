@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-17 03:40+0200\n"
+"POT-Creation-Date: 2017-07-17 04:05+0200\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -19,6 +19,8 @@ msgstr ""
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:58
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:105
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:424
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:435
 #: src/Stsbl/CourseGroupManagementBundle/EventListener/MenuSubscriber.php:72
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:187
 msgid "Request promotion for course groups"
@@ -74,6 +76,25 @@ msgstr "Bitte wählen Sie die Gruppe, welche versetzt werden soll."
 msgid "Please select the filer of the promotion."
 msgstr "Bitte wählen Sie den Antragsteller für die Versetzung."
 
+#: src/Stsbl/CourseGroupManagementBundle/EventListener/DashboardListener.php:122
+#, php-format
+msgid "You can promote one course group for next school year"
+msgid_plural "You can promote %d course groups for next school year"
+msgstr[0] "Sie können eine Kursgruppe in das nächste Schuljahr versetzen"
+msgstr[1] "Sie können %d Kursgruppen in das nächste Schuljahr versetzen"
+
+#: src/Stsbl/CourseGroupManagementBundle/EventListener/DashboardListener.php:123
+msgid "The following groups are in queue for promoting:"
+msgstr "Die folgenden Gruppen können versetzt werden:"
+
+#: src/Stsbl/CourseGroupManagementBundle/EventListener/DashboardListener.php:124
+msgid ""
+"You can go to „Request promotion for course groups“ and request a promote "
+"for this groups."
+msgstr ""
+"Sie können zu „Versetzung für Kursgruppen beantragen“ gehen und eine "
+"Versetzung für die Gruppe beantragen."
+
 #: src/Stsbl/CourseGroupManagementBundle/Entity/PromotionRequest.php:111
 #, php-format
 msgid "Promotion request for group %s"
@@ -90,7 +111,8 @@ msgstr "Bitte wählen Sie die Gruppen, welche Sie versetzen wollen."
 
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:95
 msgid "Select the groups which you want to promote for the next school year."
-msgstr "Wählen Sie die Gruppen, welche Sie in das nächste Schuljahr versetzen wollen."
+msgstr ""
+"Wählen Sie die Gruppen, welche Sie in das nächste Schuljahr versetzen wollen."
 
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:99
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:117

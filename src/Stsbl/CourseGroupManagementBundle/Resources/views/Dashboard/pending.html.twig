@@ -1,0 +1,36 @@
+{% extends 'IServCoreBundle:Dashboard:main.html.twig' %}
+
+{% block dashboard_content %}
+    {% if value is defined %}
+        {{ text|format(value) }}
+    {% else %}
+        <p>{{ text }}</p>
+    {% endif %}
+    {% if groups is defined %}
+        <ul style="list-style-type: none;">
+            {% for group in groups %}
+                {% if app.user.hasRole('ROLE_ADMIN') and idesk %}
+                    <li>{{ icon('legacy-act-group') }}&nbsp;<a href="{{ path('admin_group_show', {'id':group.id}) }}">{{ group }}</a></li>
+                {% else %}
+                    <li>{{ icon('legacy-act-group') }}&nbsp;<a href="{{ path('manage_group_show', {'id':group.id}) }}">{{ group }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <p>{{ additional_text }}</p>
+{% endblock dashboard_content %}
+
+{% block dashboard_panel_footer %}{% endblock dashboard_panel_footer %}
+
+{% block dashboard_footer %}
+    {% if idesk %}
+        {% set class = 'btn-link' %}
+    {% else %}
+        {% set class = 'btn-default' %}
+    {% endif %}
+    {% if app.user.hasRole('ROLE_ADMIN') and idesk %}
+        <a class="btn {{ class }} pull-right" href="{{ path('admin_coursegroupmanagement_request') }}">{{ icon('pro-arrow-up') }}{{ _('Request promotion for course groups') }}</a>
+    {% else %}
+        <a class="btn {{ class }} pull-right" href="{{ path('manage_coursegroupmanagement_request') }}">{{ icon('pro-arrow-up') }}{{ _('Request promotion for course groups') }}</a>
+    {% endif %}
+{% endblock dashboard_footer %}
