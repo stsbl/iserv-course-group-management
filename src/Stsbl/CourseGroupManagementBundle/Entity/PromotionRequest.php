@@ -94,6 +94,11 @@ class PromotionRequest implements CrudInterface
     public function onCreate()
     {
         $this->setCreated(new \DateTime("now"));
+
+        // default user to group owner
+        if ($this->getUser() === null && $this->getGroup()->getOwner() != null) {
+            $this->setUser($this->getGroup()->getOwner());
+        }
     }
 
     /**

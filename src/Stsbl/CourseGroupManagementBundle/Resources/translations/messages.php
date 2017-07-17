@@ -30,9 +30,12 @@
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
 
-// Privilege
+// Privileges
 _('Course Group Management');
 _('Manage Promotions');
+
+_('Course Group Management');
+_('Request Promotions');
 
 // Flag
 _('Course Group Management');

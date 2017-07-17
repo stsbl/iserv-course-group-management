@@ -1,8 +1,13 @@
 services:
     stsbl.course_group_management.admin.promotion_requests:
-      class: Stsbl\CourseGroupManagementBundle\Admin\PromotionRequestAdmin
-      arguments: ['Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest']
-      calls:
-        - [ setLogger, ["@iserv.logger"]]
-      tags:
-        - { name: iserv.crud }
+        class: Stsbl\CourseGroupManagementBundle\Admin\PromotionRequestAdmin
+        arguments: ['Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest']
+        calls:
+            - [ setLogger, ["@iserv.logger"]]
+        tags:
+            - { name: iserv.crud }
+
+    stsbl.course_group_management.menu:
+        class: Stsbl\CourseGroupManagementBundle\EventListener\MenuSubscriber # Out MenuSubscriber Class
+        tags:
+            - { name: kernel.event_subscriber } # Tells IServ about our subsriber

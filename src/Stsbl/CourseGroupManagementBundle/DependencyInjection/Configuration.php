@@ -13,12 +13,27 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
+     * @var string
+     */
+    private $alias;
+
+    /**
+     * The constructor.
+     *
+     * @param string $alias
+     */
+    public function __construct($alias)
+    {
+        $this->alias = $alias;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('stsbl_course_group_management');
+        $rootNode = $treeBuilder->root($this->alias);
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

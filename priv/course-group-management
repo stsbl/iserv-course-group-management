@@ -4,6 +4,12 @@ description     Manage Promotions
 assign          admins
 assignroles     admin
 
+priv.request_promotions:
+module          Course Group Management
+description     Request Promotions
+assign          admins
+assignroles     admin teacher
+
 flag.course_group:
 module		Course Group Management
 title		Group is a Course Group

@@ -2,11 +2,14 @@
 // src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php
 namespace Stsbl\CourseGroupManagementBundle\Admin;
 
+use Doctrine\ORM\EntityRepository;
 use IServ\AdminBundle\Admin\AbstractAdmin;
+use IServ\CoreBundle\Entity\GroupRepository;
 use IServ\CoreBundle\Traits\LoggerTrait;
 use IServ\CrudBundle\Entity\CrudInterface;
 use IServ\CrudBundle\Mapper\AbstractBaseMapper;
 use IServ\CrudBundle\Mapper\FormMapper;
+use IServ\CrudBundle\Mapper\ListMapper;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 
 /*
@@ -60,15 +63,45 @@ class PromotionRequestAdmin extends AbstractAdmin
      */
     public function configureFields(AbstractBaseMapper $mapper)
     {
+        $groupOptions = ['label' => _('Group')];
+
+        if ($mapper instanceof FormMapper) {
+            $groupOptions['query_builder'] = function (EntityRepository $er) {
+                /* @var $er GroupRepository */
+                $subQb = $er->createQueryBuilder('r');
+
+                $subQb
+                    ->resetDQLParts()
+                    ->select('r')
+                    ->from('StsblCourseGroupManagementBundle:PromotionRequest', 'r')
+                    ->where($subQb->expr()->eq('g.account', 'r.group'))
+                ;
+
+                return $er->createFindByFlagQueryBuilder(Privilege::FLAG_COURSE_GROUP, 'g')
+                    ->select('g')
+                    ->andWhere($subQb->expr()->not($subQb->expr()->exists($subQb)))
+                    ->orderBy('g.name', 'ASC')
+                    ;
+            };
+        }
+
         if ($mapper->getObject() === null || !$mapper instanceof FormMapper) {
+            if ($mapper instanceof ListMapper) {
+                $mapper
+                    ->addIdentifier('group', null, $groupOptions)
+                ;
+            } else {
+                $mapper
+                    ->add('group', null, $groupOptions)
+                ;
+            }
+
             $mapper
                 ->add('user', null, [
                     'label' => _('Filer')
                 ])
-                ->add('group', null, [
-                    'label' => _('Group')
-                ])
             ;
+
         }
 
         if (!$mapper instanceof FormMapper) {
@@ -118,6 +151,16 @@ class PromotionRequestAdmin extends AbstractAdmin
      */
     public function isAuthorized()
     {
-        return $this->isGranted(Privilege::MANAGE_PROMOTIONS);
+        return $this->isGranted(Privilege::MANAGE_PROMOTIONS) && $this->isGranted(Privilege::REQUEST_PROMOTIONS);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepareBreadcrumbs()
+    {
+        return [
+            _('Course Group Management') => $this->router->generate('admin_coursegroupmanagement_request')
+        ];
     }
 }

@@ -1,0 +1,42 @@
+{# src/Stsbl/CourseGroupManagementBundle/Resources/views/ExamPlanUnlock/unlock.html.twig #}
+{% extends bundle ~ "::page.html.twig" %}
+{% import 'IServCrudBundle::macros.html.twig' as m %}
+
+{% block page_title %}
+    {{ _('Request promotion for course groups') }}
+    {% if bundle == 'IServCoreBundle' and app.request.attributes.get('_route') == 'manage_coursegroupmanagement_request' %}
+        - {{ _('Administration') }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if is_granted('PRIV_MANAGE_PROMOTIONS') and is_granted('IS_AUTHENTICATED_ADMIN') %}
+        <div class="row">
+            <div class="btn-toolbar pull-right">
+                {{ m.linkButton(path('admin_promotionrequest_index'), _('Manage promotion requests'), 'cog', 'btn-link') }}
+            </div>
+        </div>
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ _('Request promotion for course groups') }}</h3>
+        </div>
+        <div class="panel-body">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {# insert select2 in non admin view #}
+    {% if bundle == 'IServCoreBundle' %}
+        {% if app.environment != 'prod' %}
+            <!-- {{ _self }} => course-group-management-select2.js -->
+        {% endif %}
+        {% javascripts output='js/compiled/course-group-management-select2.js' filter='?uglifyjs2' '@IServCrudBundle/Resources/public/js/select2.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endif %}
+{% endblock %}
