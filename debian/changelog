@@ -1,3 +1,11 @@
+stsbl-iserv-course-group-management (17.07.17-1) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * Removed tests.
+  * Updated package tags and description.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Mon, 17 Jul 2017 04:34:01 +0200
+
 stsbl-iserv-course-group-management (17.07.17-0) unstable; urgency=low
 
   * Initial Release.
