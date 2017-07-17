@@ -66,7 +66,7 @@ class PromotionRequestAdmin extends AbstractAdmin
         $groupOptions = [
             'label' => _('Group'),
             'attr' => [
-                'help_text' => __('Possible groups requires the flag "%s".', _('Group is a Course Group'))
+                'help_text' => __('Possible groups requires the group flag "%s"', _('Group is a Course Group'))
             ]
         ];
 
@@ -105,7 +105,7 @@ class PromotionRequestAdmin extends AbstractAdmin
                 ->add('user', null, [
                     'label' => _('Filer'),
                     'attr' => [
-                        'help_text' => _('The filer will informed via e-mail if the request is accepted.')
+                        'help_text' => _('The filer will informed via e-mail if the request is accepted')
                     ]
                 ])
             ;
@@ -124,7 +124,7 @@ class PromotionRequestAdmin extends AbstractAdmin
             ->add('comment', null, [
                 'label' => _p('course-group-management', 'Comment'),
                 'attr' => [
-                    'help_text' => _('Additional explanation for this request.')
+                    'help_text' => _('Additional explanation for this request')
                 ]
             ])
         ;

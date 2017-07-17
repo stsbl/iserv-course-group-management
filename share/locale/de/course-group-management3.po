@@ -144,16 +144,16 @@ msgstr "Gruppe"
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:69
 #, php-format
-msgid "Possible groups requires the flag \"%s\"."
-msgstr "Mögliche Gruppen benötigen das Merkmal \"%s\"."
+msgid "Possible groups requires the group flag \"%s\""
+msgstr "Mögliche Gruppen benötigen das Gruppenmerkmal \"%s\""
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:106
 msgid "Filer"
 msgstr "Antragsteller"
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:108
-msgid "The filer will informed via e-mail if the request is accepted."
-msgstr "Der Antragsteller wird per E-Mail informiert, wenn der Antrag aktzeptiert wird."
+msgid "The filer will informed via e-mail if the request is accepted"
+msgstr "Der Antragsteller wird per E-Mail informiert, wenn der Antrag aktzeptiert wird"
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:118
 msgctxt "course-group-management"
@@ -161,5 +161,5 @@ msgid "Created"
 msgstr "Eingereicht"
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:127
-msgid "Additional explanation for this request."
-msgstr "Zusätzliche Bermerkungen für diesen Antrag."
+msgid "Additional explanation for this request"
+msgstr "Zusätzliche Bermerkungen für diesen Antrag"
