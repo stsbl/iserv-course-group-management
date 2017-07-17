@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-17 04:05+0200\n"
+"POT-Creation-Date: 2017-07-17 04:15+0200\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -40,7 +40,7 @@ msgstr "Versetzungsanträge verwalten"
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:41
 #: src/Stsbl/CourseGroupManagementBundle/EventListener/MenuSubscriber.php:53
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:189
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:163
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:174
 msgid "Course Group Management"
 msgstr "Kursgruppenverwaltung"
 
@@ -53,6 +53,7 @@ msgid "Request Promotions"
 msgstr "Versetzungen beantragen"
 
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:42
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:69
 msgid "Group is a Course Group"
 msgstr "Gruppe ist eine Kursgruppe"
 
@@ -115,7 +116,7 @@ msgstr ""
 "Wählen Sie die Gruppen, welche Sie in das nächste Schuljahr versetzen wollen."
 
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:99
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:117
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:125
 msgctxt "course-group-management"
 msgid "Comment"
 msgstr "Bemerkung"
@@ -137,15 +138,28 @@ msgstr "Versetzungsanträge"
 msgid "Promotion Request"
 msgstr "Versetzungsantrag"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:66
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:67
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:101
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:69
+#, php-format
+msgid "Possible groups requires the flag \"%s\"."
+msgstr "Mögliche Gruppen benötigen das Merkmal \"%s\"."
+
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:106
 msgid "Filer"
 msgstr "Antragsteller"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:110
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:108
+msgid "The filer will informed via e-mail if the request is accepted."
+msgstr "Der Antragsteller wird per E-Mail informiert, wenn der Antrag aktzeptiert wird."
+
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:118
 msgctxt "course-group-management"
 msgid "Created"
 msgstr "Eingereicht"
+
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:127
+msgid "Additional explanation for this request."
+msgstr ""

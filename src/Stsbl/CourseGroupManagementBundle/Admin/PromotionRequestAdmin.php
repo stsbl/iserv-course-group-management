@@ -63,7 +63,12 @@ class PromotionRequestAdmin extends AbstractAdmin
      */
     public function configureFields(AbstractBaseMapper $mapper)
     {
-        $groupOptions = ['label' => _('Group')];
+        $groupOptions = [
+            'label' => _('Group'),
+            'attr' => [
+                'help_text' => __('Possible groups requires the flag "%s".', _('Group is a Course Group'))
+            ]
+        ];
 
         if ($mapper instanceof FormMapper) {
             $groupOptions['query_builder'] = function (EntityRepository $er) {
@@ -98,7 +103,10 @@ class PromotionRequestAdmin extends AbstractAdmin
 
             $mapper
                 ->add('user', null, [
-                    'label' => _('Filer')
+                    'label' => _('Filer'),
+                    'attr' => [
+                        'help_text' => _('The filer will informed via e-mail if the request is accepted.')
+                    ]
                 ])
             ;
 
@@ -114,7 +122,10 @@ class PromotionRequestAdmin extends AbstractAdmin
 
         $mapper
             ->add('comment', null, [
-                'label' => _p('course-group-management', 'Comment')
+                'label' => _p('course-group-management', 'Comment'),
+                'attr' => [
+                    'help_text' => _('Additional explanation for this request.')
+                ]
             ])
         ;
     }
