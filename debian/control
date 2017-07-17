@@ -1,0 +1,23 @@
+Source: stsbl-iserv-course-group-management
+Section: misc
+Priority: extra
+Maintainer: Stadtteilschule Blankenese <repository@stsbl.de>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management
+
+Package: stsbl-iserv-course-group-management
+Architecture: all
+Depends: ${misc:Depends}, iserv-portal, stsbl-iserv3-maintenance
+Description: Kursgruppenverwaltung für IServ
+ Bietet die Möglichkeit, für IServ-Gruppen, die Kurse darstellen, die zentrale 
+ Versetzung zu planen und durchzuführen. 
+ .
+ Dazu bietet das Modul ein Formular an, indem die Lehrkraft angeben kann, 
+ welche der ihr gehörenden Kursgruppen sie nächtes Schuljahr noch 
+ benötigt. Der Admin kann anschließend alle Kursgruppen zentral umbenennen
+ (Jahrgangszahl wird um einen erhöht, eventuell vorhandene Jahreszahl im Namen
+ wird auf das nächste Jahr geändert).
+ .
+ Das Modul befindet sich noch in Entwicklung.
+Tag: suite::iserv:portal, role::plugin

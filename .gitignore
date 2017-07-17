@@ -1,0 +1,6 @@
+debian/stsbl-iserv-course-group-management/*
+debian/stsbl-iserv-course-group-management.substvars
+debian/stsbl-iserv-course-group-management.debhelper.log
+debian/files
+debian/debhelper-build-stamp
+debian/*.debhelper
