@@ -1,3 +1,10 @@
+stsbl-iserv-course-group-management (17.07.17-2) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * Fixed dahsboard for zero groups.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Mon, 17 Jul 2017 04:44:51 +0200
+
 stsbl-iserv-course-group-management (17.07.17-1) experimental; urgency=medium
 
   [ Felix Jacobi ]
