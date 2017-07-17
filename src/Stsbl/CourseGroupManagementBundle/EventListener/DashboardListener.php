@@ -105,6 +105,11 @@ class DashboardListener implements IDeskListenerInterface
 
         $groups = $this->getGroups($event);
 
+        if (count($groups) === 0) {
+            // exit if no groups are available
+            return;
+        }
+
         $icon = null;
         // display icon on IDesk
         if ($this->isIDeskEvent) {
