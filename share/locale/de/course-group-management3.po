@@ -162,4 +162,4 @@ msgstr "Eingereicht"
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:127
 msgid "Additional explanation for this request."
-msgstr ""
+msgstr "Zusätzliche Bermerkungen für diesen Antrag."
