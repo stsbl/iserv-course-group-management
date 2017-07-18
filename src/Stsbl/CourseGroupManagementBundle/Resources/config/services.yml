@@ -18,3 +18,7 @@ services:
         tags:
           - { name: kernel.event_listener, event: iserv.manage.dashboard, method: onBuildManageDashboard}
           - { name: kernel.event_listener, event: iserv_portal.build_idesk, method: onBuildIDesk }
+
+    stsbl.course_group_management.actcoursepromotion:
+        class: Stsbl\CourseGroupManagementBundle\Service\ActCoursePromotion
+        arguments: ["@iserv.security_handler", "@iserv.shell"]

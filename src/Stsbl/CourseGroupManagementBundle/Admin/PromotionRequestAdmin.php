@@ -174,4 +174,18 @@ class PromotionRequestAdmin extends AbstractAdmin
             _('Course Group Management') => $this->router->generate('admin_coursegroupmanagement_request')
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIndexActions()
+    {
+        $links = parent::getIndexActions();
+
+        if (is_array($links)) {
+            $links['run'] = array($this->getRouter()->generate('admin_coursegroupmanagement_execute_prepare'), _('Promote groups'), 'play');
+        }
+
+        return $links;
+    }
 }

@@ -1,0 +1,46 @@
+{# src/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig #}
+{% extends 'IServAdminBundle::admin.html.twig' %}
+
+{% block page_title %}
+    {{ _('Promote course groups') }} - {{ _('Course Group Management') }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ _('Step three: Preview pending promotions') }}</h1>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{ _('Groups which will renamed') }}</h4>
+        </div>
+        <div class="panel-body">
+            <ul>
+                {% for group in transition %}
+                    <li>{{ icon('legacy-act-group') }}{{ __('Group %s will renamed to %s', group.oldName, group.newName) }}</li>
+                {% else %}
+                    <li>{{ _('No groups will renamed.') }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{ _('Groups which will deleted') }}</h4>
+        </div>
+        <div class="panel-body">
+            <ul>
+                {% for group in deleted %}
+                    <li>{{ icon('legacy-act-group') }}{{ __('Group %s will deleted', group) }}</li>
+                {% else %}
+                    <li>{{ _('No groups will deleted.') }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+

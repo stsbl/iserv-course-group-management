@@ -1,0 +1,20 @@
+{# src/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/promote.html.twig #}
+{% extends "IServAdminBundle::page.html.twig" %}
+
+{% block page_title %}
+    {{ _('Promote course groups') }} - {{ _('Course Group Management') }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ _('Running course group promotions...') }}</h3>
+        </div>
+        <div class="panel-body">
+            <iframe src="{{ path('admin_coursegroupmanagement_execute_promote_run') }}" frameborder="0" width="100%" height="400px"></iframe>
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-success" href="{{ path('admin_promotionrequest_index') }}">{{ icon('pro-list') }}{{ _('Back to promotion requests') }}</a>
+        </div>
+    </div>
+{% endblock %}

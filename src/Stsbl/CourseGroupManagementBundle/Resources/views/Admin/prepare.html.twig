@@ -1,0 +1,20 @@
+{# src/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/prepare.html.twig #}
+{% extends 'IServAdminBundle::admin.html.twig' %}
+
+{% block page_title %}
+    {{ _('Promote course groups') }} - {{ _('Course Group Management') }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ _('Step one: Select options for promoting') }}</h1>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                {{ _('Select options for course group promotion') }}
+            </h4>
+        </div>
+        <div class="panel-body">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
