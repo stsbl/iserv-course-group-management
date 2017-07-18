@@ -3,6 +3,7 @@ Section: misc
 Priority: extra
 Maintainer: Stadtteilschule Blankenese <repository@stsbl.de>
 Build-Depends: debhelper (>= 9)
+Build-Depends-Indep: iserv3-dev, dh-systemd
 Standards-Version: 3.9.5
 Homepage: https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management
 
