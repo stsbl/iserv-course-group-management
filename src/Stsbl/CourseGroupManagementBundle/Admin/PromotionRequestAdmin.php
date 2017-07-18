@@ -124,7 +124,8 @@ class PromotionRequestAdmin extends AbstractAdmin
             ->add('comment', null, [
                 'label' => _p('course-group-management', 'Comment'),
                 'attr' => [
-                    'help_text' => _('Additional explanation for this request')
+                    'help_text' => _('Additional explanation for this request'),
+                    'required' => false
                 ]
             ])
         ;

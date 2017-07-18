@@ -440,7 +440,7 @@ class AdminController extends PageController
                     unset($groupsTransition[$key]);
                 }
             }
-            
+
             foreach ($deletedGroups as $key => $group) {
                 if (!in_array($group->getAccount(), $data['deletedGroups'])) {
                     unset($deletedGroups[$key]);
