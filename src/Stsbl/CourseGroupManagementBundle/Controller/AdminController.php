@@ -289,7 +289,8 @@ class AdminController extends PageController
         $this->addBreadcrumb(_('Preparation'), $this->generateUrl('admin_coursegroupmanagement_execute_prepare'));
 
         return [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];
     }
 
@@ -342,6 +343,7 @@ class AdminController extends PageController
             'transition' => $groupsTransition,
             'deleted' => $deletedGroups,
             'form' => $form->createView(),
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];
     }
 
@@ -480,7 +482,8 @@ class AdminController extends PageController
             'transition' => $groupsTransition,
             'unchanged' => $unchangedGroups,
             'deleted' => $deletedGroups,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];
     }
 
@@ -547,6 +550,8 @@ class AdminController extends PageController
         $this->addBreadcrumb(_('Promote course groups'), $this->generateUrl('admin_coursegroupmanagement_execute_prepare'));
         $this->addBreadcrumb(_('Promote'), $this->generateUrl('admin_coursegroupmanagement_execute_promote'));
 
-        return array();
+        return [
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
+        ];
     }
 }
