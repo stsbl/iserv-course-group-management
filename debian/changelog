@@ -1,3 +1,10 @@
+stsbl-iserv-course-group-management (17.07.18-0) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * Added promotion assistant.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Tue, 18 Jul 2017 05:08:30 +0200
+
 stsbl-iserv-course-group-management (17.07.17-2) experimental; urgency=medium
 
   [ Felix Jacobi ]
