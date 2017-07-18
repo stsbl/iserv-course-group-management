@@ -96,7 +96,8 @@ class CourseGroupManagementController extends PageController
                 ],
             ])
             ->add('comment', TextType::class, [
-                'label' => _p('course-group-management', 'Comment')
+                'label' => _p('course-group-management', 'Comment'),
+                'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => _('Request promotion for groups'),
