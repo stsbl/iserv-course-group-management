@@ -8,7 +8,7 @@ Homepage: https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-manage
 
 Package: stsbl-iserv-course-group-management
 Architecture: all
-Depends: ${misc:Depends}, ${perl:Depends}, iserv-portal, stsbl-iserv3-maintenance, stsbl-iserv-perl-lib1
+Depends: ${misc:Depends}, ${perl:Depends}, iserv-portal, stsbl-iserv3-maintenance, stsbl-iserv-perl-lib
 Description: Kursgruppenverwaltung für IServ (EXPERIMENTELL)
  Bietet die Möglichkeit, für IServ-Gruppen, die Kurse darstellen, die zentrale 
  Versetzung in das nächste Schuljahr zu planen und durchzuführen. 
