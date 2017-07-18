@@ -10,6 +10,7 @@ use IServ\CrudBundle\Entity\CrudInterface;
 use IServ\CrudBundle\Mapper\AbstractBaseMapper;
 use IServ\CrudBundle\Mapper\FormMapper;
 use IServ\CrudBundle\Mapper\ListMapper;
+use Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 
 /*
@@ -65,6 +66,7 @@ class PromotionRequestAdmin extends AbstractAdmin
     {
         $groupOptions = [
             'label' => _('Group'),
+            'required' => false,
             'attr' => [
                 'help_text' => __('Possible groups requires the group flag "%s"', _('Group is a Course Group'))
             ]
@@ -105,7 +107,7 @@ class PromotionRequestAdmin extends AbstractAdmin
                 ->add('user', null, [
                     'label' => _('Filer'),
                     'attr' => [
-                        'help_text' => _('The filer will informed via e-mail if the request is accepted')
+                        'help_text' => _('The filer will informed via e-mail if the request is accepted. If you not select a user here, the group owner will be used.')
                     ]
                 ])
             ;
@@ -129,6 +131,18 @@ class PromotionRequestAdmin extends AbstractAdmin
                 ]
             ])
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prePersist(CrudInterface $object)
+    {
+        // default request owner to group owner
+        /* @var $object PromotionRequest */
+        if ($object->getUser() === null && $object->getGroup()->getOwner() != null) {
+            $object->setUser($object->getGroup()->getOwner());
+        }
     }
 
     /**
