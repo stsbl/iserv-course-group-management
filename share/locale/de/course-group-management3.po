@@ -323,7 +323,7 @@ msgstr "Antragsteller"
 msgid ""
 "The filer will informed via e-mail if the request is accepted. If you not "
 "select a user here, the group owner will be used."
-msgstr 
+msgstr "" 
 "Der Antragsteller wird per E-Mail informiert, wenn der Antrag aktzeptiert "
 "wird. Wenn Sie hier keinen Benutzer wählen, wird der Eigentümer der "
 "Gruppe benutzt."
