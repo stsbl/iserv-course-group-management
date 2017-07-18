@@ -1,0 +1,138 @@
+#!/usr/bin/perl -T -CSDAL
+
+use warnings;
+use strict;
+use utf8;
+use Stsbl::IServ::IO;
+use IServ::DB;
+use IServ::User;
+use IServ::Tools;
+use IServ::Valid;
+use JSON;
+use sessauth;
+
+my $json = JSON->new->utf8->allow_nonref;
+
+my $m_ip = qr/[\d.:]{1,64}/;
+my $priv = "manage_promotions";
+
+my $login_pwd = $ENV{PASSWORD} // $ENV{SESSPW};
+my ($login_ip) = ($ENV{IP} // "") =~ /^($m_ip)$/;
+my ($login_ip_fwd) = ($ENV{IPFWD} // "") =~ /^($m_ip)$/;
+undef %ENV;
+
+my %row;
+$row{module} = "Course Group Management";
+my $log_text;
+my $cnt;
+
+if (@ARGV < 2)
+{
+  print STDERR "Usage: actcoursepromotion LOGIN DATA\n";
+  print STDERR "Environment: PASSWORD, IP, IPWD\n";
+  exit 1
+}
+
+my ($login_act, $data) = @ARGV;
+
+# untaint
+$login_act = IServ::Valid::Act $login_act;
+$login_pwd = IServ::Valid::Passwd $login_pwd;
+
+sessauth::login $login_act, $login_pwd, "actcoursepromotion" or die "sessauth login failed!";
+
+error "need privilege $priv\n"
+  unless IServ::DB::Do "SELECT 1 FROM users_priv
+    WHERE (Act = ? AND Privilege = ?) OR EXISTS (SELECT 1 
+    FROM role_privileges r WHERE Privilege = ? 
+    AND EXISTS (SELECT 1 FROM user_roles u WHERE 
+    u.Act = ? AND u.Role = r.Role)) LIMIT 1",
+    $login_act, $priv, $priv, $login_act;
+
+if ($data =~ /^(.*)$/)
+{
+  $data = $1;
+} else
+{
+  error "Failed to untaint data!";
+}
+
+$IServ::DB::logname = IServ::Tools::pwname $login_act;
+$IServ::DB::logip = $login_ip;
+$IServ::DB::logipfwd = $login_ip_fwd;
+
+# decode
+my $actions = ${json}->decode($data);
+my $rename = $actions->{rename};
+my $delete = $actions->{delete};
+
+$cnt = 0;
+for (@$delete)
+{
+  my $groupname = IServ::DB::SelectVal "SELECT Name From groups WHERE Act = ?", $_;
+  print "Lösche Gruppe $groupname ...\n";
+  IServ::User::GroupDel $_;
+  $cnt++;
+}
+
+if (@$delete < 1)
+{
+  print "Es werden keine Gruppen gelöscht.\n";
+} else
+{
+  if ($cnt eq 1)
+  { 
+    $log_text = "Eine Gruppe gelöscht";
+  } else
+  {
+    $log_text = sprintf "%s Gruppen gelöscht", $cnt;
+  }
+  
+  IServ::DB::Log $log_text, %row;
+}
+
+$cnt = 0;
+for (keys %$rename)
+{
+  eval
+  {
+    my $old_name = $rename->{$_}->{oldName};
+    my $new_name = $rename->{$_}->{newName};
+    my $new_act = IServ::Tools::name2act $new_name;
+    
+    if (IServ::DB::Do "SELECT 1 FROM groups WHERE Act = ? AND Deleted IS NULL", $new_act)
+    {
+      die "Gruppe $old_name kann nicht in $new_name umbenannt werden: Account ist noch belegt.\n";;
+    }
+   
+    print "Lösche Versetzungsantrag für Gruppe $old_name ...\n";
+    IServ::DB::Do "DELETE FROM cgr_management_promotion_requests WHERE ActGrp = ?", $_;
+
+    print "Benenne Gruppe $old_name in $new_name um ...\n";
+    
+    IServ::User::GroupAct $_, $new_act;
+    IServ::User::GroupName $new_act, $new_name;
+
+    $cnt++;
+  };
+
+  print "Fehler beim Umbenennen der Gruppe $rename->{$_}->{oldName}: $@\n" if $@;
+}
+
+if (keys %$rename < 1)
+{
+  print "Es werden keine Gruppen umbenannt.\n";
+} else
+{
+  if ($cnt eq 1)
+  {
+    $log_text = "Eine Gruppe versetzt";
+  } else
+  {
+    $log_text = sprintf "%s Gruppen versetzt", $cnt;
+  }
+
+  IServ::DB::Log $log_text, %row;
+}
+
+print "\nFertig.\n";
