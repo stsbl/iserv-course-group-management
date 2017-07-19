@@ -459,7 +459,7 @@ class AdminController extends PageController
             foreach ($groupsTransition as $key => $group) {
                 // magic
                 if (preg_match('|\d+|', $group['newName'], $m)) {
-                    $groupsTransition[$key]['newName'] = preg_replace(sprintf('|%s|', $m[0]), (integer)$m[0] + 1, $group['newName']);
+                    $groupsTransition[$key]['newName'] = preg_replace(sprintf('|%s|', $m[0]), (integer)$m[0] + 1, $group['newName'], 1);
                 }
             }
         }
@@ -522,6 +522,24 @@ class AdminController extends PageController
             if ($groupTransition['oldName'] === $groupTransition['newName']) {
                 $unchangedGroups[] = $groupTransition;
                 unset($groupsTransition[$key]);
+            }
+        }
+
+        // add groups with course group flag and w/o request if deleting is disabled
+        if ($session->has('course_group_management_delete') && $session->get('course_group_management_delete') === false) {
+            $groupsWithFlag = $er->createFindByFlagQueryBuilder(Privilege::FLAG_COURSE_GROUP, 'g')
+                ->select('g')
+                ->andWhere($subQb->expr()->not($subQb->expr()->exists($subQb)))
+                ->orderBy('g.name', 'ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+
+            foreach ($groupsWithFlag as $group) {
+                /* @var $group Group */
+                $owner = $group->getOwner();
+                $ownerAccount = $owner != null ? $group->getOwner()->getUsername() : null;
+                $unchangedGroups[] = ['oldName' => $group->getName(), 'newName' => $group->getName(), 'owner' => $ownerAccount];
             }
         }
 

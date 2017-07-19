@@ -92,7 +92,12 @@
             {% for group in unchanged %}
                 <tr>
                     <td>{{ icon('legacy-act-group') }}{{ group.oldName }}</td>
-                    <td>{{ icon('legacy-act-user') }}{{ group.owner }}</td>
+                    {% if group.owner is not null %}
+                        {% set user = userRepository.find(group.owner) %}
+                        <td>{{ icon('legacy-act-user') }}{{ user }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
                 </tr>
             {% else %}
                 <tr>
