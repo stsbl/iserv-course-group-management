@@ -3,6 +3,7 @@
 use warnings;
 use strict;
 use utf8;
+use Encode;
 use Stsbl::IServ::IO;
 use IServ::DB;
 use IServ::User;
@@ -19,24 +20,32 @@ my $priv = "manage_promotions";
 my $login_pwd = $ENV{PASSWORD} // $ENV{SESSPW};
 my ($login_ip) = ($ENV{IP} // "") =~ /^($m_ip)$/;
 my ($login_ip_fwd) = ($ENV{IPFWD} // "") =~ /^($m_ip)$/;
-undef %ENV;
 
 my %row;
 $row{module} = "Course Group Management";
 my $log_text;
 my $cnt;
 
-if (@ARGV < 2)
+if (@ARGV < 1)
 {
-  print STDERR "Usage: actcoursepromotion LOGIN DATA\n";
-  print STDERR "Environment: PASSWORD, IP, IPWD\n";
+  print STDERR "Usage: actcoursepromotion LOGIN\n";
+  print STDERR "Environment: ARG, PASSWORD, IP, IPWD\n";
   exit 1
 }
 
-my ($login_act, $data) = @ARGV;
+my ($login_act) = @ARGV;
+
+if (not defined $ENV{ARG})
+{
+  error "JSON data not found in environment."
+}
+
+my $data = decode "UTF-8", $ENV{ARG};
+
+undef %ENV;
 
 # untaint
-$login_act = IServ::Valid::Act $login_act;
+$login_act = IServ::Valid::User $login_act;
 $login_pwd = IServ::Valid::Passwd $login_pwd;
 
 sessauth::login $login_act, $login_pwd, "actcoursepromotion" or die "sessauth login failed!";

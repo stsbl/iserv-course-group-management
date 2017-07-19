@@ -77,8 +77,9 @@ class ActCoursePromotion
         putenv("SESSPW=".$sessPw);
         putenv("IP=".$ip);
         putenv("IPFWD=".$fwdIp);
+        putenv("ARG=".json_encode($data));
 
-        if (!$ph = popen("closefd sudo /usr/lib/iserv/actcoursepromotion "."'".$this->shell->quote($act)."' '".json_encode($data)."' 2>&1", "r")) {
+        if (!$ph = popen("closefd sudo /usr/lib/iserv/actcoursepromotion "."'".$this->shell->quote($act)."' 2>&1", "r")) {
             throw new \RuntimeException("Could not execute actcoursepromotion.");
         }
 
