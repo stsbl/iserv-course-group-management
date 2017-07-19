@@ -106,10 +106,13 @@ class PromotionRequestAdmin extends AbstractAdmin
             $mapper
                 ->add('user', null, [
                     'label' => _('Filer'),
+                    'required' => false,
+                    'empty_data' => true,
                     'attr' => [
                         'help_text' => _('The filer will informed via e-mail if the request is accepted. If you not select a user here, the group owner will be used.')
                     ]
                 ])
+
             ;
 
         }
