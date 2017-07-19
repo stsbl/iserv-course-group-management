@@ -4,7 +4,10 @@ namespace Stsbl\CourseGroupManagementBundle\Controller;
 
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\FormActionsType;
+use Doctrine\Common\Collections\ArrayCollection;
 use IServ\CoreBundle\Controller\PageController;
+use IServ\CoreBundle\Entity\Group;
+use function PHPSTORM_META\type;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -51,6 +54,55 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class AdminController extends PageController
 {
+    /**
+     * Convert ArrayCollection or array of group entities to array of group account.
+     *
+     * @param ArrayCollection|array $groups
+     * @return array
+     */
+    private function groupEntitiesToArray($groups)
+    {
+        if ($groups instanceof ArrayCollection) {
+            $groups = $groups->toArray();
+        }
+
+        if (!is_array($groups)) {
+            throw new \InvalidArgumentException('$groups needs to be array.');
+        }
+
+        $res = [];
+        foreach ($groups as $group) {
+            /* @var $group Group */
+            $res[] = $group->getAccount();
+        }
+
+        return $res;
+    }
+
+    /**
+     * Convert array of group entities to ArrayCollection of group entities
+     *
+     * @param array $groups
+     * @return ArrayCollection
+     */
+    private function arrayToGroupEntities(array $groups)
+    {
+        $collection = new ArrayCollection();
+        $er = $this->getDoctrine()->getRepository('IServCoreBundle:Group');
+
+        foreach ($groups as $group) {
+            /* @var $group Group */
+            $entity = $er->find($group);
+
+            // TODO really ignore non existing group?
+            if ($entity != null) {
+                $collection->add($entity);
+            }
+        }
+
+        return $collection;
+    }
+
     /**
      * Get prepare form
      *
@@ -158,7 +210,6 @@ class AdminController extends PageController
     /**
      * Get preview form
      *
-     * @param array $groupActs
      * @return FormInterface
      */
     private function getPreviewForm()
@@ -326,7 +377,7 @@ class AdminController extends PageController
         $groupsTransition = [];
 
         if ($session->has('course_group_management_delete')) {
-            $deletedGroups = $session->get('course_group_management_delete');
+            $deletedGroups = $this->arrayToGroupEntities($session->get('course_group_management_delete'));
         }
 
         if ($session->has('course_group_management_transition')) {
@@ -398,7 +449,9 @@ class AdminController extends PageController
         $groupsTransition = [];
 
         foreach ($groups as $group) {
-            $groupsTransition[$group->getAccount()] = ['oldName' => $group->getName(), 'newName' => $group->getName(), 'owner' => $group->getOwner()];
+            $owner = $group->getOwner();
+            $ownerAccount = $owner != null ? $group->getOwner()->getUsername() : null;
+            $groupsTransition[$group->getAccount()] = ['oldName' => $group->getName(), 'newName' => $group->getName(), 'owner' => $ownerAccount];
         }
 
         if ($session->has('course_group_management_increase') &&
@@ -449,7 +502,7 @@ class AdminController extends PageController
                 }
             }
 
-            $session->set('course_group_management_delete', $deletedGroups);
+            $session->set('course_group_management_delete', $this->groupEntitiesToArray($deletedGroups));
             $session->set('course_group_management_transition', $groupsTransition);
 
             return $this->redirectToRoute('admin_coursegroupmanagement_execute_preview');
@@ -483,7 +536,8 @@ class AdminController extends PageController
             'unchanged' => $unchangedGroups,
             'deleted' => $deletedGroups,
             'form' => $form->createView(),
-            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management',
+            'userRepository' => $this->getDoctrine()->getRepository('IServCoreBundle:User')
         ];
     }
 
@@ -514,11 +568,7 @@ class AdminController extends PageController
 
         $data['rename'] = (object)$session->get('course_group_management_transition', []);
 
-        $groups = [];
-        foreach ($session->get('course_group_management_delete', []) as $group) {
-            /* @var \IServ\CoreBundle\Entity\Group */
-            $groups[] = $group->getAccount();
-        }
+        $groups = $session->get('course_group_management_delete', []);
 
         $data['delete'] = $groups;
 

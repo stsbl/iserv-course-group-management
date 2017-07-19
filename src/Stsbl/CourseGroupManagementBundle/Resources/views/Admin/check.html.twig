@@ -29,7 +29,12 @@
                     <td><input type="checkbox" name="stsbl_coursegroupmanagement_execute_check[groups][]" value="{{ key }}" checked="checked" required="false" /></td>
                     <td>{{ icon('legacy-act-group') }}{{ group.oldName }}</td>
                     <td>{{ icon('legacy-act-group') }}{{ group.newName }}</td>
-                    <td>{{ icon('legacy-act-user') }}{{ group.owner }}</td>
+                    {% if group.owner is not null %}
+                        {% set user = userRepository.find(group.owner) %}
+                        <td>{{ icon('legacy-act-user') }}{{ user }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
                 </tr>
             {% else %}
                 <tr>
@@ -57,7 +62,11 @@
                 <tr>
                     <td><input type="checkbox" name="stsbl_coursegroupmanagement_execute_check[deletedGroups][]" value="{{ group.account }}" checked="checked" required="false" /></td>
                     <td>{{ icon('legacy-act-group') }}{{ group.name }}</td>
-                    <td>{{ icon('legacy-act-user') }}{{ group.owner }}</td>
+                    {% if group.owner is not null %}
+                        <td>{{ icon('legacy-act-user') }}{{ group.owner }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
                 </tr>
             {% else %}
                 <tr>
