@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-18 11:46+0200\n"
+"POT-Creation-Date: 2017-07-20 12:28+0200\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -19,8 +19,8 @@ msgstr ""
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:58
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:105
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1566
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1577
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1765
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1776
 #: src/Stsbl/CourseGroupManagementBundle/EventListener/MenuSubscriber.php:72
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:188
 msgid "Request promotion for course groups"
@@ -37,29 +37,33 @@ msgstr "Versetzungsanträge verwalten"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:460
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:615
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1050
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1294
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:288
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:338
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:476
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:547
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1100
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1344
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1495
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:386
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:437
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:596
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:656
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:721
 msgid "Promote course groups"
 msgstr "Kursgruppen versetzen"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:462
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:617
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1052
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1296
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1102
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1346
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1497
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:34
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:37
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:41
 #: src/Stsbl/CourseGroupManagementBundle/EventListener/MenuSubscriber.php:53
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:190
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:286
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:336
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:474
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:545
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:189
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:384
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:435
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:594
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:654
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:719
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:192
 msgid "Course Group Management"
 msgstr "Kursgruppenverwaltung"
 
@@ -72,11 +76,12 @@ msgid "Back to promotion requests"
 msgstr "Zurück zu den Versetzungsanträgen"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:639
-msgid "Step two: Check pending promotions"
-msgstr "Schritt Zwei: Ausstehende Versetzungen prüfen"
+msgid "Step 2: Check pending promotions"
+msgstr "Schritt 2: Ausstehende Versetzungen prüfen"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:650
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1080
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1130
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1525
 msgid "Groups which will renamed"
 msgstr "Gruppen, welche umbenannt werden"
 
@@ -89,61 +94,65 @@ msgid "New name"
 msgstr "Neuer Name"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:668
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:739
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:804
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:752
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:827
 msgid "Owner"
 msgstr "Besitzer"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:709
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1102
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:722
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1152
 msgid "No groups will renamed."
 msgstr "Keine Gruppen werden umbenannt."
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:725
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1117
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:738
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1167
 msgid "Groups which will deleted"
 msgstr "Gruppen, welche gelöscht werden"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:735
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:800
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:748
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:823
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:68
 msgid "Group"
 msgstr "Gruppe"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:775
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1139
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:798
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1189
 msgid "No groups will deleted."
 msgstr "Keine Gruppen werden gelöscht."
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:791
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:814
 msgid "Groups which will not changed"
 msgstr "Gruppen, welche nicht geändert werden"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:836
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:872
 msgid "No matching groups found."
 msgstr "Keine passenden Gruppen gefunden."
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1074
-msgid "Step three: Preview pending promotions"
-msgstr "Schritt 3: Vorschau auf ausstehende Versetzungen"
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1124
+msgid "Step 4: Preview pending promotions"
+msgstr "Schritt 4: Vorschau auf ausstehende Versetzungen"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1094
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1144
 #, php-format
 msgid "Group %s will renamed to %s"
 msgstr "Gruppe %s wird nach %s umbenannt"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1131
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1181
 #, php-format
 msgid "Group %s will deleted"
 msgstr "Gruppe %s wird gelöscht"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1318
-msgid "Step one: Select options for promoting"
-msgstr "Schritt Eins: Optionen für Versetzen wählen"
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1368
+msgid "Step 1: Select options for promoting"
+msgstr "Schritt 1: Optionen für Versetzen wählen"
 
-#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1325
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1375
 msgid "Select options for course group promotion"
 msgstr "Optionen für Kursgruppen-Versetzung wählen"
+
+#: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1519
+msgid "Step 3: Customize group name changes"
+msgstr "Schritt 3: Gruppennamensänderungen anpassen"
 
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:35
 msgid "Manage Promotions"
@@ -197,7 +206,7 @@ msgstr ""
 "Sie können zu „Versetzung für Kursgruppen beantragen“ gehen und eine "
 "Versetzung für die Gruppe beantragen."
 
-#: src/Stsbl/CourseGroupManagementBundle/Entity/PromotionRequest.php:111
+#: src/Stsbl/CourseGroupManagementBundle/Entity/PromotionRequest.php:112
 #, php-format
 msgid "Promotion request for group %s"
 msgstr "Versetzungsantrag für Gruppe %s"
@@ -217,7 +226,7 @@ msgstr ""
 "Wählen Sie die Gruppen, welche Sie in das nächste Schuljahr versetzen wollen."
 
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:99
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:127
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:130
 msgctxt "course-group-management"
 msgid "Comment"
 msgstr "Bemerkung"
@@ -231,7 +240,7 @@ msgstr "Versetzung für Gruppen beantragen"
 msgid "Put in promotion request for group \"%s\"."
 msgstr "Antrag auf Versetzung für Gruppe \"%s\" gestellt."
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:65
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:117
 msgid ""
 "Increment the first number in every group name for groups with promotion "
 "request"
@@ -239,21 +248,21 @@ msgstr ""
 "Die erste Zahl in jedem Gruppennamen für Gruppen mit Versetzungsantrag um "
 "Eins erhöhen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:69
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:121
 msgid "Delete groups without promotion request"
 msgstr "Gruppen ohne Versetzungsantrag löschen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:73
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:125
 msgid "Replace parts of group name for groups with promotion request"
 msgstr "Teile im Gruppennamen bei Gruppen mit Versetzungsantrag ersetzen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:78
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:130
 msgid "Search for"
 msgstr "Suchen nach"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:80
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:87
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:259
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:132
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:139
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:357
 msgid ""
 "The \"Search for\" and \"Replace with\" fields must have the same amounts of "
 "values."
@@ -261,48 +270,56 @@ msgstr ""
 "Die \"Suchen nach\" und \"Ersetzen durch\" Felder müssen die gleiche Anzahl "
 "von Werten haben."
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:85
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:137
 msgid "Replace with"
 msgstr "Ersetzen mit"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:98
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:139
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:177
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:150
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:191
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:228
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:275
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:103
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:149
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:187
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:155
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:201
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:238
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:285
 msgid "Next"
 msgstr "Weiter"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:144
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:182
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:196
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:233
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:280
 msgid "Back"
 msgstr "Zurück"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:287
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:337
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:475
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:546
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:385
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:436
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:595
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:655
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:720
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:55
 msgid "Promotion Requests"
 msgstr "Versetzungsanträge"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:289
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:387
 msgid "Preparation"
 msgstr "Vorbereitung"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:339
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:438
 msgid "Preview"
 msgstr "Vorschau"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:477
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:597
 msgid "Check"
 msgstr "Prüfen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:548
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:657
+msgid "Customize"
+msgstr "Anpassen"
+
+#: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:722
 msgid "Promote"
 msgstr "Versetzen"
 
@@ -319,24 +336,24 @@ msgstr "Mögliche Gruppen benötigen das Gruppenmerkmal \"%s\""
 msgid "Filer"
 msgstr "Antragsteller"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:110
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:112
 msgid ""
 "The filer will informed via e-mail if the request is accepted. If you not "
 "select a user here, the group owner will be used."
-msgstr "" 
+msgstr ""
 "Der Antragsteller wird per E-Mail informiert, wenn der Antrag aktzeptiert "
-"wird. Wenn Sie hier keinen Benutzer wählen, wird der Eigentümer der "
-"Gruppe benutzt."
+"wird. Wenn Sie hier keinen Benutzer wählen, wird der Eigentümer der Gruppe "
+"benutzt."
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:120
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:123
 msgctxt "course-group-management"
 msgid "Created"
 msgstr "Eingereicht"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:129
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:132
 msgid "Additional explanation for this request"
 msgstr "Zusätzliche Bermerkungen für diesen Antrag"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:201
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:204
 msgid "Promote groups"
 msgstr "Gruppen versetzen"
