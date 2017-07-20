@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-20 15:46+0200\n"
+"POT-Creation-Date: 2017-07-20 20:08+0200\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -63,7 +63,7 @@ msgstr "Kursgruppen versetzen"
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:594
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:654
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:719
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:245
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:256
 msgid "Course Group Management"
 msgstr "Kursgruppenverwaltung"
 
@@ -101,6 +101,7 @@ msgstr "Besitzer"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:722
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1152
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:59
 msgid "No groups will renamed."
 msgstr "Keine Gruppen werden umbenannt."
 
@@ -111,12 +112,15 @@ msgstr "Gruppen, welche gelöscht werden"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:748
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:823
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:121
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:125
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:179
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:186
 msgid "Group"
 msgstr "Gruppe"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:798
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:1189
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:52
 msgid "No groups will deleted."
 msgstr "Keine Gruppen werden gelöscht."
 
@@ -163,7 +167,7 @@ msgid "Request Promotions"
 msgstr "Versetzungen beantragen"
 
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:42
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:124
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:127
 msgid "Group is a Course Group"
 msgstr "Gruppe ist eine Kursgruppe"
 
@@ -186,6 +190,95 @@ msgstr "Bitte wählen Sie die Gruppe, welche versetzt werden soll."
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:48
 msgid "Please select the filer of the promotion."
 msgstr "Bitte wählen Sie den Antragsteller für die Versetzung."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:51
+#, php-format
+msgid "Deleting group %s ..."
+msgstr "Lösche Gruppe %s ..."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:53
+msgid "One group deleted"
+msgstr "Eine Gruppe gelöscht"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:54
+#, php-format
+msgid "%s groups deleted"
+msgstr "%s Gruppen gelöscht"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:55
+#, php-format
+msgid "Deleting promotion request for group %s ..."
+msgstr "Lösche Versetzungsantrag für Gruppe %s ..."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:56
+#, php-format
+msgid "Group %s can not renamed to %s: Account is already used."
+msgstr "Gruppe %s kann nicht nach %s umbenannt werden: Account ist noc belegt."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:57
+#, php-format
+msgid "Renaming group %s to %s ..."
+msgstr "Benenne Gruppe %s nach %s um ..."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:58
+#, php-format
+msgid "Error during renaming group %s: %s"
+msgstr "Fehler während des Umbenennens der Gruppe %s: %s"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:60
+msgid "One group promoted"
+msgstr "Eine Gruppe versetzt"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:61
+#, php-format
+msgid "%s groups promoted"
+msgstr "%s Gruppen versetzt"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:62
+#, php-format
+msgid "Send e-mail to %s to inform on deleted groups ..."
+msgstr "Sende E-Mail an %s, um über gelöschte Gruppen zu informieren ..."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:63
+#, php-format
+msgid "Send e-mail to %s to inform on renamed groups ..."
+msgstr "Sende E-Mail an %s, um über umbenannte Gruppen zu informieren ..."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:64
+msgid "Done."
+msgstr "Fertig."
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:67
+msgid "Groups without promotion request deleted"
+msgstr "Gruppen ohne Versetzungsantrag gelöscht"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:68
+msgid "The following groups you own without promotion request were deleted:"
+msgstr ""
+"Die folgenden Gruppen ohne Versetzungsantrag, die Sie besitzen, wurden "
+"gelöscht:"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:69
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:74
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:104
+msgid "*This e-mail was generated automatically*"
+msgstr "*Diese E-Mail wurde automatisch generiert*"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:71
+msgid "Groups with promotion request renamed"
+msgstr "Gruppen mit Versetzungsantrag umbenannt"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:72
+msgid ""
+"Your promotion requests were accepted and the following groups were renamed:"
+msgstr ""
+"Ihre Versetzungsanträge wurden akzeptiert und die folgenden Gruppen "
+"umbenannt:"
+
+#: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:73
+#, php-format
+msgid "%s was renamed to %s"
+msgstr "%s wurde umbenannt in %s"
 
 #: src/Stsbl/CourseGroupManagementBundle/EventListener/DashboardListener.php:127
 #, php-format
@@ -211,8 +304,8 @@ msgid ""
 "Groups without promotion request are may get deleted automatically during "
 "promotion process."
 msgstr ""
-"Gruppen ohne Versetzungsantrag werden möglicherweise automatisch während "
-"des Versetzungsprozesses gelöscht."
+"Gruppen ohne Versetzungsantrag werden möglicherweise automatisch während des "
+"Versetzungsprozesses gelöscht."
 
 #: src/Stsbl/CourseGroupManagementBundle/EventListener/DashboardListener.php:131
 msgid "Please ask your administrator for further information."
@@ -238,7 +331,7 @@ msgstr ""
 "Wählen Sie die Gruppen, welche Sie in das nächste Schuljahr versetzen wollen."
 
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:99
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:183
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:157
 msgctxt "course-group-management"
 msgid "Comment"
 msgstr "Bemerkung"
@@ -311,7 +404,7 @@ msgstr "Zurück"
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:595
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:655
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:720
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:108
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:110
 msgid "Promotion Requests"
 msgstr "Versetzungsanträge"
 
@@ -335,20 +428,21 @@ msgstr "Anpassen"
 msgid "Promote"
 msgstr "Versetzen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:109
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:111
 msgid "Promotion Request"
 msgstr "Versetzungsantrag"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:124
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:127
 #, php-format
 msgid "Possible groups requires the group flag \"%s\""
 msgstr "Mögliche Gruppen benötigen das Gruppenmerkmal \"%s\""
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:161
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:146
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:194
 msgid "Filer"
 msgstr "Antragsteller"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:165
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:149
 msgid ""
 "The filer will informed via e-mail if the request is accepted. If you not "
 "select a user here, the group owner will be used."
@@ -357,16 +451,16 @@ msgstr ""
 "wird. Wenn Sie hier keinen Benutzer wählen, wird der Eigentümer der Gruppe "
 "benutzt."
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:176
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:159
+msgid "Additional explanation for this request"
+msgstr "Zusätzliche Bemerkungen für diesen Antrag"
+
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:198
 msgctxt "course-group-management"
 msgid "Created"
 msgstr "Eingereicht"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:185
-msgid "Additional explanation for this request"
-msgstr "Zusätzliche Bemerkungen für diesen Antrag"
-
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:257
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:268
 msgid "Promote groups"
 msgstr "Gruppen versetzen"
 
@@ -399,7 +493,3 @@ msgid ""
 "rejected:"
 msgstr ""
 "Ihre Anträge auf Versetzung der folgenden Kursgruppen wurden abgelehnt:"
-
-#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:104
-msgid "*This e-mail was generated automatically*"
-msgstr "*Diese E-Mail wurde automatisch generiert*"

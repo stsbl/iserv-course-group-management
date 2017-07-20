@@ -46,3 +46,29 @@ _('Groups with this flag will promoted if a promotion request was put in. Elsewh
 _('There is already a promotion request for this group.');
 _('Please select the group which should promoted.');
 _('Please select the filer of the promotion.');
+
+// actcoursepromotion
+_('Deleting group %s ...');
+_('No groups will deleted.');
+_('One group deleted');
+_('%s groups deleted');
+_('Deleting promotion request for group %s ...');
+_('Group %s can not renamed to %s: Account is already used.');
+_('Renaming group %s to %s ...');
+_('Error during renaming group %s: %s');
+_('No groups will renamed.');
+_('One group promoted');
+_('%s groups promoted');
+_('Send e-mail to %s to inform on deleted groups ...');
+_('Send e-mail to %s to inform on renamed groups ...');
+_('Done.');
+
+// actcoursepromotion - mails
+_("Groups without promotion request deleted");
+_("The following groups you own without promotion request were deleted:");
+_('*This e-mail was generated automatically*');
+
+_("Groups with promotion request renamed");
+_("Your promotion requests were accepted and the following groups were renamed:");
+_("%s was renamed to %s");
+_('*This e-mail was generated automatically*');

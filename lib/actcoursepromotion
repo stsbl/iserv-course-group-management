@@ -104,22 +104,22 @@ for (@$delete)
     }
   }
 
-  print "Lösche Gruppe $groupname ...\n";
+  print sprintf(_("Deleting group %s ..."), $groupname)."\n";
   IServ::User::GroupDel $_;
   $cnt++;
 }
 
 if (@$delete < 1)
 {
-  print "Es werden keine Gruppen gelöscht.\n";
+  print _("No groups will deleted.")."\n";
 } else
 {
   if ($cnt == 1)
   { 
-    $log_text = "Eine Gruppe gelöscht";
+    $log_text = _("One group deleted");
 } else
 {
-  $log_text = sprintf "%s Gruppen gelöscht", $cnt;
+  $log_text = sprintf(_("%s groups deleted"), $cnt);
 }
 
 IServ::DB::Log $log_text, %row;
@@ -136,10 +136,10 @@ for (keys %$rename)
   
     if (IServ::DB::Do "SELECT 1 FROM groups WHERE Act = ? AND Deleted IS NULL", $new_act)
     {
-      die "Gruppe $old_name kann nicht in $new_name umbenannt werden: Account ist noch belegt.\n";;
+      die sprintf(_("Group %s can not renamed to %s: Account is already used."), $old_name, $new_name);
     }
  
-    print "Lösche Versetzungsantrag für Gruppe $old_name ...\n";
+    print sprintf(_("Deleting promotion request for group %s ..."), $old_name)."\n";
     IServ::DB::Do "DELETE FROM cgr_management_promotion_requests WHERE ActGrp = ?", $_;
 
     my $owner_act = IServ::DB::SelectVal "SELECT Owner FROM groups WHERE Act = ?", $_;
@@ -149,7 +149,7 @@ for (keys %$rename)
       $msg{$owner_act}{renamed}{$_} = {old_name => $old_name, new_name => $new_name};
     }
 
-    print "Benenne Gruppe $old_name in $new_name um ...\n";
+    print sprintf(_("Renaming group %s to %s ..."), $old_name, $new_name)."\n";
   
     IServ::User::GroupAct $_, $new_act;
     IServ::User::GroupName $new_act, $new_name;
@@ -157,20 +157,20 @@ for (keys %$rename)
     $cnt++;
   };
 
-  print "Fehler beim Umbenennen der Gruppe $rename->{$_}->{oldName}: $@\n" if $@;
+  print sprintf(_("Error during renaming group %s: %s"), $rename->{$_}->{oldName}, $@)."\n" if $@;
 }
 
 if (keys %$rename < 1)
 {
-  print "Es werden keine Gruppen umbenannt.\n";
+  print _("No groups will renamed.")."\n";
 } else
 {
   if ($cnt == 1)
   {
-    $log_text = "Eine Gruppe versetzt";
+    $log_text = _("One group promoted");
   } else
   {
-    $log_text = sprintf "%s Gruppen versetzt", $cnt;
+    $log_text = sprintf(_("%s groups promoted"), $cnt);
   }
 
   IServ::DB::Log $log_text, %row;
@@ -182,7 +182,7 @@ for (keys %msg)
 
   if (defined $msg{$_}{deleted} and @{ $msg{$_}{deleted} } > 0)
   {
-    print "Sende E-Mail an $_, um über gelöschte Gruppen zu informieren ...\n"; 
+    print sprintf(_("Send e-mail to %s to inform on deleted groups ..."), $_)."\n"; 
     
     $msg = MIME::Lite->new(
       From      => "$login_act\@".$conf->{Domain},
@@ -210,7 +210,7 @@ for (keys %msg)
 
   if (defined $msg{$_}{renamed} and keys %{ $msg{$_}{renamed} } > 0)
   {
-    print "Sende E-Mail an $_, um über umbenannte Gruppen zu informieren ...\n";
+    print sprintf(_("Send e-mail to %s to inform on renamed groups ..."), $_)."\n";
     
     $msg = MIME::Lite->new(
       From      => "$login_act\@".$conf->{Domain},
@@ -243,4 +243,4 @@ for (keys %msg)
   }
 }
 
-print "\nFertig.\n";
+print "\n"._("Done.")."\n";
