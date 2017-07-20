@@ -91,17 +91,7 @@ for (@$delete)
   
   if (defined $owner_act)
   {
-    if (defined $msg{$owner_act}{delete}) 
-    {
-      my @push = @{ $msg{$owner_act}{deleted} }; 
-      push @push, $groupname;
-      $msg{$owner_act}{deleted} = \@push;
-    } else
-    {
-      my @data;
-      push @data, $groupname;
-      $msg{$owner_act}{deleted} = \@data;
-    }
+    $msg{$owner_act}{deleted}{$_} = $groupname;
   }
 
   print sprintf(_("Deleting group %s ..."), $groupname)."\n";
@@ -176,25 +166,32 @@ if (keys %$rename < 1)
   IServ::DB::Log $log_text, %row;
 }
 
+my $sender_name = IServ::DB::SelectVal "SELECT firstname || ' ' || lastname FROM users_name WHERE act = ?", $login_act;
+
 for (keys %msg)
 {
-  my ($msg, $text, $part);
+  my ($msg, $text, $part, $act);
 
-  if (defined $msg{$_}{deleted} and @{ $msg{$_}{deleted} } > 0)
+  if (defined $msg{$_}{deleted} and keys %{ $msg{$_}{deleted} } > 0)
   {
     print sprintf(_("Send e-mail to %s to inform on deleted groups ..."), $_)."\n"; 
     
     $msg = MIME::Lite->new(
-      From      => "$login_act\@".$conf->{Domain},
+      From      => "$sender_name <$login_act\@".$conf->{Domain}.">",
       To        => "$_\@".$conf->{Domain},
       Subject   => encode('MIME-Header', _("Groups without promotion request deleted")),
       Type      => 'multipart/mixed',
     );
 
-    $text = _("The following groups you own without promotion request were deleted:")."\n\n  * ".
-      join("\n  * ", @{ $msg{$_}{deleted} }).
-      "\n\n--\n"._('*This e-mail was generated automatically*')
-    ;
+    $text = _("The following groups you own without promotion request were deleted:")."\n\n";
+
+    $act = $_;
+    for (values %{ $msg{$_}{deleted} })
+    {
+      $text .= "  * $_\n";
+    }
+    
+    $text .= "\n--\n"._('*This e-mail was generated automatically*');
 
     $part = MIME::Lite->new(
       Type    => 'TEXT',
@@ -213,7 +210,7 @@ for (keys %msg)
     print sprintf(_("Send e-mail to %s to inform on renamed groups ..."), $_)."\n";
     
     $msg = MIME::Lite->new(
-      From      => "$login_act\@".$conf->{Domain},
+      From      => "$sender_name <$login_act\@".$conf->{Domain}.">",
       To        => "$_\@".$conf->{Domain},
       Subject   => encode('MIME-Header', _("Groups with promotion request renamed")),
       Type      => 'multipart/mixed',
@@ -221,7 +218,7 @@ for (keys %msg)
 
     $text = _("Your promotion requests were accepted and the following groups were renamed:")."\n";
     
-    my $act = $_;
+    $act = $_;
     for (keys %{ $msg{$_}{renamed} })
     {
       $text .= "\n  * ".sprintf(_("%s was renamed to %s"), $msg{$act}{renamed}{$_}{old_name}, $msg{$act}{renamed}{$_}{old_name});
