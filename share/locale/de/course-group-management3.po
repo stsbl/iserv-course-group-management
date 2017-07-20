@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-20 12:28+0200\n"
+"POT-Creation-Date: 2017-07-20 14:41+0200\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -63,7 +63,7 @@ msgstr "Kursgruppen versetzen"
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:594
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:654
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:719
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:192
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:245
 msgid "Course Group Management"
 msgstr "Kursgruppenverwaltung"
 
@@ -111,7 +111,7 @@ msgstr "Gruppen, welche gelöscht werden"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:748
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:823
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:68
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:121
 msgid "Group"
 msgstr "Gruppe"
 
@@ -163,7 +163,7 @@ msgid "Request Promotions"
 msgstr "Versetzungen beantragen"
 
 #: src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php:42
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:71
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:124
 msgid "Group is a Course Group"
 msgstr "Gruppe ist eine Kursgruppe"
 
@@ -226,7 +226,7 @@ msgstr ""
 "Wählen Sie die Gruppen, welche Sie in das nächste Schuljahr versetzen wollen."
 
 #: src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php:99
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:130
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:183
 msgctxt "course-group-management"
 msgid "Comment"
 msgstr "Bemerkung"
@@ -299,7 +299,7 @@ msgstr "Zurück"
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:595
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:655
 #: src/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php:720
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:55
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:108
 msgid "Promotion Requests"
 msgstr "Versetzungsanträge"
 
@@ -323,20 +323,20 @@ msgstr "Anpassen"
 msgid "Promote"
 msgstr "Versetzen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:56
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:109
 msgid "Promotion Request"
 msgstr "Versetzungsantrag"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:71
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:124
 #, php-format
 msgid "Possible groups requires the group flag \"%s\""
 msgstr "Mögliche Gruppen benötigen das Gruppenmerkmal \"%s\""
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:108
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:161
 msgid "Filer"
 msgstr "Antragsteller"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:112
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:165
 msgid ""
 "The filer will informed via e-mail if the request is accepted. If you not "
 "select a user here, the group owner will be used."
@@ -345,15 +345,49 @@ msgstr ""
 "wird. Wenn Sie hier keinen Benutzer wählen, wird der Eigentümer der Gruppe "
 "benutzt."
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:123
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:176
 msgctxt "course-group-management"
 msgid "Created"
 msgstr "Eingereicht"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:132
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:185
 msgid "Additional explanation for this request"
 msgstr "Zusätzliche Bermerkungen für diesen Antrag"
 
-#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:204
+#: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:257
 msgid "Promote groups"
 msgstr "Gruppen versetzen"
+
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:61
+msgid "Reject"
+msgstr "Ablehnen"
+
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:84
+#, php-format
+msgid "%s rejected!"
+msgstr "%s abgelehnt!"
+
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:89
+#, php-format
+msgid "%s could not be rejected!"
+msgstr "%s konnte nicht abgelehnt werden!"
+
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:92
+#, php-format
+msgid "%s cannot be rejected by you!"
+msgstr "%s kann von Ihnen nicht abgelehnt werden!"
+
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:102
+msgid "Requests for course promotion rejected"
+msgstr "Anträge für Kursgruppenversetzung abgelehnt"
+
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:103
+msgid ""
+"Your requests for promotion of the following course groups have been "
+"rejected:"
+msgstr ""
+"Ihre Anträge auf Versetzung der folgenden Kursgruppen wurden abgelehnt:"
+
+#: src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php:104
+msgid "*This e-mail was generated automatically*"
+msgstr "*Diese E-Mail wurde automatisch generiert*"

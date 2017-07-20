@@ -5,13 +5,16 @@ namespace Stsbl\CourseGroupManagementBundle\Admin;
 use Doctrine\ORM\EntityRepository;
 use IServ\AdminBundle\Admin\AbstractAdmin;
 use IServ\CoreBundle\Entity\GroupRepository;
+use IServ\CoreBundle\Service\Config;
 use IServ\CoreBundle\Traits\LoggerTrait;
 use IServ\CrudBundle\Entity\CrudInterface;
 use IServ\CrudBundle\Mapper\AbstractBaseMapper;
 use IServ\CrudBundle\Mapper\FormMapper;
 use IServ\CrudBundle\Mapper\ListMapper;
+use Stsbl\CourseGroupManagementBundle\Crud\Batch;
 use Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
+use Swift_Mailer;
 
 /*
  * The MIT License
@@ -44,6 +47,56 @@ use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 class PromotionRequestAdmin extends AbstractAdmin
 {
     use LoggerTrait;
+
+    /**
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * @var Swift_Mailer
+     */
+    private $mailer;
+
+    /**
+     * Inject config
+     *
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * Get config
+     *
+     * @return Config|null
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Sets the Mailer.
+     *
+     * @param Swift_Mailer $mailer
+     */
+    public function setMailer(Swift_Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
+    /**
+     * Gets the Mailer.
+     *
+     * @return Swift_Mailer
+     */
+    public function getMailer()
+    {
+        return $this->mailer;
+    }
 
     /**
      * {@inheritdoc}
@@ -107,7 +160,7 @@ class PromotionRequestAdmin extends AbstractAdmin
                 ->add('user', null, [
                     'label' => _('Filer'),
                     'required' => false,
-                    'empty_data' => true,
+                    //'empty_data' => true,
                     'attr' => [
                         'help_text' => _('The filer will informed via e-mail if the request is accepted. If you not select a user here, the group owner will be used.')
                     ]
@@ -143,7 +196,7 @@ class PromotionRequestAdmin extends AbstractAdmin
     {
         // default request owner to group owner
         /* @var $object PromotionRequest */
-        if ($object->getUser() === null && $object->getGroup()->getOwner() != null) {
+        if ($object->getUser() === null) {
             $object->setUser($object->getGroup()->getOwner());
         }
     }
@@ -205,5 +258,18 @@ class PromotionRequestAdmin extends AbstractAdmin
         }
 
         return $links;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadBatchActions()
+    {
+        $res = parent::loadBatchActions();
+
+        $res->remove('delete');
+        $res->add(new Batch\RejectAction($this));
+
+        return $res;
     }
 }

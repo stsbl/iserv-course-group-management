@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use IServ\CoreBundle\Entity\Group;
 use IServ\CoreBundle\Entity\User;
 use IServ\CrudBundle\Entity\CrudInterface;
+use IServ\CrudBundle\Entity\IgnorableConstraintsInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -43,7 +44,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="cgr_management_promotion_requests")
  */
-class PromotionRequest implements CrudInterface
+class PromotionRequest implements CrudInterface, IgnorableConstraintsInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -64,8 +65,7 @@ class PromotionRequest implements CrudInterface
     private $group;
 
     /**
-     * // FIXME Breaks default user to group owner
-     * //@Assert\NotBlank(message="Please select the filer of the promotion.")
+     * @Assert\NotBlank(message="Please select the filer of the promotion.", groups={"ignorable"})
      * @ORM\ManyToOne(targetEntity="\IServ\CoreBundle\Entity\User", fetch="EAGER")
      * @ORM\JoinColumn(name="actusr", referencedColumnName="act", nullable=false)
      *

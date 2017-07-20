@@ -4,6 +4,8 @@ services:
         arguments: ['Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest']
         calls:
             - [ setLogger, ["@iserv.logger"]]
+            - [ setConfig, ["@iserv.config"]]
+            - [ setMailer, ["@mailer.local"]]
         tags:
             - { name: iserv.crud }
 
