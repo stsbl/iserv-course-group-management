@@ -5,12 +5,20 @@ use strict;
 use utf8;
 use Encode;
 use Stsbl::IServ::IO;
+use IServ::Conf;
 use IServ::DB;
+use IServ::Locale;
 use IServ::User;
 use IServ::Tools;
 use IServ::Valid;
 use JSON;
+use MIME::Lite;
+use POSIX;
 use sessauth;
+
+POSIX::setlocale(POSIX::LC_CTYPE, $conf->{DefLang} . ".UTF-8");
+POSIX::setlocale(POSIX::LC_MESSAGES, $conf->{DefLang} . ".UTF-8");
+IServ::Locale::UseDefLang();
 
 my $json = JSON->new->utf8->allow_nonref;
 
@@ -25,6 +33,7 @@ my %row;
 $row{module} = "Course Group Management";
 my $log_text;
 my $cnt;
+my %msg;
 
 if (@ARGV < 1)
 {
@@ -78,7 +87,23 @@ my $delete = $actions->{delete};
 $cnt = 0;
 for (@$delete)
 {
-  my $groupname = IServ::DB::SelectVal "SELECT Name From groups WHERE Act = ?", $_;
+  my ($groupname, $owner_act) = IServ::DB::SelectRow "SELECT Name, Owner FROM groups WHERE Act = ?", $_;
+  
+  if (defined $owner_act)
+  {
+    if (defined $msg{$owner_act}{delete}) 
+    {
+      my @push = @{ $msg{$owner_act}{deleted} }; 
+      push @push, $groupname;
+      $msg{$owner_act}{deleted} = \@push;
+    } else
+    {
+      my @data;
+      push @data, $groupname;
+      $msg{$owner_act}{deleted} = \@data;
+    }
+  }
+
   print "Lösche Gruppe $groupname ...\n";
   IServ::User::GroupDel $_;
   $cnt++;
@@ -89,15 +114,15 @@ if (@$delete < 1)
   print "Es werden keine Gruppen gelöscht.\n";
 } else
 {
-  if ($cnt eq 1)
+  if ($cnt == 1)
   { 
     $log_text = "Eine Gruppe gelöscht";
-  } else
-  {
-    $log_text = sprintf "%s Gruppen gelöscht", $cnt;
-  }
-  
-  IServ::DB::Log $log_text, %row;
+} else
+{
+  $log_text = sprintf "%s Gruppen gelöscht", $cnt;
+}
+
+IServ::DB::Log $log_text, %row;
 }
 
 $cnt = 0;
@@ -108,17 +133,24 @@ for (keys %$rename)
     my $old_name = $rename->{$_}->{oldName};
     my $new_name = $rename->{$_}->{newName};
     my $new_act = IServ::Tools::name2act $new_name;
-    
+  
     if (IServ::DB::Do "SELECT 1 FROM groups WHERE Act = ? AND Deleted IS NULL", $new_act)
     {
       die "Gruppe $old_name kann nicht in $new_name umbenannt werden: Account ist noch belegt.\n";;
     }
-   
+ 
     print "Lösche Versetzungsantrag für Gruppe $old_name ...\n";
     IServ::DB::Do "DELETE FROM cgr_management_promotion_requests WHERE ActGrp = ?", $_;
 
+    my $owner_act = IServ::DB::SelectVal "SELECT Owner FROM groups WHERE Act = ?", $_;
+
+    if (defined $owner_act)
+    {
+      $msg{$owner_act}{renamed}{$_} = {old_name => $old_name, new_name => $new_name};
+    }
+
     print "Benenne Gruppe $old_name in $new_name um ...\n";
-    
+  
     IServ::User::GroupAct $_, $new_act;
     IServ::User::GroupName $new_act, $new_name;
 
@@ -133,7 +165,7 @@ if (keys %$rename < 1)
   print "Es werden keine Gruppen umbenannt.\n";
 } else
 {
-  if ($cnt eq 1)
+  if ($cnt == 1)
   {
     $log_text = "Eine Gruppe versetzt";
   } else
@@ -142,6 +174,73 @@ if (keys %$rename < 1)
   }
 
   IServ::DB::Log $log_text, %row;
+}
+
+for (keys %msg)
+{
+  my ($msg, $text, $part);
+
+  if (defined $msg{$_}{deleted} and @{ $msg{$_}{deleted} } > 0)
+  {
+    print "Sende E-Mail an $_, um über gelöschte Gruppen zu informieren ...\n"; 
+    
+    $msg = MIME::Lite->new(
+      From      => "$login_act\@".$conf->{Domain},
+      To        => "$_\@".$conf->{Domain},
+      Subject   => encode('MIME-Header', _("Groups without promotion request deleted")),
+      Type      => 'multipart/mixed',
+    );
+
+    $text = _("The following groups you own without promotion request were deleted:")."\n\n  * ".
+      join("\n  * ", @{ $msg{$_}{deleted} }).
+      "\n\n--\n"._('*This e-mail was generated automatically*')
+    ;
+
+    $part = MIME::Lite->new(
+      Type    => 'TEXT',
+      Data    => encode('UTF-8', $text),
+      Encoding => 'quoted-printable'
+    );
+    $part->attr('content-type.charset' => 'UTF-8');
+    
+    $msg->attach($part);
+
+    $msg->send;
+  }
+
+  if (defined $msg{$_}{renamed} and keys %{ $msg{$_}{renamed} } > 0)
+  {
+    print "Sende E-Mail an $_, um über umbenannte Gruppen zu informieren ...\n";
+    
+    $msg = MIME::Lite->new(
+      From      => "$login_act\@".$conf->{Domain},
+      To        => "$_\@".$conf->{Domain},
+      Subject   => encode('MIME-Header', _("Groups with promotion request renamed")),
+      Type      => 'multipart/mixed',
+    );
+
+    $text = _("Your promotion requests were accepted and the following groups were renamed:")."\n";
+    
+    my $act = $_;
+    for (keys %{ $msg{$_}{renamed} })
+    {
+      $text .= "\n  * ".sprintf(_("%s was renamed to %s"), $msg{$act}{renamed}{$_}{old_name}, $msg{$act}{renamed}{$_}{old_name});
+    }
+    
+    $text .= "\n\n--\n"._('*This e-mail was generated automatically*')
+		    ;
+    $part = MIME::Lite->new(
+       Type    => 'TEXT',
+       Data    => encode('UTF-8', $text),
+       Encoding => 'quoted-printable'
+    );
+ 
+    $part->attr('content-type.charset' => 'UTF-8');
+
+    $msg->attach($part);
+ 
+    $msg->send;
+  }
 }
 
 print "\nFertig.\n";
