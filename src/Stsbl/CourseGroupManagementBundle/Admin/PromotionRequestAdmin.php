@@ -4,7 +4,9 @@ namespace Stsbl\CourseGroupManagementBundle\Admin;
 
 use Doctrine\ORM\EntityRepository;
 use IServ\AdminBundle\Admin\AbstractAdmin;
+use IServ\CoreBundle\Entity\Group;
 use IServ\CoreBundle\Entity\GroupRepository;
+use IServ\CoreBundle\Entity\User;
 use IServ\CoreBundle\Service\Config;
 use IServ\CoreBundle\Traits\LoggerTrait;
 use IServ\CrudBundle\Entity\CrudInterface;
@@ -115,76 +117,85 @@ class PromotionRequestAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function configureFields(AbstractBaseMapper $mapper)
+    public function configureFormFields(FormMapper $formMapper)
     {
-        $groupOptions = [
-            'label' => _('Group'),
-            'required' => false,
-            'attr' => [
-                'help_text' => __('Possible groups requires the group flag "%s"', _('Group is a Course Group'))
-            ]
-        ];
+        if ($formMapper->getObject() === null) {
+            $formMapper
+                ->add('group', null, [
+                    'label' => _('Group'),
+                    'attr' => [
+                        'help_text' => __('Possible groups requires the group flag "%s"', _('Group is a Course Group'))
+                    ],
+                    'query_builder' => function (EntityRepository $er) {
+                        /* @var $er GroupRepository */
+                        $subQb = $er->createQueryBuilder('r');
 
-        if ($mapper instanceof FormMapper) {
-            $groupOptions['query_builder'] = function (EntityRepository $er) {
-                /* @var $er GroupRepository */
-                $subQb = $er->createQueryBuilder('r');
+                        $subQb
+                            ->resetDQLParts()
+                            ->select('r')
+                            ->from('StsblCourseGroupManagementBundle:PromotionRequest', 'r')
+                            ->where($subQb->expr()->eq('g.account', 'r.group'));
 
-                $subQb
-                    ->resetDQLParts()
-                    ->select('r')
-                    ->from('StsblCourseGroupManagementBundle:PromotionRequest', 'r')
-                    ->where($subQb->expr()->eq('g.account', 'r.group'))
-                ;
-
-                return $er->createFindByFlagQueryBuilder(Privilege::FLAG_COURSE_GROUP, 'g')
-                    ->select('g')
-                    ->andWhere($subQb->expr()->not($subQb->expr()->exists($subQb)))
-                    ->orderBy('g.name', 'ASC')
-                    ;
-            };
-        }
-
-        if ($mapper->getObject() === null || !$mapper instanceof FormMapper) {
-            if ($mapper instanceof ListMapper) {
-                $mapper
-                    ->addIdentifier('group', null, $groupOptions)
-                ;
-            } else {
-                $mapper
-                    ->add('group', null, $groupOptions)
-                ;
-            }
-
-            $mapper
+                        return $er->createFindByFlagQueryBuilder(Privilege::FLAG_COURSE_GROUP, 'g')
+                            ->select('g')
+                            ->andWhere($subQb->expr()->not($subQb->expr()->exists($subQb)))
+                            ->orderBy('g.name', 'ASC');
+                    },
+                ])
                 ->add('user', null, [
                     'label' => _('Filer'),
                     'required' => false,
-                    //'empty_data' => true,
                     'attr' => [
                         'help_text' => _('The filer will informed via e-mail if the request is accepted. If you not select a user here, the group owner will be used.')
                     ]
                 ])
-
-            ;
-
-        }
-
-        if (!$mapper instanceof FormMapper) {
-            $mapper
-                ->add('created', null, [
-                    'label' => _p('course-group-management','Created')
-                ])
             ;
         }
 
-        $mapper
+        $formMapper
             ->add('comment', null, [
                 'label' => _p('course-group-management', 'Comment'),
                 'attr' => [
                     'help_text' => _('Additional explanation for this request'),
                     'required' => false
                 ]
+            ])
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureFields(AbstractBaseMapper $mapper)
+    {
+        if ($mapper instanceof FormMapper) {
+            // form mapper is configured via configureFormFields
+            return;
+        }
+
+        if ($mapper instanceof ListMapper) {
+            $mapper
+                ->addIdentifier('group', null, [
+                    'label' => _('Group'),
+                    'icon' => true
+                ])
+            ;
+        } else {
+            $mapper
+                ->add('group', null, [
+                    'label' => _('Group'),
+                    'icon' => true
+                ])
+            ;
+        }
+
+        $mapper
+            ->add('user', null, [
+                'label' => _('Filer'),
+                'icon' => true,
+            ])
+            ->add('created', null, [
+                'label' => _p('course-group-management','Created')
             ])
         ;
     }
