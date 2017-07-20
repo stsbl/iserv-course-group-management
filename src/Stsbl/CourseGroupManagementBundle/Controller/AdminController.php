@@ -245,6 +245,53 @@ class AdminController extends PageController
     }
 
     /**
+     * Get customize form
+     *
+     * @param array $transition
+     * @return FormInterface
+     */
+    private function getCustomizeForm(array $transition)
+    {
+        $builder = $this->get('form.factory')->createNamedBuilder('stsbl_coursegroupmanagement_execute_customize');
+
+        foreach ($transition as $key => $group) {
+            $builder
+                ->add('group_'.$key, TextType::class, [
+                    'label' => $group['oldName'],
+                    'data' => $group['newName']
+                ])
+            ;
+        }
+
+        $builder
+            ->add('actions', FormActionsType::class)
+        ;
+
+        $actions = $builder->get('actions');
+
+
+        $actions
+            ->add('cancel', SubmitType::class, [
+                'label' => _('Cancel'),
+                'buttonClass' => 'btn-default',
+                'icon' => 'remove'
+            ])
+            ->add('back', SubmitType::class, [
+                'label' => _('Back'),
+                'buttonClass' => 'btn-warning',
+                'icon' => 'arrow-left'
+            ])
+            ->add('next', SubmitType::class, [
+                'label' => _('Next'),
+                'buttonClass' => 'btn-success',
+                'icon' => 'arrow-right'
+            ])
+        ;
+
+        return $builder->getForm();
+    }
+
+    /**
      * Prepare action
      *
      * @param Request $request
@@ -366,7 +413,7 @@ class AdminController extends PageController
 
             // redirect on back
             if ($form->get('actions')->get('back')->isClicked()) {
-                return $this->redirectToRoute('admin_coursegroupmanagement_execute_check');
+                return $this->redirectToRoute('admin_coursegroupmanagement_execute_customize');
             }
 
             return $this->redirectToRoute('admin_coursegroupmanagement_execute_promote');
@@ -505,7 +552,7 @@ class AdminController extends PageController
             $session->set('course_group_management_delete', $this->groupEntitiesToArray($deletedGroups));
             $session->set('course_group_management_transition', $groupsTransition);
 
-            return $this->redirectToRoute('admin_coursegroupmanagement_execute_preview');
+            return $this->redirectToRoute('admin_coursegroupmanagement_execute_customize');
         } else {
             foreach ($form->getErrors(true) as $e) {
                 $errors[] = $e->getMessage();
@@ -556,6 +603,62 @@ class AdminController extends PageController
             'form' => $form->createView(),
             'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management',
             'userRepository' => $this->getDoctrine()->getRepository('IServCoreBundle:User')
+        ];
+    }
+
+    /**
+     * Customize action
+     *
+     * @param Request $request
+     * @return array|RedirectResponse
+     * @Route("/execute/customize", name="admin_coursegroupmanagement_execute_customize")
+     * @Template()
+     */
+    public function customizeAction(Request $request)
+    {
+        $session = $this->get('session');
+        $groupsTransition = [];
+
+        if ($session->has('course_group_management_transition')) {
+            $groupsTransition = $session->get('course_group_management_transition', []);
+        }
+
+        $form = $this->getCustomizeForm($groupsTransition);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // redirect on cancel
+            if ($form->get('actions')->get('cancel')->isClicked()) {
+                return $this->redirectToRoute('admin_promotionrequest_index');
+            }
+
+            // redirect on back
+            if ($form->get('actions')->get('back')->isClicked()) {
+                return $this->redirectToRoute('admin_coursegroupmanagement_execute_check');
+            }
+
+            $data = $form->getData();
+
+            foreach ($groupsTransition as $key => $group) {
+                if (isset($data['group_'.$key])) {
+                    $groupsTransition[$key]['newName'] = $data['group_'.$key];
+                }
+            }
+
+            $session->set('course_group_management_transition', $groupsTransition);
+
+            return $this->redirectToRoute('admin_coursegroupmanagement_execute_preview');
+        }
+
+        // track path
+        $this->addBreadcrumb(_('Course Group Management'), $this->generateUrl('admin_coursegroupmanagement_request'));
+        $this->addBreadcrumb(_('Promotion Requests'), $this->generateUrl('admin_promotionrequest_index'));
+        $this->addBreadcrumb(_('Promote course groups'), $this->generateUrl('admin_coursegroupmanagement_execute_prepare'));
+        $this->addBreadcrumb(_('Customize'), $this->generateUrl('admin_coursegroupmanagement_execute_customize'));
+
+        return [
+            'form' => $form->createView(),
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];
     }
 
