@@ -201,7 +201,7 @@ class PromotionRequest implements CrudInterface, IgnorableConstraintsInterface
      *
      * @return PromotionRequest
      */
-    public function setUser(User $user)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 

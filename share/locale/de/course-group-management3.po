@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-20 14:41+0200\n"
+"POT-Creation-Date: 2017-07-20 15:46+0200\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -206,6 +206,18 @@ msgstr ""
 "Sie können zu „Versetzung für Kursgruppen beantragen“ gehen und eine "
 "Versetzung für die Gruppe beantragen."
 
+#: src/Stsbl/CourseGroupManagementBundle/EventListener/DashboardListener.php:130
+msgid ""
+"Groups without promotion request are may get deleted automatically during "
+"promotion process."
+msgstr ""
+"Gruppen ohne Versetzungsantrag werden möglicherweise automatisch während "
+"des Versetzungsprozesses gelöscht."
+
+#: src/Stsbl/CourseGroupManagementBundle/EventListener/DashboardListener.php:131
+msgid "Please ask your administrator for further information."
+msgstr "Bitte fragen Sie Ihren Administrator für weitere Informationen."
+
 #: src/Stsbl/CourseGroupManagementBundle/Entity/PromotionRequest.php:112
 #, php-format
 msgid "Promotion request for group %s"
@@ -341,7 +353,7 @@ msgid ""
 "The filer will informed via e-mail if the request is accepted. If you not "
 "select a user here, the group owner will be used."
 msgstr ""
-"Der Antragsteller wird per E-Mail informiert, wenn der Antrag aktzeptiert "
+"Der Antragsteller wird per E-Mail informiert, wenn der Antrag akzeptiert "
 "wird. Wenn Sie hier keinen Benutzer wählen, wird der Eigentümer der Gruppe "
 "benutzt."
 
@@ -352,7 +364,7 @@ msgstr "Eingereicht"
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:185
 msgid "Additional explanation for this request"
-msgstr "Zusätzliche Bermerkungen für diesen Antrag"
+msgstr "Zusätzliche Bemerkungen für diesen Antrag"
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:257
 msgid "Promote groups"

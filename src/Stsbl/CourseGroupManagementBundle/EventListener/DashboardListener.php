@@ -126,12 +126,15 @@ class DashboardListener implements IDeskListenerInterface
             [
                 'title' => __n('You can promote one course group for next school year', 'You can promote %d course groups for next school year', count($groups), count($groups)),
                 'text' => _('The following groups are in queue for promoting:'),
-                'additional_text' => _('You can go to „Request promotion for course groups“ and request a promote for this groups.'),
+                'additional_text' => _('You can go to „Request promotion for course groups“ and request a promote for this groups.').' '.
+                    _('Groups without promotion request are may get deleted automatically during promotion process.').' '.
+                    _('Please ask your administrator for further information.'),
                 'groups' => $groups,
                 'panel_class' => 'panel-primary',
                 'idesk' => $this->isIDeskEvent,
                 'icon' => $icon,
-            ]
+            ],
+            -2
         );
     }
 
