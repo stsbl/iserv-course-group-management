@@ -1,3 +1,42 @@
+stsbl-iserv-course-group-management (17.07.20-0) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * Do not require comment in PromotionRequestAdmin.
+  * Do not require comment in request form.
+  * Default to owner in PromotionRequestAdmin.
+  * Fixed l10n.
+  * Updated help links.
+  * Updated build dependencies.
+  * Do not store objects in session (causes problems with OpCache).
+  * Fixed form for user default handling.
+  * Show groups without request in unchanged groups if deletion is not selected.
+  * Limit replacement in preg_replace to one.
+  * Pass json via environment.
+  * Added form to customize group name changes.
+  * Unified step titles.
+  * Added reject batch action and fixed handling of default user to grou  owner.
+  * Enhanced dashboard.
+  * Fixed l10n typos.
+  * Send e-mails on deleting and renaming of groups.
+  * PromotionRequestAdmin: Reworked mapper configuration.
+  * Updated control file.
+  * Use i18n in actcoursepromotion.
+  * actcoursepromotion: Fixed deleted groups mail.
+
+  iserv: Das neue Update bringt diverse Verbesserungen mit: Es sind nun
+    E-Mail-Benachrichtungen implementiert, Benutzer werden nun per E-Mail
+    informiert, wenn ein Versetzungsantrag zurückgewiesen wird, eine Gruppe
+    ohne Antrag beim Versetzungsprozess gelöscht wird oder eine Gruppe mit
+    Versetzungsantrag umbenannt wurde. Zudem hat man in Versetzungsassistenten
+    nun die Möglichkeit vor dem Versetzungsprozess die Namen von Gruppen
+    anzupassen, um zu Beispiel fehlerhafte automatische Umbenennungen
+    abzufangen. Zudem wird beim Hinzufügen eines Antrages durch den
+    Administrator nun standardmäßig der Gruppeneigentümer der Gruppe als
+    Antragssteller gesetzt, wenn nicht explizit ein anderer Benutzer
+    ausgewählt wird.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Thu, 20 Jul 2017 20:22:18 +0200
+
 stsbl-iserv-course-group-management (17.07.18-2) experimental; urgency=medium
 
   [ Felix Jacobi ]
