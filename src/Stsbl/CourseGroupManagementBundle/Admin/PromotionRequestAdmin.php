@@ -195,7 +195,12 @@ class PromotionRequestAdmin extends AbstractAdmin
                 'icon' => true,
             ])
             ->add('created', null, [
-                'label' => _p('course-group-management','Created')
+                'label' => _p('course-group-management','Created'),
+                'responsive' => 'min-tablet'
+            ])
+            ->add('comment', null, [
+                'label' => _p('course-group-management','Comment'),
+                'responsive' => 'min-tablet'
             ])
         ;
     }
