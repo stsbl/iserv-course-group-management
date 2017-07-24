@@ -1,3 +1,11 @@
+stsbl-iserv-course-group-management (17.07.24-0) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * Re-added missing comment field in show and list.
+  * Made CRUD responsive.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Mon, 24 Jul 2017 13:13:35 +0200
+
 stsbl-iserv-course-group-management (17.07.20-0) experimental; urgency=medium
 
   [ Felix Jacobi ]
