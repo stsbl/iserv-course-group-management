@@ -47,6 +47,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 
 /**
+ * FIXME Move logic out of AdminController to a service container!
+ *
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  * @Route("/admin/coursegroupmanagement")
