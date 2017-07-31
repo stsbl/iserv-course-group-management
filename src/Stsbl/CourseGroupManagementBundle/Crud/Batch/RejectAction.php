@@ -1,5 +1,5 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/RejectAction.php
+// src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php
 namespace Stsbl\CourseGroupManagementBundle\Crud\Batch;
 
 use Doctrine\Common\Collections\ArrayCollection;
