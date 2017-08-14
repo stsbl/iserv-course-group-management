@@ -1,3 +1,20 @@
+stsbl-iserv-course-group-management (17.08.14-0) experimental; urgency=medium
+
+  [ Felix Jacobi ]
+  * Fixed typos.
+  * Added todo to AdminController.
+  * Fixed wrong variable.
+  * Added option to set a timerange for promotion notice.
+
+  iserv: Mit diesem Update finden Sie in der System-Konfiguration unter
+    "Modul: Kursgruppenverwaltung" vier neue Einstellungsmöglichkeiten. Diese
+    bieten die Möglichkeit einzustellen, in welchem Zeitraum der Hinweis zum 
+    Versetzen der Kursgruppen angezeigt werden soll. Die Zeitspanne wird
+    anhand des aktuellen Jahrs automatisch berechnet. Bitte geben Sie an
+    dieser Stelle nur sinnvolle Werte für Tag und Monat an.
+
+ -- Stadtteilschule Blankenese <repository@stsbl.de>  Mon, 14 Aug 2017 23:16:38 +0200
+
 stsbl-iserv-course-group-management (17.07.24-0) experimental; urgency=medium
 
   [ Felix Jacobi ]
