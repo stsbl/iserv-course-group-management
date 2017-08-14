@@ -221,7 +221,7 @@ for (keys %msg)
     $act = $_;
     for (keys %{ $msg{$_}{renamed} })
     {
-      $text .= "\n  * ".sprintf(_("%s was renamed to %s"), $msg{$act}{renamed}{$_}{old_name}, $msg{$act}{renamed}{$_}{old_name});
+      $text .= "\n  * ".sprintf(_("%s was renamed to %s"), $msg{$act}{renamed}{$_}{old_name}, $msg{$act}{renamed}{$_}{new_name});
     }
     
     $text .= "\n\n--\n"._('*This e-mail was generated automatically*')
