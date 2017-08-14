@@ -72,3 +72,20 @@ _("Groups with promotion request renamed");
 _("Your promotion requests were accepted and the following groups were renamed:");
 _("%s was renamed to %s");
 _('*This e-mail was generated automatically*');
+
+// iservcfg
+_('Display promotion notice starting this month');
+_('The day and the month will combined to a date. Please enter a valid month (1-12) for a date.');
+_('Module: Course Group Management');
+
+_('Display promotion notice starting this day');
+_('The day and the month will combined to a date. Please enter a valid day (1-31) for a date.');
+_('Module: Course Group Management');
+
+_('Display promotion notice until this month');
+_('The day and the month will combined to a date. Please enter a valid month (1-12) for a date.');
+_('Module: Course Group Management');
+
+_('Display promotion notice until this day');
+_('The day and the month will combined to a date. Please enter a valid day (1-31) for a date.');
+_('Module: Course Group Management');

@@ -16,7 +16,7 @@ services:
 
     stsbl.course_group_management.dashboard:
         class: Stsbl\CourseGroupManagementBundle\EventListener\DashboardListener # Our DashboardListener Class
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "@iserv.config"]
         tags:
           - { name: kernel.event_listener, event: iserv.manage.dashboard, method: onBuildManageDashboard}
           - { name: kernel.event_listener, event: iserv_portal.build_idesk, method: onBuildIDesk }

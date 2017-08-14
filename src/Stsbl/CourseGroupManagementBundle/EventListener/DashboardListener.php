@@ -8,6 +8,7 @@ use IServ\CoreBundle\Entity\GroupRepository;
 use IServ\CoreBundle\Event\DashboardEvent;
 use IServ\CoreBundle\Event\IDeskEvent;
 use IServ\CoreBundle\EventListener\IDeskListenerInterface;
+use IServ\CoreBundle\Service\Config;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 
 /*
@@ -44,20 +45,64 @@ class DashboardListener implements IDeskListenerInterface
      * @var EntityManager
      */
     private $em;
+
+    /**
+     * @var Config
+     */
+    private $config;
     
     /**
      * @var boolean
      */
     private $isIDeskEvent = false;
-    
+
     /**
      * The constructor.
-     * 
+     *
      * @param EntityManager $em
+     * @param Config $config
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, Config $config)
     {
         $this->em = $em;
+        $this->config = $config;
+    }
+
+    /**
+     * Checks if it is time to display the promotion notice.
+     * 
+     * @return boolean
+     */
+    private function isDisplayTime()
+    {
+        $fromDay = $this->config->get('CourseGroupManagementDisplayFromDay');
+        $fromMonth = $this->config->get('CourseGroupManagementDisplayFromMonth');
+        $untilDay = $this->config->get('CourseGroupManagementDisplayUntilDay');
+        $untilMonth = $this->config->get('CourseGroupManagementDisplayUntilMonth');
+
+        if ($fromDay === 0 && $fromMonth === 0 && $untilDay === 0 && $untilMonth === 0) {
+            return true;
+        }
+
+        if ($fromDay !== 0 && $fromMonth !== 0 && $untilDay !== 0 && $untilMonth !== 0) {
+            $year = date('Y');
+            $from = new \DateTime(sprintf('%s-%s-%s', $year, $fromMonth, $fromDay));
+            $until = new \DateTime(sprintf('%s-%s-%s', $year, $untilMonth, $untilDay));
+
+            if ($until->getTimestamp() < $from->getTimestamp()) {
+                $until->add(new \DateInterval('P1Y'));
+            }
+
+            $now = new \DateTime('now');
+
+            if ($now->getTimestamp() >= $from->getTimestamp() && $now->getTimestamp() <= $until->getTimestamp()) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -107,6 +152,11 @@ class DashboardListener implements IDeskListenerInterface
 
         if (count($groups) === 0) {
             // exit if no groups are available
+            return;
+        }
+
+        if (!$this->isDisplayTime()) {
+            // exit if we are outside of time range
             return;
         }
 
