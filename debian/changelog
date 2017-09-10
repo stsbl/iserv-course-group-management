@@ -1,3 +1,15 @@
+stsbl-iserv-course-group-management (17.09.10-0) experimental; urgency=medium
+
+  * Use IServ::User::NewAct to get new group name.
+  * Set created_by correctly to ensure correct storing of "deleter".
+  * Simplified privilege query.
+
+  iserv: Bei Gruppen, die über das Modul gelöscht werden, wird nun korrekt
+    statt root derjenige als Löscher angezeigt, der die Kursgruppen-Versetzung
+    durchgfeführt hat.
+
+ -- Felix Jacobi <felix.jacobi@iserv.eu>  Sun, 10 Sep 2017 23:40:37 +0200
+
 stsbl-iserv-course-group-management (17.08.14-0) experimental; urgency=medium
 
   [ Felix Jacobi ]
