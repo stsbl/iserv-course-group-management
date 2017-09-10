@@ -122,7 +122,7 @@ for (keys %$rename)
   {
     my $old_name = $rename->{$_}->{oldName};
     my $new_name = $rename->{$_}->{newName};
-    my $new_act = IServ::Tools::name2act $new_name;
+    my $new_act = IServ::User::NewAct $new_name;
   
     if (IServ::DB::Do "SELECT 1 FROM groups WHERE Act = ? AND Deleted IS NULL", $new_act)
     {
