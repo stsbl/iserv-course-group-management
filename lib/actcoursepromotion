@@ -61,11 +61,8 @@ sessauth::login $login_act, $login_pwd, "actcoursepromotion" or die "sessauth lo
 
 error "need privilege $priv\n"
   unless IServ::DB::Do "SELECT 1 FROM users_priv
-    WHERE (Act = ? AND Privilege = ?) OR EXISTS (SELECT 1 
-    FROM role_privileges r WHERE Privilege = ? 
-    AND EXISTS (SELECT 1 FROM user_roles u WHERE 
-    u.Act = ? AND u.Role = r.Role)) LIMIT 1",
-    $login_act, $priv, $priv, $login_act;
+    WHERE Act = ? AND Privilege = ?",
+    $login_act, $priv;
 
 if ($data =~ /^(.*)$/)
 {
