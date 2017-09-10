@@ -78,6 +78,7 @@ if ($data =~ /^(.*)$/)
 $IServ::DB::logname = IServ::Tools::pwname $login_act;
 $IServ::DB::logip = $login_ip;
 $IServ::DB::logipfwd = $login_ip_fwd;
+$IServ::User::created_by = $login_act;
 
 # decode
 my $actions = ${json}->decode($data);
@@ -107,12 +108,12 @@ if (@$delete < 1)
   if ($cnt == 1)
   { 
     $log_text = _("One group deleted");
-} else
-{
-  $log_text = sprintf(_("%s groups deleted"), $cnt);
-}
+  } else
+  {
+    $log_text = sprintf(_("%s groups deleted"), $cnt);
+  }
 
-IServ::DB::Log $log_text, %row;
+  IServ::DB::Log $log_text, %row;
 }
 
 $cnt = 0;
