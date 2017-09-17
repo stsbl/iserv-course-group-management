@@ -1,3 +1,11 @@
+stsbl-iserv-course-group-management (17.09.17-0) experimental; urgency=medium
+
+  * actcoursepromotion: Fixed regex for IPv6.
+
+  iserv: Beim Logging wurde ein Fehler im Zusammenhang mit IPv6 behoben.
+
+ -- Felix Jacobi <felix.jacobi@iserv.eu>  Sun, 17 Sep 2017 22:32:40 +0200
+
 stsbl-iserv-course-group-management (17.09.10-0) experimental; urgency=medium
 
   * Use IServ::User::NewAct to get new group name.
