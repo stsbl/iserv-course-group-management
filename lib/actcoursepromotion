@@ -22,7 +22,7 @@ IServ::Locale::UseDefLang();
 
 my $json = JSON->new->utf8->allow_nonref;
 
-my $m_ip = qr/[\d.:]{1,64}/;
+my $m_ip = qr/[0-9a-f.:]{1,64}/;
 my $priv = "manage_promotions";
 
 my $login_pwd = $ENV{PASSWORD} // $ENV{SESSPW};
