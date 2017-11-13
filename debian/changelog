@@ -1,3 +1,17 @@
+stsbl-iserv-course-group-management (17.11.13-1) experimental; urgency=medium
+
+  * Added option to remember group owner of empty course groups via e-mail
+
+  iserv: Mit der neuen Version können nun Gruppenbesitzer, die ihre
+    Kursgruppen noch nicht befüllt haben per E-Mail gezielt
+    angeschrieben werden, dazu kann eine Vorlage mit Platzernhaltern in ein
+    Formular eingegeben werden, daraus wird für jeden Benutzer eine
+    individuelle E-Mail erstellt, zu finden ist die Funktion unter  Verwaltung
+    » Kursgruppenverwaltung » Versetzungsanträge » Gruppenbesitzer mit leeren
+    Gruppen erinnern.
+
+ -- Felix Jacobi <felix.jacobi@stsbl.de>  Mon, 13 Nov 2017 02:31:52 +0100
+
 stsbl-iserv-course-group-management (17.09.17-0) experimental; urgency=medium
 
   * actcoursepromotion: Fixed regex for IPv6.
