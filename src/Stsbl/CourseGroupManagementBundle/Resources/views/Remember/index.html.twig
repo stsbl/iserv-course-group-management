@@ -1,0 +1,44 @@
+{# src/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/index.html.twig #}
+{% extends 'IServAdminBundle::page.html.twig' %}
+
+{% block page_title %}
+    {{ _('Remember group owners with empty groups') }} - {{ _('Course Group Management') }}
+{% endblock %}
+
+{% block content %}
+    <table class="table table-hover du 3columns">
+        <thead>
+            <tr>
+                <th>{{ _('User') }}</th>
+                <th>{{ _('Groups') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user, groups in emptyGroups %}
+                <tr>
+                    <td>
+                        {{ icon('legacy-act-user') }}&nbsp;{{ users[user]|mailto((users[user].name)|trim, _('Course groups still empty'), false, controller.getSingleMailText(users[user], groups)) }}
+                    </td>
+                    <td>
+                        {% for group in groups %}
+                            {{ icon('legacy-act-group') }}&nbsp;<a href="{{ path('admin_group_show', {'id': group.id }) }}">{{ group }}</a>&nbsp;
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2" class="text-center">
+                        {{ _('There are no group owners with empty course groups.') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr class="action-footer">
+            <td colspan="3">
+                <a class="btn btn-success" href="{{ path('admin_coursegroupmamangement_remember_mail') }}">{{ icon('pro-envelope') }}{{ _('Send e-mail to all') }}</a>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock %}

@@ -271,6 +271,7 @@ class PromotionRequestAdmin extends AbstractAdmin
 
         if (is_array($links)) {
             $links['run'] = array($this->getRouter()->generate('admin_coursegroupmanagement_execute_prepare'), _('Promote groups'), 'play');
+            $links['remember'] = array($this->getRouter()->generate('admin_coursegroupmamangement_remember'), _('Remember group owners with empty groups'), 'pro-bell');
         }
 
         return $links;

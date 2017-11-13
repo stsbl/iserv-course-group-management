@@ -1,0 +1,17 @@
+{# src/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/mail.html.twig #}
+{% extends 'IServAdminBundle::page.html.twig' %}
+
+{% block page_title %}
+    {{ _('Send e-mails') }} - {{ _('Remember group owners with empty groups') }} - {{ _('Course Group Management') }}
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{ _('Send e-mail to all users with empty course groups') }}</h4>
+        </div>
+        <div class="panel-body">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
