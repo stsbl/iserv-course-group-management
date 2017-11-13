@@ -123,7 +123,8 @@ class RememberController extends PageController
         return [
             'emptyGroups' => $emptyGroups,
             'users' => $users,
-            'controller' => $this
+            'controller' => $this,
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];
     }
 
@@ -209,7 +210,8 @@ class RememberController extends PageController
         $this->addBreadcrumb(_('Send e-mails'), $this->generateUrl('admin_coursegroupmamangement_remember_mail'));
 
         return [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];
     }
 
