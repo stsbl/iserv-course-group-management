@@ -199,6 +199,7 @@ class RememberController extends PageController
                 $this->get('mailer.local')->send($msg);
 
                 $flash[] = __('Sent e-mail to %s.', (string)$user);
+                $this->get('iserv.logger')->writeForModule(sprintf('Erinnerungs-E-Mail über leere Kursgruppen an %s gesendet', (string)$user), 'Course Group Management');
             }
 
             if (count($flash) > 0) {
