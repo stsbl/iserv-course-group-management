@@ -238,7 +238,7 @@ class RememberController extends PageController
                 'data' => _('Course groups still empty'),
                 'constraints' => [new NotBlank()],
                 'attr' => [
-                    'help_text' => 'The subject of the e-mail to send.'
+                    'help_text' => _('The subject of the e-mail to send.')
                 ]
             ])
             ->add('text', TextareaType::class, [
@@ -246,7 +246,7 @@ class RememberController extends PageController
                 'data' => $this->getBatchMailText(),
                 'constraints' => [new NotBlank()],
                 'attr' => [
-                    'help_text' => 'The text of the e-mail to send. "%groups%" will replaced with the list of empty groups, "%firstname%" with the first name of the recipient, "%lastname%" with the last name of the recipient and "%fullname% with the full name.',
+                    'help_text' => _('The text of the e-mail to send. "%groups%" will replaced with the list of empty groups, "%firstname%" with the first name of the recipient, "%lastname%" with the last name of the recipient and "%fullname%" with the full name.'),
                     'rows' => 20
                 ]
             ])

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: stsbl-iserv-course-group-management\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-13 02:16+0100\n"
+"POT-Creation-Date: 2017-11-13 23:19+0100\n"
 "PO-Revision-Date: 2017-07-17 01:41+0200\n"
 "Last-Translator: root <repository@stsbl.de>\n"
 "Language-Team: German\n"
@@ -56,7 +56,7 @@ msgid "Groups"
 msgstr "Gruppen"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:105
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:232
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:238
 msgid "Course groups still empty"
 msgstr "Kursgruppen sind leer"
 
@@ -69,8 +69,8 @@ msgid "Send e-mail to all"
 msgstr "E-Mail an Alle senden"
 
 #: /tmp/course-group-management-StsblCourseGroupManagementBundle.twig.php:297
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:205
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:248
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:210
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:254
 msgid "Send e-mails"
 msgstr "E-Mails senden"
 
@@ -509,24 +509,40 @@ msgstr "Anpassen"
 msgid "Promote"
 msgstr "Versetzen"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:196
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:201
 #, php-format
 msgid "Sent e-mail to %s."
 msgstr "E-Mail an %s gesendet."
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:227
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:233
 msgid "Recipients"
 msgstr "Empfänger"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:231
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:237
 msgid "Subject"
 msgstr "Betreff"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:239
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:241
+msgid "The subject of the e-mail to send."
+msgstr "Der Betreff der zu sendenen E-Mail"
+
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:245
 msgid "Text"
 msgstr "Text"
 
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:266
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:249
+msgid ""
+"The text of the e-mail to send. \"%groups%\" will replaced with the list of "
+"empty groups, \"%firstname%\" with the first name of the recipient, "
+"\"%lastname%\" with the last name of the recipient and \"%fullname%\" with the "
+"full name."
+msgstr ""
+"Der Text der zu sendenen E-Mail. \"%groups%\" wird ersetzt mit der Liste der "
+"leeren Gruppe, \"%firstname%\" mit dem Vornamen des Empfängers, "
+"\"%lastname%\" mit dem Nachnamen des Empfängers und \"%fullname%\" mit dem "
+"vollständigen Namen ersetzt."
+
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:272
 #, php-format
 msgid ""
 "Dear %s,\n"
@@ -538,12 +554,16 @@ msgid ""
 "Please go to Administration > Groups and add the required members to this "
 "groups."
 msgstr ""
-"Hallo %s,\n\nDie folgenden Ihrer Kursgruppen sind leer:\n\n* %s\n\n"
+"Hallo %s,\n"
+"\n"
+"Die folgenden Ihrer Kursgruppen sind leer:\n"
+"\n"
+"* %s\n"
+"\n"
 "Bitte gehen Sie zu Verwaltung > Gruppen und fügen Sie die benötigten "
 "Mitglieder zu diesen Gruppen hinzu."
 
-
-#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:276
+#: src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php:282
 #, php-format
 msgid ""
 "Dear %s,\n"
@@ -555,10 +575,14 @@ msgid ""
 "Please go to Administration > Groups and add the required members to this "
 "groups."
 msgstr ""
-"Hallo %s,\n\nDie folgenden Ihrer Kursgruppen sind leer:\n\n%s\n\n"
+"Hallo %s,\n"
+"\n"
+"Die folgenden Ihrer Kursgruppen sind leer:\n"
+"\n"
+"%s\n"
+"\n"
 "Bitte gehen Sie zu Verwaltung > Gruppen und fügen Sie die benötigten "
 "Mitglieder zu diesen Gruppen hinzu."
-
 
 #: src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php:111
 msgid "Promotion Request"
