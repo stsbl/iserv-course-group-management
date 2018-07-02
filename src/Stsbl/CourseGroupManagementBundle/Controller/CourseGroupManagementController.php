@@ -179,7 +179,7 @@ class CourseGroupManagementController extends PageController
             $menu = null;
         } else {
             $bundle = 'IServCoreBundle';
-            $menu = $this->get('iserv.menu.managment');
+            $menu = $this->get('iserv.menu.management');
         }
         
         // track path
