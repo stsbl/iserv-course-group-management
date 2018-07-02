@@ -1,3 +1,17 @@
+stsbl-iserv-course-group-management (18.07.03-1) experimental; urgency=medium
+
+  * Added license
+  * Updated copyright
+  * Added lintian overrides
+  * Updated packaging
+  * debian/control: Updated Standards-Version
+  * Fixed typo in management menu service id
+
+  iserv: Es wurde ein Fehler behoben, der verhinderte, das
+    Nicht-Administratoren Anträge auf Kursgruppenversetzungen stellen konnten.
+
+ -- Felix Jacobi <felix.jacobi@stsbl.de>  Tue, 03 Jul 2018 01:20:45 +0200
+
 stsbl-iserv-course-group-management (17.11.13-4) experimental; urgency=medium
 
   * Fixed permissions
