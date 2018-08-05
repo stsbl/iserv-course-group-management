@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 use Stsbl\CourseGroupManagementBundle\Service\ActCoursePromotion;
+use Stsbl\CourseGroupManagementBundle\Util\Form;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -258,7 +259,7 @@ class AdminController extends PageController
 
         foreach ($transition as $key => $group) {
             $builder
-                ->add('group_'.$key, TextType::class, [
+                ->add('group_'.Form::base64ToSymfonyFormCompatibleName(base64_encode($key)), TextType::class, [
                     'label' => $group['oldName'],
                     'data' => $group['newName']
                 ])
@@ -642,8 +643,9 @@ class AdminController extends PageController
             $data = $form->getData();
 
             foreach ($groupsTransition as $key => $group) {
-                if (isset($data['group_'.$key])) {
-                    $groupsTransition[$key]['newName'] = $data['group_'.$key];
+                $name = Form::base64ToSymfonyFormCompatibleName(base64_encode($key));
+                if (isset($data['group_'.$name])) {
+                    $groupsTransition[$key]['newName'] = $data['group_'.$name];
                 }
             }
 
