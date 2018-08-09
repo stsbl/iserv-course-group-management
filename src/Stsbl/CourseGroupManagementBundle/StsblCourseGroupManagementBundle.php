@@ -1,5 +1,5 @@
 <?php
-
+// src/IServ/CourseGroupManagementBundle/StsblCourseGroupManagementBundle.php
 namespace Stsbl\CourseGroupManagementBundle;
 
 use IServ\CoreBundle\Routing\AutoloadRoutingBundleInterface;

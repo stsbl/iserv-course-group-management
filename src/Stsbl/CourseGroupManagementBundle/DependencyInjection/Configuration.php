@@ -1,5 +1,5 @@
 <?php
-
+// src/IServ/CourseGroupManagementBundle/DependencyInjection/Configuration.php
 namespace Stsbl\CourseGroupManagementBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
