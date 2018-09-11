@@ -30,13 +30,11 @@
 {% block javascripts %}
     {{ parent() }}
 
-    {# insert select2 in non admin view #}
+    {# insert crud in non admin view #}
     {% if bundle == 'IServCoreBundle' %}
         {% if app.environment != 'prod' %}
-            <!-- {{ _self }} => course-group-management-select2.js -->
+            <!-- {{ _self }} => crud.js -->
         {% endif %}
-        {% javascripts output='js/compiled/course-group-management-select2.js' filter='?uglifyjs2' '@IServCrudBundle/Resources/public/js/select2.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        <script type="text/javascript" src="{{ asset('js/crud.js', 'crud') }}"></script>
     {% endif %}
 {% endblock %}
