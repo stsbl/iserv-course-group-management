@@ -1,3 +1,10 @@
+stsbl-iserv-course-group-management (18.09.12-1) experimental; urgency=medium
+
+  * Moved to webpack
+  * Updated build rules for webpack support
+
+ -- Felix Jacobi <felix.jacobi@stsbl.de>  Wed, 12 Sep 2018 01:36:29 +0200
+
 stsbl-iserv-course-group-management (18.08.05-1) experimental; urgency=medium
 
   * Fixed form names containg illegal characters.
