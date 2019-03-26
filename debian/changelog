@@ -1,3 +1,9 @@
+stsbl-iserv-course-group-management (19.03.26-1) experimental; urgency=medium
+
+  * Updated service declarations
+
+ -- Felix Jacobi <Felix@jacobi-hamburg.net>  Tue, 26 Mar 2019 17:45:54 +0100
+
 stsbl-iserv-course-group-management (18.11.25-1) experimental; urgency=medium
 
   * Adapted module structure to web application move
