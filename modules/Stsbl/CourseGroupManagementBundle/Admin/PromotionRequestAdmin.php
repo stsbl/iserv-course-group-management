@@ -2,11 +2,8 @@
 // src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php
 namespace Stsbl\CourseGroupManagementBundle\Admin;
 
-use Doctrine\ORM\EntityRepository;
 use IServ\AdminBundle\Admin\AbstractAdmin;
-use IServ\CoreBundle\Entity\Group;
-use IServ\CoreBundle\Entity\GroupRepository;
-use IServ\CoreBundle\Entity\User;
+use IServ\CoreBundle\Repository\GroupRepository;
 use IServ\CoreBundle\Service\Config;
 use IServ\CoreBundle\Traits\LoggerTrait;
 use IServ\CrudBundle\Entity\CrudInterface;
@@ -60,42 +57,33 @@ class PromotionRequestAdmin extends AbstractAdmin
      */
     private $mailer;
 
+    public function __construct()
+    {
+        parent::__construct(PromotionRequest::class);
+    }
+
     /**
-     * Inject config
-     *
-     * @param Config $config
+     * @required
      */
     public function setConfig(Config $config)
     {
         $this->config = $config;
     }
 
-    /**
-     * Get config
-     *
-     * @return Config|null
-     */
-    public function getConfig()
+    public function getConfig(): Config
     {
         return $this->config;
     }
 
     /**
-     * Sets the Mailer.
-     *
-     * @param Swift_Mailer $mailer
+     * @required
      */
     public function setMailer(Swift_Mailer $mailer)
     {
         $this->mailer = $mailer;
     }
 
-    /**
-     * Gets the Mailer.
-     *
-     * @return Swift_Mailer
-     */
-    public function getMailer()
+    public function getMailer(): \Swift_Mailer
     {
         return $this->mailer;
     }
@@ -126,8 +114,7 @@ class PromotionRequestAdmin extends AbstractAdmin
                     'attr' => [
                         'help_text' => __('Possible groups requires the group flag "%s"', _('Group is a Course Group'))
                     ],
-                    'query_builder' => function (EntityRepository $er) {
-                        /* @var $er GroupRepository */
+                    'query_builder' => function (GroupRepository $er) {
                         $subQb = $er->createQueryBuilder('r');
 
                         $subQb

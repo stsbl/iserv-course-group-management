@@ -1,15 +1,15 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/EventListener/ManageDashboardListener.php
+
 namespace Stsbl\CourseGroupManagementBundle\EventListener;
 
-use Doctrine\ORM\EntityManager;
 use IServ\CoreBundle\Entity\Group;
-use IServ\CoreBundle\Entity\GroupRepository;
 use IServ\CoreBundle\Event\DashboardEvent;
-use IServ\CoreBundle\Event\IDeskEvent;
-use IServ\CoreBundle\EventListener\IDeskListenerInterface;
+use IServ\CoreBundle\Event\HomePageEvent;
+use IServ\CoreBundle\EventListener\HomePageListenerInterface;
 use IServ\CoreBundle\Service\Config;
+use IServ\ManageBundle\EventListener\ManageDashboardListenerInterface;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /*
  * The MIT License
@@ -39,41 +39,33 @@ use Stsbl\CourseGroupManagementBundle\Security\Privilege;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class DashboardListener implements IDeskListenerInterface
+class DashboardListener implements HomePageListenerInterface, ManageDashboardListenerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    private $em;
-
     /**
      * @var Config
      */
     private $config;
+
+    /**
+     * @var RegistryInterface
+     */
+    private $doctrine;
     
     /**
-     * @var boolean
+     * @var bool
      */
     private $isIDeskEvent = false;
 
-    /**
-     * The constructor.
-     *
-     * @param EntityManager $em
-     * @param Config $config
-     */
-    public function __construct(EntityManager $em, Config $config)
+    public function __construct(RegistryInterface $doctrine, Config $config)
     {
-        $this->em = $em;
+        $this->doctrine = $doctrine;
         $this->config = $config;
     }
 
     /**
      * Checks if it is time to display the promotion notice.
-     * 
-     * @return boolean
      */
-    private function isDisplayTime()
+    private function isDisplayTime(): bool
     {
         $fromDay = $this->config->get('CourseGroupManagementDisplayFromDay');
         $fromMonth = $this->config->get('CourseGroupManagementDisplayFromMonth');
@@ -108,13 +100,11 @@ class DashboardListener implements IDeskListenerInterface
     /**
      * Get groups which are promotable
      *
-     * @param DashboardEvent $event
      * @return Group[]
      */
-    private function getGroups(DashboardEvent $event)
+    private function getGroups(DashboardEvent $event): array
     {
-        /* @var $er GroupRepository */
-        $er = $this->em->getRepository('IServCoreBundle:Group');
+        $er = $this->doctrine->getRepository(Group::class);
 
         $subQb = $er->createQueryBuilder('r');
 
@@ -138,10 +128,8 @@ class DashboardListener implements IDeskListenerInterface
     
     /**
      * Adds notice if there are unlockable groups for exam plan.
-     * 
-     * @param DashboardEvent $event
      */
-    public function onBuildManageDashboard(DashboardEvent $event)
+    public function onBuildManageDashboard(DashboardEvent $event): void
     {
         if (!$event->getAuthorizationChecker()->isGranted(Privilege::REQUEST_PROMOTIONS)) {
             // exit if user is not privileged
@@ -191,7 +179,7 @@ class DashboardListener implements IDeskListenerInterface
     /**
      * {@inheritdoc}
      */
-    public function onBuildIDesk(IDeskEvent $event) 
+    public function onBuildHomePage(HomePageEvent $event): void
     {
         $this->isIDeskEvent = true;
         $this->onBuildManageDashboard($event);

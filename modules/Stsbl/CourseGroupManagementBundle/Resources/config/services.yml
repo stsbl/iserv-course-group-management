@@ -1,26 +1,15 @@
 services:
-    stsbl.course_group_management.admin.promotion_requests:
-        class: Stsbl\CourseGroupManagementBundle\Admin\PromotionRequestAdmin
-        arguments: ['Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest']
-        calls:
-            - [ setLogger, ["@iserv.logger"]]
-            - [ setConfig, ["@iserv.config"]]
-            - [ setMailer, ["@mailer.local"]]
-        tags:
-            - { name: iserv.crud }
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
 
-    stsbl.course_group_management.menu:
-        class: Stsbl\CourseGroupManagementBundle\EventListener\MenuSubscriber # Our MenuSubscriber Class
-        tags:
-            - { name: kernel.event_subscriber } # Tells IServ about our subscriber
+    Stsbl\CourseGroupManagementBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Model,Resources,Tests}/*'
 
-    stsbl.course_group_management.dashboard:
-        class: Stsbl\CourseGroupManagementBundle\EventListener\DashboardListener # Our DashboardListener Class
-        arguments: ["@doctrine.orm.entity_manager", "@iserv.config"]
-        tags:
-          - { name: kernel.event_listener, event: iserv.manage.dashboard, method: onBuildManageDashboard}
-          - { name: kernel.event_listener, event: iserv_portal.build_idesk, method: onBuildIDesk }
+    Stsbl\CourseGroupManagementBundle\Controller\:
+        resource: '../../Controller'
+        public: true
+        tags: ['controller.service_arguments']
 
-    stsbl.course_group_management.actcoursepromotion:
-        class: Stsbl\CourseGroupManagementBundle\Service\ActCoursePromotion
-        arguments: ["@iserv.security_handler", "@iserv.shell"]
