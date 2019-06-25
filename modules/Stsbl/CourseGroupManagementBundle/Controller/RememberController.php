@@ -3,11 +3,11 @@
 namespace Stsbl\CourseGroupManagementBundle\Controller;
 
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\FormStaticControlType;
-use IServ\CoreBundle\Entity\User;
-use IServ\CoreBundle\Controller\PageController;
+use IServ\CoreBundle\Controller\AbstractPageController;
 use IServ\CoreBundle\Entity\Group;
+use IServ\CoreBundle\Entity\User;
 use IServ\CoreBundle\Service\Config;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use IServ\CoreBundle\Service\Logger;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /*
@@ -49,7 +50,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * @Security("is_granted('PRIV_MANAGE_PROMOTIONS')")
  *
  */
-class RememberController extends PageController
+class RememberController extends AbstractPageController
 {
     /**
      * Add breadcrumbs for all actions
@@ -93,7 +94,7 @@ class RememberController extends PageController
     {
         $groups = $this->findEmptyGroups();
 
-        /* @var $emptyGroups Group[] */
+        /* @var $emptyGroups Group[][] */
         $emptyGroups = [];
         /* @var $users User[] */
         $users = [];
@@ -137,11 +138,11 @@ class RememberController extends PageController
      * @param Request $request
      * @return array
      */
-    public function mailAction(Request $request)
+    public function mailAction(Request $request, Config $config, Logger $logger, \Swift_Mailer $mailer)
     {
         $groups = $this->findEmptyGroups();
 
-        /* @var $emptyGroups Group[] */
+        /* @var $emptyGroups Group[][] */
         $emptyGroups = [];
         /* @var $users User[] */
         $users = [];
@@ -174,8 +175,6 @@ class RememberController extends PageController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            /* @var $config Config */
-            $config = $this->get('iserv.config');
             $flash = [];
 
             foreach ($users as $user) {
@@ -196,14 +195,14 @@ class RememberController extends PageController
                 $msg->setFrom(sprintf('%s@%s', $this->getUser()->getUsername(), $config->get('Domain')), $this->getUser()->getName());
                 $msg->setSubject($data['subject']);
                 $msg->setBody($text, 'text/plain', 'utf-8');
-                $this->get('mailer.local')->send($msg);
+                $mailer->send($msg);
 
                 $flash[] = __('Sent e-mail to %s.', (string)$user);
-                $this->get('iserv.logger')->writeForModule(sprintf('Erinnerungs-E-Mail über leere Kursgruppen an %s gesendet', (string)$user), 'Course Group Management');
+                $logger->writeForModule(sprintf('Erinnerungs-E-Mail über leere Kursgruppen an %s gesendet', (string)$user), 'Course Group Management');
             }
 
-            if (count($flash) > 0) {
-                $this->get('iserv.flash')->success(join("\n", $flash));
+            if (!empty($flash)) {
+                $this->addFlash('success', join("\n", $flash));
             }
         }
 

@@ -12,4 +12,6 @@ services:
         resource: '../../Controller'
         public: true
         tags: ['controller.service_arguments']
+        bind:
+            $managementMenu: '@iserv.menu.management'
 

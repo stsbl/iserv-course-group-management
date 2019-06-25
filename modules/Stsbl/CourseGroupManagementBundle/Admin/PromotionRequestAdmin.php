@@ -6,6 +6,7 @@ use IServ\AdminBundle\Admin\AbstractAdmin;
 use IServ\CoreBundle\Repository\GroupRepository;
 use IServ\CoreBundle\Service\Config;
 use IServ\CoreBundle\Traits\LoggerTrait;
+use IServ\CrudBundle\Crud\Action\Link;
 use IServ\CrudBundle\Entity\CrudInterface;
 use IServ\CrudBundle\Mapper\AbstractBaseMapper;
 use IServ\CrudBundle\Mapper\FormMapper;
@@ -255,11 +256,16 @@ class PromotionRequestAdmin extends AbstractAdmin
     public function getIndexActions()
     {
         $links = parent::getIndexActions();
-
-        if (is_array($links)) {
-            $links['run'] = array($this->getRouter()->generate('admin_coursegroupmanagement_execute_prepare'), _('Promote groups'), 'play');
-            $links['remember'] = array($this->getRouter()->generate('admin_coursegroupmamangement_remember'), _('Remember group owners with empty groups'), 'pro-bell');
-        }
+        $links->add(Link::create(
+            $this->getRouter()->generate('admin_coursegroupmanagement_execute_prepare'),
+            _('Promote groups'),
+            'play'
+        ));
+        $links->add(Link::create(
+            $this->getRouter()->generate('admin_coursegroupmamangement_remember'),
+            _('Remember group owners with empty groups'),
+            'pro-bell'
+        ));
 
         return $links;
     }

@@ -148,14 +148,10 @@ class DashboardListener implements HomePageListenerInterface, ManageDashboardLis
             return;
         }
 
-        $icon = null;
-        // display icon on IDesk
-        if ($this->isIDeskEvent) {
-            $icon = [
-                'style' => 'fugue',
-                'name' => 'clipboard-block'
-            ];
-        }
+        $icon = [
+            'style' => 'fugue',
+            'name' => 'clipboard-block'
+        ];
 
 
         $event->addContent(

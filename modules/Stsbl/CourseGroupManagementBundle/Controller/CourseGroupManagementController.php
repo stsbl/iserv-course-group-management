@@ -3,9 +3,9 @@
 namespace Stsbl\CourseGroupManagementBundle\Controller;
 
 use Doctrine\ORM\EntityRepository;
-use IServ\CoreBundle\Controller\PageController;
-use IServ\CoreBundle\Entity\GroupRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use IServ\CoreBundle\Controller\AbstractPageController;
+use IServ\CoreBundle\Service\Logger;
+use Knp\Menu\ItemInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest;
@@ -13,9 +13,10 @@ use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validation;
 
 /*
@@ -48,11 +49,21 @@ use Symfony\Component\Validator\Validation;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class CourseGroupManagementController extends PageController
+class CourseGroupManagementController extends AbstractPageController
 {
     /**
+     * @var ItemInterface
+     */
+    private $managementMenu;
+
+    public function __construct(ItemInterface $managementMenu)
+    {
+        $this->managementMenu = $managementMenu;
+    }
+
+    /**
      * Creates form for exam plan group unlocking
-     * 
+     *
      * @return \Symfony\Component\Form\Form
      */
     private function getUnlockForm()
@@ -73,7 +84,7 @@ class CourseGroupManagementController extends PageController
                 ],
                 'by_reference' => false,
                 'query_builder' => function (EntityRepository $er) {
-                    /* @var $er GroupRepository */
+                    /* @var $er \IServ\CoreBundle\Repository\GroupRepository */
                     $subQb = $er->createQueryBuilder('r');
 
                     $subQb
@@ -115,11 +126,11 @@ class CourseGroupManagementController extends PageController
      * @param Request $request
      * @return array
      * @Route("/manage/coursegroupmanagement", name="manage_coursegroupmanagement_request")
-     * @Route("/admin/coursegroupmanagement", name="admin_coursegroupmanagement_request")
+     * @\Symfony\Component\Routing\Annotation\Route("/admin/coursegroupmanagement", name="admin_coursegroupmanagement_request")
      * @Security("is_granted('PRIV_REQUEST_PROMOTIONS')")
      * @Template()
      */
-    public function requestAction(Request $request)
+    public function requestAction(Request $request, Logger $logger)
     {
         $form = $this->getUnlockForm();
         $form->handleRequest($request);
@@ -151,7 +162,7 @@ class CourseGroupManagementController extends PageController
                         $errors[] = $violation->getMessage();
                     }
                 } else {
-                    $this->get('iserv.logger')->writeForModule(sprintf('Versetzungsantrag für Gruppe "%s" gestellt', $group), 'Course Group Management');
+                    $logger->writeForModule(sprintf('Versetzungsantrag für Gruppe "%s" gestellt', $group), 'Course Group Management');
                     $messages[] = __('Put in promotion request for group "%s".', $group);
 
                     $em->persist($promotionRequest);
@@ -161,15 +172,15 @@ class CourseGroupManagementController extends PageController
             $em->flush();
 
             if (count($errors) > 0) {
-                $this->get('iserv.flash')->error(implode("\n", $errors));
+                $this->addFlash('error', implode("\n", $errors));
             }
             if (count($messages) > 0) {
-                $this->get('iserv.flash')->success(implode("\n", $messages));
+                $this->addFlash('success', implode("\n", $messages));
             }
 
         } else {
             foreach ($form->getErrors(true) as $e) {
-                $this->get('iserv.flash')->error($e->getMessage());
+                $this->addFlash('error', $e->getMessage());
             }
         }
         
@@ -179,7 +190,7 @@ class CourseGroupManagementController extends PageController
             $menu = null;
         } else {
             $bundle = 'IServCoreBundle';
-            $menu = $this->get('iserv.menu.management');
+            $menu = $this->managementMenu;
         }
         
         // track path
@@ -193,8 +204,8 @@ class CourseGroupManagementController extends PageController
         $view = $form->createView();
         
         return [
-            'bundle' => $bundle, 
-            'menu' => $menu, 
+            'bundle' => $bundle,
+            'menu' => $menu,
             'form' => $view,
             'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];

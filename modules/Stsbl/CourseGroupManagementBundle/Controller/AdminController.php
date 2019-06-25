@@ -5,10 +5,9 @@ namespace Stsbl\CourseGroupManagementBundle\Controller;
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use Braincrafted\Bundle\BootstrapBundle\Form\Type\FormActionsType;
 use Doctrine\Common\Collections\ArrayCollection;
-use IServ\CoreBundle\Controller\PageController;
+use IServ\CoreBundle\Controller\AbstractPageController;
 use IServ\CoreBundle\Entity\Group;
-use function PHPSTORM_META\type;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use IServ\CoreBundle\Repository\GroupRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
@@ -22,6 +21,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 /*
  * The MIT License
@@ -48,14 +48,14 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 
 /**
- * FIXME Move logic out of AdminController to a service container!
+ * FIXME Move logic out of AdminController to a service!
  *
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  * @Route("/admin/coursegroupmanagement")
  * @Security("is_granted('PRIV_MANAGE_PROMOTIONS')")
  */
-class AdminController extends PageController
+class AdminController extends AbstractPageController
 {
     /**
      * Convert ArrayCollection or array of group entities to array of group account.
@@ -376,8 +376,8 @@ class AdminController extends PageController
             }
         }
 
-        if (count($errors) > 0) {
-            $this->get('iserv.flash')->error(implode("\n", $errors));
+        if (!empty($errors)) {
+            $this->addFlash('error', implode("\n", $errors));
         }
 
         if ($redirect) {
@@ -672,7 +672,7 @@ class AdminController extends PageController
      * @Route("/execute/promote/run", name="admin_coursegroupmanagement_execute_promote_run")
      * @return StreamedResponse
      */
-    public function promoteRunAction()
+    public function promoteRunAction(ActCoursePromotion $coursePromotion)
     {
         $session = $this->get('session');
 
@@ -683,10 +683,6 @@ class AdminController extends PageController
         if (!$session->has('course_group_management_transition')) {
             throw new \RuntimeException('key course_group_management_transition is missing!');
         }
-
-        /* @var $actcoursepromotion ActCoursePromotion */
-        $actcoursepromotion = $this->get('stsbl.course_group_management.actcoursepromotion');
-
         $pre = $this->render('StsblCourseGroupManagementBundle:Admin/actcoursepromotion:pre.html.twig')->getContent();
         $post = $this->render('StsblCourseGroupManagementBundle:Admin/actcoursepromotion:post.html.twig')->getContent();
         $data = [];
@@ -697,11 +693,11 @@ class AdminController extends PageController
 
         $data['delete'] = $groups;
 
-        $response = new StreamedResponse(function() use ($actcoursepromotion, $pre, $post, $data) {
+        $response = new StreamedResponse(function() use ($coursePromotion, $pre, $post, $data) {
             echo $pre;
             ob_flush();
             flush();
-            $actcoursepromotion->run($data);
+            $coursePromotion->run($data);
             echo $post;
             ob_flush();
             flush();
