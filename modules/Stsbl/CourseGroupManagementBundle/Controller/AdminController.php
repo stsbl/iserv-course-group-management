@@ -719,7 +719,7 @@ class AdminController extends AbstractPageController
         $this->addBreadcrumb(_('Course Group Management'), $this->generateUrl('admin_coursegroupmanagement_request'));
         $this->addBreadcrumb(_('Promotion Requests'), $this->generateUrl('admin_promotionrequest_index'));
         $this->addBreadcrumb(_('Promote course groups'), $this->generateUrl('admin_coursegroupmanagement_execute_prepare'));
-        $this->addBreadcrumb(_('Promote'), $this->generateUrl('admin_coursegroupmanagement_execute_promote'));
+        $this->addBreadcrumb(_p('course-group-management', 'Promote'), $this->generateUrl('admin_coursegroupmanagement_execute_promote'));
 
         return [
             'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
