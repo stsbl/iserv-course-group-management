@@ -1,3 +1,10 @@
+stsbl-iserv-course-group-management (20.02.14-1) stable; urgency=medium
+
+  * Bumped copyright
+  * Fixed gettext clash with messenger
+
+ -- Felix Jacobi <Felix@jacobi-hamburg.net>  Fri, 14 Feb 2020 02:39:34 +0100
+
 stsbl-iserv-course-group-management (19.06.25-1) experimental; urgency=medium
 
   * Fixed remaining deprecated code
