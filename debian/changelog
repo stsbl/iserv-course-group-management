@@ -1,3 +1,10 @@
+stsbl-iserv-course-group-management (20.08.13-1) stable; urgency=medium
+
+  * Updated license copyright
+  * Fixed check form and actcoursepromotion
+
+ -- Felix Jacobi <Felix@jacobi-hamburg.net>  Thu, 13 Aug 2020 00:10:34 +0200
+
 stsbl-iserv-course-group-management (20.08.02-1) testing; urgency=medium
 
   * Bumped copyright
