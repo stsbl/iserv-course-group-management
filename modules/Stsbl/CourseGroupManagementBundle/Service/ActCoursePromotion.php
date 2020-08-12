@@ -70,13 +70,11 @@ class ActCoursePromotion
 
         // FIXME: Use real data
         $ip = @$_SERVER["REMOTE_ADDR"];
-        $fwdIp = preg_replace("/.*,\s*/", "", @$_SERVER["HTTP_X_FORWARDED_FOR"]);
 
         // TODO: Check impact of this on Symfony.
         set_time_limit(7200);
         putenv("SESSPW=".$sessPw);
         putenv("IP=".$ip);
-        putenv("IPFWD=".$fwdIp);
         putenv("ARG=".json_encode($data));
 
         if (!$ph = popen("closefd sudo /usr/lib/iserv/actcoursepromotion "."'".$this->shell->quote($act)."' 2>&1", "r")) {

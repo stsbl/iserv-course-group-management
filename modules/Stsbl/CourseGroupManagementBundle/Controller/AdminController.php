@@ -177,7 +177,7 @@ class AdminController extends AbstractPageController
         $builder
             ->add('groups', ChoiceType::class, array(
                 'multiple' => true,
-                'choices' => $groupActs
+                'choices' => $groupActs,
             ))
             ->add('deletedGroups', ChoiceType::class, array(
                 'multiple' => true,

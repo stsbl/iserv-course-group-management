@@ -26,7 +26,7 @@
             <tbody>
             {% for key, group in transition %}
                 <tr class="odd" role="row">
-                    <td><input type="checkbox" name="stsbl_coursegroupmanagement_execute_check[groups][]" value="{{ key }}" checked="checked" required="false" /></td>
+                    <td><input type="checkbox" name="stsbl_coursegroupmanagement_execute_check[groups][]" value="{{ key }}" checked="checked" /></td>
                     <td>{{ icon('legacy-act-group') }}{{ group.oldName }}</td>
                     <td>{{ icon('legacy-act-group') }}{{ group.newName }}</td>
                     {% if group.owner is not null %}
@@ -60,7 +60,7 @@
             <tbody>
             {% for group in deleted %}
                 <tr>
-                    <td><input type="checkbox" name="stsbl_coursegroupmanagement_execute_check[deletedGroups][]" value="{{ group.account }}" checked="checked" required="false" /></td>
+                    <td><input type="checkbox" name="stsbl_coursegroupmanagement_execute_check[deletedGroups][]" value="{{ group.account }}" checked="checked" /></td>
                     <td>{{ icon('legacy-act-group') }}{{ group.name }}</td>
                     {% if group.owner is not null %}
                         <td>{{ icon('legacy-act-user') }}{{ group.owner }}</td>

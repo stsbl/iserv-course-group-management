@@ -27,7 +27,6 @@ my $priv = "manage_promotions";
 
 my $login_pwd = $ENV{PASSWORD} // $ENV{SESSPW};
 my ($login_ip) = ($ENV{IP} // "") =~ /^($m_ip)$/;
-my ($login_ip_fwd) = ($ENV{IPFWD} // "") =~ /^($m_ip)$/;
 
 my %row;
 $row{module} = "Course Group Management";
@@ -72,9 +71,9 @@ if ($data =~ /^(.*)$/)
   error "Failed to untaint data!";
 }
 
-$IServ::DB::logname = IServ::Tools::pwname $login_act;
+my %login_user = IServ::Tools::get_user $login_act;
+$IServ::DB::logname = $login_user{name};
 $IServ::DB::logip = $login_ip;
-$IServ::DB::logipfwd = $login_ip_fwd;
 $IServ::User::created_by = $login_act;
 
 # decode
@@ -114,38 +113,36 @@ if (@$delete < 1)
 }
 
 $cnt = 0;
-for (keys %$rename)
+for (sort keys %$rename)
 {
+  my $old_act = $_;
+  my %def = %{ $rename->{$_} };
   eval
   {
-    my $old_name = $rename->{$_}->{oldName};
-    my $new_name = $rename->{$_}->{newName};
-    my $new_act = IServ::User::NewAct $new_name;
-  
-    if (IServ::DB::Do "SELECT 1 FROM groups WHERE Act = ? AND Deleted IS NULL", $new_act)
-    {
-      die sprintf(_("Group %s can not renamed to %s: Account is already used."), $old_name, $new_name);
-    }
- 
-    print sprintf(_("Deleting promotion request for group %s ..."), $old_name)."\n";
-    IServ::DB::Do "DELETE FROM cgr_management_promotion_requests WHERE ActGrp = ?", $_;
+    my $old_name = $def{oldName};
+    my $new_name = $def{newName};
+    IServ::User::SmartNewAct $new_name;
+    my $new_act = IServ::Valid::NewAct $new_name;
 
-    my $owner_act = IServ::DB::SelectVal "SELECT Owner FROM groups WHERE Act = ?", $_;
+    print sprintf(_("Deleting promotion request for group %s ..."), $old_name)."\n";
+    IServ::DB::Do "DELETE FROM cgr_management_promotion_requests WHERE ActGrp = ?", $old_act;
+
+    my $owner_act = IServ::DB::SelectVal "SELECT Owner FROM groups WHERE Act = ?", $old_act;
 
     if (defined $owner_act)
     {
-      $msg{$owner_act}{renamed}{$_} = {old_name => $old_name, new_name => $new_name};
+      $msg{$owner_act}{renamed}{$old_act} = {old_name => $old_name, new_name => $new_name};
     }
 
     print sprintf(_("Renaming group %s to %s ..."), $old_name, $new_name)."\n";
   
-    IServ::User::GroupAct $_, $new_act;
+    IServ::User::GroupAct $old_act, $new_act;
     IServ::User::GroupName $new_act, $new_name;
 
     $cnt++;
   };
 
-  print sprintf(_("Error during renaming group %s: %s"), $rename->{$_}->{oldName}, $@)."\n" if $@;
+  print sprintf(_("Error during renaming group %s: %s"), $def{oldName}, $@)."\n" if $@;
 }
 
 if (keys %$rename < 1)
@@ -164,9 +161,9 @@ if (keys %$rename < 1)
   IServ::DB::Log $log_text, %row;
 }
 
-my $sender_name = IServ::DB::SelectVal "SELECT firstname || ' ' || lastname FROM users_name WHERE act = ?", $login_act;
+my $sender_name = IServ::DB::SelectVal "SELECT user_join_name(firstname, lastname) FROM users_name WHERE act = ?", $login_act;
 
-for (keys %msg)
+for (sort keys %msg)
 {
   my ($msg, $text, $part, $act);
 
