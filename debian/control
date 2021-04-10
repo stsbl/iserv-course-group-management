@@ -1,28 +1,27 @@
 Source: stsbl-iserv-course-group-management
 Section: misc
-Priority: extra
+Priority: optional
 Maintainer: Stadtteilschule Blankenese <repository@stsbl.de>
-Build-Depends: debhelper (>= 10)
-Build-Depends-Indep: iserv-buildtools
-Standards-Version: 4.1.3
+Build-Depends: debhelper-compat (= 13), dh-sequence-iserv, dh-sequence-stsbl
+Standards-Version: 4.5.0
 Homepage: https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management
 
 Package: stsbl-iserv-course-group-management
 Architecture: all
-Depends: ${misc:Depends},
-  ${perl:Depends},
-  iserv-portal,
-  stsbl-iserv3-maintenance,
-  stsbl-iserv-perl-lib,
-  libmime-lite-perl,
-  libjson-perl,
-Xb-Private-IServ-Revision: ${iserv:Revision}
+Depends: iserv-portal,
+         libjson-perl,
+         libmime-lite-perl,
+         stsbl-iserv-perl-lib,
+         stsbl-iserv3-maintenance,
+         ${misc:Depends},
+         ${perl:Depends}
+Xb-Private-Iserv-Revision: ${iserv:Revision}
 Description: Kursgruppenverwaltung für IServ (EXPERIMENTELL)
- Bietet die Möglichkeit, für IServ-Gruppen, die Kurse darstellen, die zentrale 
- Versetzung in das nächste Schuljahr zu planen und durchzuführen. 
+ Bietet die Möglichkeit, für IServ-Gruppen, die Kurse darstellen, die zentrale
+ Versetzung in das nächste Schuljahr zu planen und durchzuführen.
  .
- Dazu bietet das Modul ein Formular an, indem die Lehrkraft angeben kann, 
- welche der ihr gehörenden Kursgruppen sie nächtes Schuljahr noch 
+ Dazu bietet das Modul ein Formular an, indem die Lehrkraft angeben kann,
+ welche der ihr gehörenden Kursgruppen sie nächtes Schuljahr noch
  benötigt. Der Admin kann anschließend alle Kursgruppen zentral umbenennen
  (Jahrgangszahl wird um einen erhöht, eventuell vorhandene Jahreszahl im Namen
  wird auf das nächste Jahr geändert).
