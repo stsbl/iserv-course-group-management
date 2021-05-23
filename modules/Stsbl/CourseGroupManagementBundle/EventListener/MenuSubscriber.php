@@ -1,7 +1,10 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/EventListener/MenuSubscriber.php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\EventListener;
 
+use IServ\AdminBundle\Event\Events;
 use IServ\AdminBundle\EventListener\AdminMenuListenerInterface;
 use IServ\CoreBundle\Event\MenuEvent;
 use IServ\ManageBundle\Event\MenuEvent as ManageMenuEvent;
@@ -36,54 +39,54 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class MenuSubscriber implements AdminMenuListenerInterface, EventSubscriberInterface
+final class MenuSubscriber implements AdminMenuListenerInterface, EventSubscriberInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function onBuildAdminMenu(MenuEvent $event) 
-    {        
+    public function onBuildAdminMenu(MenuEvent $event): void
+    {
         // check privilege
         if ($event->getAuthorizationChecker()->isGranted(Privilege::REQUEST_PROMOTIONS)) {
             $menu = $event->getMenu();
-            $child = $menu->getChild('modules');
-            
+            $child = $menu->getChild(self::ADMIN_MODULES);
+
             $item = $child->addChild('admin_coursegroupmanagement', [
                 'route' => 'admin_coursegroupmanagement_request',
                 'label' => _('Course Group Management')
             ]);
-            
+
             $item->setExtra('icon', 'clipboard-block');
             $item->setExtra('icon_style', 'fugue');
         }
     }
-    
+
     /**
      * @param MenuEvent $event
      */
-    public function onBuildManageMenu(MenuEvent $event)
-    {    
+    public function onBuildManageMenu(MenuEvent $event): void
+    {
         // check privilege
         if ($event->getAuthorizationChecker()->isGranted(Privilege::REQUEST_PROMOTIONS)) {
             $menu = $event->getMenu();
-            
+
             $item = $menu->addChild('manage_coursegroupmanagement', [
                 'route' => 'manage_coursegroupmanagement_request',
                 'label' => _('Request promotion for course groups')
             ]);
-            
+
             $item->setExtra('icon', 'clipboard-block');
             $item->setExtra('icon_style', 'fugue');
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents() 
+    public static function getSubscribedEvents(): array
     {
         return [
-            MenuEvent::ADMINMENU => 'onBuildAdminMenu',
+            Events::MENU => 'onBuildAdminMenu',
             ManageMenuEvent::MANAGEMENTMENU => 'onBuildManageMenu'
         ];
     }

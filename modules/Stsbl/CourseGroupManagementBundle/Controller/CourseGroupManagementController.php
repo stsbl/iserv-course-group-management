@@ -1,5 +1,7 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\Controller;
 
 use Doctrine\ORM\EntityRepository;
@@ -13,11 +15,12 @@ use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /*
  * The MIT License
@@ -49,7 +52,7 @@ use Symfony\Component\Validator\Validation;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class CourseGroupManagementController extends AbstractPageController
+final class CourseGroupManagementController extends AbstractPageController
 {
     /**
      * @var ItemInterface
@@ -63,14 +66,11 @@ class CourseGroupManagementController extends AbstractPageController
 
     /**
      * Creates form for exam plan group unlocking
-     *
-     * @return \Symfony\Component\Form\Form
      */
-    private function getUnlockForm()
+    private function getUnlockForm(): FormInterface
     {
-        /* @var $builder \Symfony\Component\Form\FormBuilder */
         $builder = $this->get('form.factory')->createNamedBuilder('course_group_promotion_request');
-        
+
         $builder
             ->add('groups', EntityType::class, [
                 'label' => _('Groups'),
@@ -116,41 +116,37 @@ class CourseGroupManagementController extends AbstractPageController
                 'icon' => 'ok'
             ])
         ;
-        
+
         return $builder->getForm();
     }
-    
+
     /**
      * Provides page with form for group promotion requests
-     * 
-     * @param Request $request
-     * @return array
+     *
      * @Route("/manage/coursegroupmanagement", name="manage_coursegroupmanagement_request")
      * @\Symfony\Component\Routing\Annotation\Route("/admin/coursegroupmanagement", name="admin_coursegroupmanagement_request")
      * @Security("is_granted('PRIV_REQUEST_PROMOTIONS')")
      * @Template()
      */
-    public function requestAction(Request $request, Logger $logger)
+    public function requestAction(Request $request, Logger $logger, ValidatorInterface $validator): array
     {
         $form = $this->getUnlockForm();
         $form->handleRequest($request);
         $routeName = $request->get('_route');
         $messages = [];
         $errors = [];
-        
+
+        $em = $this->getDoctrine()->getManager();
+
         if ($form->isSubmitted() && $form->isValid()) {
             $groups = $form->getData()['groups'];
             $comment = $form->getData()['comment'];
-            $validator = Validation::createValidator();
-
-            /* @var $em \Doctrine\ORM\EntityManager */
-            $em = $this->getDoctrine()->getManager();
 
             foreach ($groups as $group) {
                 $promotionRequest = new PromotionRequest();
 
                 $promotionRequest
-                    ->setUser($this->getUser())
+                    ->setUser($this->authenticatedUser())
                     ->setGroup($group)
                     ->setComment($comment)
                 ;
@@ -169,30 +165,28 @@ class CourseGroupManagementController extends AbstractPageController
                 }
             }
 
-            $em->flush();
-
             if (count($errors) > 0) {
-                $this->addFlash('error', implode("\n", $errors));
+                $this->flashMessage()->error(implode("\n", $errors));
             }
             if (count($messages) > 0) {
-                $this->addFlash('success', implode("\n", $messages));
+                $this->flashMessage()->success(implode("\n", $messages));
             }
 
         } else {
             foreach ($form->getErrors(true) as $e) {
-                $this->addFlash('error', $e->getMessage());
+                $this->flashMessage()->error($e->getMessage());
             }
         }
-        
+
         // move page into admin section for administrators
         if ($routeName === 'admin_coursegroupmanagement_request') {
-            $bundle = 'IServAdminBundle';
+            $bundle = '@IServAdmin';
             $menu = null;
         } else {
-            $bundle = 'IServCoreBundle';
+            $bundle = '@IServCore';
             $menu = $this->managementMenu;
         }
-        
+
         // track path
         if ($bundle === 'IServCoreBundle') {
             $this->addBreadcrumb(_('Administration'), $this->generateUrl('manage_index'));
@@ -200,9 +194,9 @@ class CourseGroupManagementController extends AbstractPageController
         } else {
             $this->addBreadcrumb(_('Course Group Management'), $this->generateUrl($routeName));
         }
-        
+
         $view = $form->createView();
-        
+
         return [
             'bundle' => $bundle,
             'menu' => $menu,

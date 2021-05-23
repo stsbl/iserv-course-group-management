@@ -1,5 +1,7 @@
 <?php
-// src/IServ/CourseGroupManagementBundle/DependencyInjection/StsblCourseGroupManagementExtension.php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\DependencyInjection;
 
 use IServ\CoreBundle\DependencyInjection\IServBaseExtension;
@@ -9,6 +11,6 @@ use IServ\CoreBundle\DependencyInjection\IServBaseExtension;
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class StsblCourseGroupManagementExtension extends IServBaseExtension
+final class StsblCourseGroupManagementExtension extends IServBaseExtension
 {
 }

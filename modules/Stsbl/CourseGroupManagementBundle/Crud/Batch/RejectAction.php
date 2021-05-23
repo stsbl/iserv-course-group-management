@@ -1,5 +1,7 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/Crud/Batch/RejectAction.php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\Crud\Batch;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,7 +40,7 @@ use Swift_Message;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class RejectAction extends DeleteAction
+final class RejectAction extends DeleteAction
 {
     /**
      * @var PromotionRequestAdmin
@@ -48,7 +50,7 @@ class RejectAction extends DeleteAction
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'reject';
     }
@@ -56,7 +58,7 @@ class RejectAction extends DeleteAction
     /**
      * {@inheritdoc}
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return _('Reject');
     }
@@ -64,10 +66,10 @@ class RejectAction extends DeleteAction
     /**
      * {@inheritdoc}
      */
-    public function execute(ArrayCollection $entities)
+    public function execute(ArrayCollection $entities): FlashMessageBag
     {
         $bag = new FlashMessageBag();
-        $messageGroups = array();
+        $messageGroups = [];
         /* @var $request PromotionRequest */
         foreach ($entities as $request) {
             // Replicate delete actions code
@@ -77,7 +79,7 @@ class RejectAction extends DeleteAction
                     $success = $this->crud->delete($request);
 
                     if (!array_key_exists($request->getUser()->getUsername(), $messageGroups)) {
-                        $messageGroups[$request->getUser()->getUsername()] = array();
+                        $messageGroups[$request->getUser()->getUsername()] = [];
                     }
                     $messageGroups[$request->getUser()->getUsername()][] = $request->getGroup()->getName();
 
@@ -94,21 +96,21 @@ class RejectAction extends DeleteAction
         }
 
         // Send mails out to the user whose requests have been deleted
-        $domain = $this->crud->getConfig()->get('domain');
-        $srcAddr = $this->crud->getUser()->getUsername().'@'.$domain;
+        $domain = $this->crud->config()->get('domain');
+        $srcAddr = $this->crud->getUser()->getUsername() . '@' . $domain;
 
         foreach ($messageGroups as $usr => $groups) {
-            $dstAddr = $usr.'@'.$domain;
+            $dstAddr = $usr . '@' . $domain;
             $subject = _('Requests for course promotion rejected');
-            $message = _('Your requests for promotion of the following course groups have been rejected:')."\n\n  * ".implode("\n  * ", $groups);
-            $message .= "\n\n--\n"._('*This e-mail was generated automatically*');
+            $message = _('Your requests for promotion of the following course groups have been rejected:') . "\n\n  * " . implode("\n  * ", $groups);
+            $message .= "\n\n--\n" . _('*This e-mail was generated automatically*');
             $msg = new Swift_Message();
             $msg->setTo($dstAddr);
             $msg->setSender($srcAddr, $this->crud->getUser()->getName());
             $msg->setFrom($srcAddr, $this->crud->getUser()->getName());
             $msg->setSubject($subject);
             $msg->setBody($message, 'text/plain', 'utf-8');
-            $this->crud->getMailer()->send($msg);
+            $this->crud->mailer()->send($msg);
         }
 
         return $bag;

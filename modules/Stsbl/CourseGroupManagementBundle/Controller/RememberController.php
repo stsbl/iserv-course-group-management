@@ -1,12 +1,13 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\Controller;
 
-use Braincrafted\Bundle\BootstrapBundle\Form\Type\FormStaticControlType;
+use IServ\BootstrapBundle\Form\Type\FormStaticControlType;
 use IServ\CoreBundle\Controller\AbstractPageController;
 use IServ\CoreBundle\Entity\Group;
 use IServ\CoreBundle\Entity\User;
-use IServ\CoreBundle\Service\Config;
 use IServ\CoreBundle\Service\Logger;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -14,7 +15,7 @@ use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -50,13 +51,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * @Security("is_granted('PRIV_MANAGE_PROMOTIONS')")
  *
  */
-class RememberController extends AbstractPageController
+final class RememberController extends AbstractPageController
 {
     /**
      * Add breadcrumbs for all actions
      *
      */
-    private function addBreadcrumbs()
+    private function addBreadcrumbs(): void
     {
         $this->addBreadcrumb(_('Course Group Management'), $this->generateUrl('admin_coursegroupmanagement_request'));
         $this->addBreadcrumb(_('Promotion Requests'), $this->generateUrl('admin_promotionrequest_index'));
@@ -68,18 +69,14 @@ class RememberController extends AbstractPageController
      *
      * @return Group[]
      */
-    private function findEmptyGroups()
+    private function findEmptyGroups(): array
     {
-        /* @var $groupRepo \IServ\CoreBundle\Entity\GroupRepository */
         $groupRepo = $this->getDoctrine()->getRepository(Group::class);
 
-        /* @var $groups \IServ\CoreBundle\Entity\Group[] */
-        $groups = $groupRepo->createFindByFlagQueryBuilder(Privilege::FLAG_COURSE_GROUP)
+        return $groupRepo->createFindByFlagQueryBuilder(Privilege::FLAG_COURSE_GROUP)
             ->getQuery()
             ->getResult()
         ;
-
-        return $groups;
     }
 
     /**
@@ -87,34 +84,10 @@ class RememberController extends AbstractPageController
      *
      * @Route("", name="admin_coursegroupmamangement_remember")
      * @Template()
-     *
-     * @return array
      */
-    public function indexAction()
+    public function indexAction(): array
     {
-        $groups = $this->findEmptyGroups();
-
-        /* @var $emptyGroups Group[][] */
-        $emptyGroups = [];
-        /* @var $users User[] */
-        $users = [];
-
-        foreach ($groups as $group) {
-            if ($group->getUsers()->count() === 0) {
-                if (null !== $group->getOwner()) {
-                    if (!isset($emptyGroups[$group->getOwner()->getUsername()])) {
-                        $emptyGroups[$group->getOwner()->getUsername()] = [];
-                    }
-
-                    if (!isset($users[$group->getOwner()->getUsername()])) {
-                        $users[$group->getOwner()->getUsername()] = $group->getOwner();
-                    }
-
-                    $emptyGroups[$group->getOwner()->getUsername()][$group->getAccount()] = $group;
-                    ksort($emptyGroups[$group->getOwner()->getUsername()], SORT_NATURAL);
-                }
-            }
-        }
+        [$emptyGroups, $users] = $this->getEmptyGroups();
 
         ksort($emptyGroups, SORT_NATURAL);
         ksort($users, SORT_NATURAL);
@@ -134,40 +107,15 @@ class RememberController extends AbstractPageController
      *
      * @Route("/mail", name="admin_coursegroupmamangement_remember_mail")
      * @Template()
-     *
-     * @param Request $request
-     * @return array
      */
-    public function mailAction(Request $request, Config $config, Logger $logger, \Swift_Mailer $mailer)
+    public function mailAction(Request $request, \IServ\Library\Config\Config $config, Logger $logger, \Swift_Mailer $mailer): array
     {
-        $groups = $this->findEmptyGroups();
-
-        /* @var $emptyGroups Group[][] */
-        $emptyGroups = [];
-        /* @var $users User[] */
-        $users = [];
-
-        foreach ($groups as $group) {
-            if ($group->getUsers()->count() === 0) {
-                if (null !== $group->getOwner()) {
-                    if (!isset($emptyGroups[$group->getOwner()->getUsername()])) {
-                        $emptyGroups[$group->getOwner()->getUsername()] = [];
-                    }
-
-                    if (!isset($users[$group->getOwner()->getUsername()])) {
-                        $users[$group->getOwner()->getUsername()] = $group->getOwner();
-                    }
-
-                    $emptyGroups[$group->getOwner()->getUsername()][$group->getAccount()] = $group;
-                    ksort($emptyGroups[$group->getOwner()->getUsername()], SORT_NATURAL);
-                }
-            }
-        }
+        [$emptyGroups, $users] = $this->getEmptyGroups();
 
         ksort($emptyGroups, SORT_NATURAL);
         ksort($users, SORT_NATURAL);
 
-        $form = $this->createMailForm(array_map(function (User $user) {
+        $form = $this->createMailForm(array_map(static function (User $user) {
             return $user->getName();
         }, $users));
 
@@ -182,11 +130,11 @@ class RememberController extends AbstractPageController
                 $values['firstame'] = $user->getFirstname();
                 $values['lastname'] = $user->getLastname();
                 $values['fullname'] = $user->getName();
-                $values['groups'] = '* '.join("\n* ", $emptyGroups[$user->getUsername()]);
+                $values['groups'] = '* ' . join("\n* ", $emptyGroups[$user->getUsername()]);
 
                 $text = $data['text'];
                 foreach ($values as $key => $value) {
-                    $text = str_replace('%'.$key.'%', $value, $text);
+                    $text = str_replace('%' . $key . '%', $value, $text);
                 }
 
                 $msg = new \Swift_Message();
@@ -202,7 +150,7 @@ class RememberController extends AbstractPageController
             }
 
             if (!empty($flash)) {
-                $this->addFlash('success', join("\n", $flash));
+                $this->flashMessage()->success(implode("\n", $flash));
             }
         }
 
@@ -218,16 +166,15 @@ class RememberController extends AbstractPageController
     /**
      * Create form for mail to all
      *
-     * @param array $users
-     * @return Form
+     * @param string[] $users
      */
-    private function createMailForm(array $users)
+    private function createMailForm(array $users): FormInterface
     {
         asort($users);
-        $users = join(', ', $users);
+        $users = implode(', ', $users);
 
         $builder = $this->createFormBuilder();
-        
+
         $builder
             ->add('recipients', FormStaticControlType::class, [
                 'label' => _('Recipients'),
@@ -262,23 +209,45 @@ class RememberController extends AbstractPageController
 
     /**
      * Get remember mail text for single user
-     *
-     * @param User $user
-     * @param array $groups
-     * @return string
      */
-    public function getSingleMailText(User $user, array $groups)
+    public function getSingleMailText(User $user, array $groups): string
     {
-        return __("Dear %s,\n\nThe following of your course groups are still empty:\n\n* %s\n\nPlease go to Administration > Groups and add the required members to this groups.", (string)$user, join("\n* ", $groups));
+        return __("Dear %s,\n\nThe following of your course groups are still empty:\n\n* %s\n\nPlease go to Administration > Groups and add the required members to this groups.", (string)$user, implode("\n* ", $groups));
     }
 
     /**
      * Get remember mail text for batch sending
-     *
-     * @return string
      */
-    public function getBatchMailText()
+    public function getBatchMailText(): string
     {
         return __("Dear %s,\n\nThe following of your course groups are still empty:\n\n%s\n\nPlease go to Administration > Groups and add the required members to this groups.", '%fullname%', '%groups%');
+    }
+
+    private function getEmptyGroups(): array
+    {
+        $groups = $this->findEmptyGroups();
+
+        /* @var $emptyGroups Group[][] */
+        $emptyGroups = [];
+        /* @var $users User[] */
+        $users = [];
+
+        foreach ($groups as $group) {
+            if ($group->getUsers()->count() === 0) {
+                if (null !== $group->getOwner()) {
+                    if (!isset($emptyGroups[$group->getOwner()->getUsername()])) {
+                        $emptyGroups[$group->getOwner()->getUsername()] = [];
+                    }
+
+                    if (!isset($users[$group->getOwner()->getUsername()])) {
+                        $users[$group->getOwner()->getUsername()] = $group->getOwner();
+                    }
+
+                    $emptyGroups[$group->getOwner()->getUsername()][$group->getAccount()] = $group;
+                    ksort($emptyGroups[$group->getOwner()->getUsername()], SORT_NATURAL);
+                }
+            }
+        }
+        return [$emptyGroups, $users];
     }
 }

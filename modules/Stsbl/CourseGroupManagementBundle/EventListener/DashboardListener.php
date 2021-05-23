@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\EventListener;
 
+use Doctrine\Persistence\ManagerRegistry;
 use IServ\CoreBundle\Entity\Group;
 use IServ\CoreBundle\Event\DashboardEvent;
 use IServ\CoreBundle\Event\HomePageEvent;
 use IServ\CoreBundle\EventListener\HomePageListenerInterface;
-use IServ\CoreBundle\Service\Config;
+use IServ\Library\Config\Config;
+use IServ\Library\Zeit\Zeit;
 use IServ\ManageBundle\EventListener\ManageDashboardListenerInterface;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /*
  * The MIT License
@@ -39,7 +42,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class DashboardListener implements HomePageListenerInterface, ManageDashboardListenerInterface
+final class DashboardListener implements HomePageListenerInterface, ManageDashboardListenerInterface
 {
     /**
      * @var Config
@@ -47,16 +50,16 @@ class DashboardListener implements HomePageListenerInterface, ManageDashboardLis
     private $config;
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     private $doctrine;
-    
+
     /**
      * @var bool
      */
     private $isIDeskEvent = false;
 
-    public function __construct(RegistryInterface $doctrine, Config $config)
+    public function __construct(ManagerRegistry $doctrine, Config $config)
     {
         $this->doctrine = $doctrine;
         $this->config = $config;
@@ -85,9 +88,10 @@ class DashboardListener implements HomePageListenerInterface, ManageDashboardLis
                 $until->add(new \DateInterval('P1Y'));
             }
 
-            $now = new \DateTime('now');
+            $now = Zeit::now();
+            $timestamp = $now->getTimestamp();
 
-            if ($now->getTimestamp() >= $from->getTimestamp() && $now->getTimestamp() <= $until->getTimestamp()) {
+            if ($timestamp >= $from->getTimestamp() && $timestamp <= $until->getTimestamp()) {
                 return true;
             }
         } else {
@@ -125,7 +129,7 @@ class DashboardListener implements HomePageListenerInterface, ManageDashboardLis
             ->getResult()
         ;
     }
-    
+
     /**
      * Adds notice if there are unlockable groups for exam plan.
      */
@@ -160,8 +164,8 @@ class DashboardListener implements HomePageListenerInterface, ManageDashboardLis
             [
                 'title' => __n('You can promote one course group for next school year', 'You can promote %d course groups for next school year', count($groups), count($groups)),
                 'text' => _('The following groups are in queue for promoting:'),
-                'additional_text' => _('You can go to „Request promotion for course groups“ and request a promote for this groups.').' '.
-                    _('Groups without promotion request are may get deleted automatically during promotion process.').' '.
+                'additional_text' => _('You can go to „Request promotion for course groups“ and request a promote for this groups.') . ' ' .
+                    _('Groups without promotion request are may get deleted automatically during promotion process.') . ' ' .
                     _('Please ask your administrator for further information.'),
                 'groups' => $groups,
                 'panel_class' => 'panel-primary',

@@ -1,20 +1,24 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\Admin;
 
-use IServ\AdminBundle\Admin\AbstractAdmin;
+use IServ\AdminBundle\Admin\AdminServiceCrud;
 use IServ\CoreBundle\Repository\GroupRepository;
-use IServ\CoreBundle\Service\Config;
 use IServ\CoreBundle\Traits\LoggerTrait;
+use IServ\CoreBundle\Util\Collection\OrderedCollection;
 use IServ\CrudBundle\Crud\Action\Link;
 use IServ\CrudBundle\Entity\CrudInterface;
+use IServ\CrudBundle\Exception\ObjectManagerException;
 use IServ\CrudBundle\Mapper\AbstractBaseMapper;
 use IServ\CrudBundle\Mapper\FormMapper;
 use IServ\CrudBundle\Mapper\ListMapper;
+use IServ\CrudBundle\Routing\RoutingDefinition;
+use IServ\Library\Config\Config;
 use Stsbl\CourseGroupManagementBundle\Crud\Batch;
 use Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
-use Swift_Mailer;
 
 /*
  * The MIT License
@@ -44,69 +48,51 @@ use Swift_Mailer;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class PromotionRequestAdmin extends AbstractAdmin
+final class PromotionRequestAdmin extends AdminServiceCrud
 {
     use LoggerTrait;
 
     /**
-     * @var Config
+     * {@inheritDoc}
      */
-    private $config;
+    protected static $entityClass = PromotionRequest::class;
 
-    /**
-     * @var Swift_Mailer
-     */
-    private $mailer;
-
-    public function __construct()
+    public function config(): Config
     {
-        parent::__construct(PromotionRequest::class);
+        return $this->locator->get(Config::class);
     }
 
-    /**
-     * @required
-     */
-    public function setConfig(Config $config)
+    public function mailer(): \Swift_Mailer
     {
-        $this->config = $config;
-    }
-
-    public function getConfig(): Config
-    {
-        return $this->config;
-    }
-
-    /**
-     * @required
-     */
-    public function setMailer(Swift_Mailer $mailer)
-    {
-        $this->mailer = $mailer;
-    }
-
-    public function getMailer(): \Swift_Mailer
-    {
-        return $this->mailer;
+        return $this->locator->get(\Swift_Mailer::class);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->logModule = 'Course Group Management';
 
         $this->title = _('Promotion Requests');
         $this->itemTitle = _('Promotion Request');
-        $this->routesPrefix = 'admin/coursegroupmanagement/';
-
         $this->options['help'] = 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function defineRoutes(): RoutingDefinition
+    {
+        return parent::defineRoutes()
+            ->setPathPrefix('/admin/coursegroupmanagement/')
+        ;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function configureFormFields(FormMapper $formMapper)
+    public function configureFormFields(FormMapper $formMapper): void
     {
         if ($formMapper->getObject() === null) {
             $formMapper
@@ -154,7 +140,7 @@ class PromotionRequestAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function configureFields(AbstractBaseMapper $mapper)
+    public function configureFields(AbstractBaseMapper $mapper): void
     {
         if ($mapper instanceof FormMapper) {
             // form mapper is configured via configureFormFields
@@ -183,11 +169,11 @@ class PromotionRequestAdmin extends AbstractAdmin
                 'icon' => true,
             ])
             ->add('created', null, [
-                'label' => _p('course-group-management','Created'),
+                'label' => _p('course-group-management', 'Created'),
                 'responsive' => 'min-tablet'
             ])
             ->add('comment', null, [
-                'label' => _p('course-group-management','Comment'),
+                'label' => _p('course-group-management', 'Comment'),
                 'responsive' => 'min-tablet'
             ])
         ;
@@ -196,46 +182,51 @@ class PromotionRequestAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function prePersist(CrudInterface $object)
+    public function prePersist(CrudInterface $object): void
     {
+        /** @var PromotionRequest $object */
         // default request owner to group owner
-        /* @var $object PromotionRequest */
-        if ($object->getUser() === null) {
+        if (null === $object->getUser()) {
             $object->setUser($object->getGroup()->getOwner());
+        }
+
+        if (null === $object->getUser()) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            throw new ObjectManagerException(_('Group does not have an owner. Please select manually.'));
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function postPersist(CrudInterface $object)
+    public function postPersist(CrudInterface $object): void
     {
-        /* @var $object \Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest */
+        /** @var PromotionRequest $object */
         $this->log(sprintf('Versetzungsantrag für Gruppe "%s" von %s hinzugefügt', $object->getGroup(), $object->getUser()));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function postRemove(CrudInterface $object)
+    public function postRemove(CrudInterface $object): void
     {
-        /* @var $object \Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest */
+        /** @var PromotionRequest $object */
         $this->log(sprintf('Versetzungsantrag für Gruppe "%s" von %s gelöscht', $object->getGroup(), $object->getUser()));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function postUpdate(CrudInterface $object, array $previousData = null)
+    public function postUpdate(CrudInterface $object, array $previousData = null): void
     {
-        /* @var $object \Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest */
+        /** @var PromotionRequest $object */
         $this->log(sprintf('Kommentar von Versetzungsantrag für Gruppe "%s" von %s bearbeitet', $object->getGroup(), $object->getUser()));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isAuthorized()
+    public function isAuthorized(): bool
     {
         return $this->isGranted(Privilege::MANAGE_PROMOTIONS) && $this->isGranted(Privilege::REQUEST_PROMOTIONS);
     }
@@ -243,26 +234,26 @@ class PromotionRequestAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function prepareBreadcrumbs()
+    public function prepareBreadcrumbs(): array
     {
         return [
-            _('Course Group Management') => $this->router->generate('admin_coursegroupmanagement_request')
+            _('Course Group Management') => $this->router()->generate('admin_coursegroupmanagement_request')
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getIndexActions()
+    public function getIndexActions(): OrderedCollection
     {
         $links = parent::getIndexActions();
         $links->add(Link::create(
-            $this->getRouter()->generate('admin_coursegroupmanagement_execute_prepare'),
+            $this->router()->generate('admin_coursegroupmanagement_execute_prepare'),
             _('Promote groups'),
             'play'
         ));
         $links->add(Link::create(
-            $this->getRouter()->generate('admin_coursegroupmamangement_remember'),
+            $this->router()->generate('admin_coursegroupmamangement_remember'),
             _('Remember group owners with empty groups'),
             'pro-bell'
         ));
@@ -273,13 +264,23 @@ class PromotionRequestAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    public function loadBatchActions()
+    protected function loadBatchActions(): void
     {
-        $res = parent::loadBatchActions();
+        parent::loadBatchActions();
 
-        $res->remove('delete');
-        $res->add(new Batch\RejectAction($this));
+        $this->batchActions->remove(self::ACTION_DELETE);
+        $this->batchActions->add(new Batch\RejectAction($this));
+    }
 
-        return $res;
+    /**
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices(): array
+    {
+        $deps = parent::getSubscribedServices();
+        $deps[] = Config::class;
+        $deps[] = \Swift_Mailer::class;
+
+        return $deps;
     }
 }

@@ -1,5 +1,6 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php
+
+declare(strict_types=1);
 
 /*
  * The MIT License

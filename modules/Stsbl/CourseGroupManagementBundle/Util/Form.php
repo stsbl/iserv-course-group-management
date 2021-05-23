@@ -1,5 +1,7 @@
-<?php declare(strict_types = 1);
-// src/Stsbl/CourseGroupManagementBundle/Util/Form.php
+<?php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\Util;
 
 /*

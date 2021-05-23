@@ -1,5 +1,7 @@
 <?php
+
 // src/Stsbl/CourseGroupManagementBundle/EntityPromotionRequest.php
+
 namespace Stsbl\CourseGroupManagementBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -51,7 +53,7 @@ class PromotionRequest implements CrudInterface, IgnorableConstraintsInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var integer
+     * @var int
      */
     private $id;
 
@@ -92,128 +94,88 @@ class PromotionRequest implements CrudInterface, IgnorableConstraintsInterface
      *
      * @ORM\PrePersist
      */
-    public function onCreate()
+    public function onCreate(): void
     {
         $this->setCreated(new \DateTime("now"));
 
         // default user to group owner
-        if ($this->getUser() === null && $this->getGroup()->getOwner() != null) {
+        if ($this->getUser() === null && $this->getGroup()->getOwner() !== null) {
             $this->setUser($this->getGroup()->getOwner());
         }
     }
 
     /**
-     * Gets a string representation of the object.
-     *
-     * @return string
+     * {@inheritDoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return __('Promotion request for group %s', (string)$this->group);
     }
 
     /**
      * Gets a unique ID of the object which can be used to reference the entity in a URI.
-     *
-     * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return PromotionRequest
+     * @return $this
      */
-    public function setCreated($created)
+    public function setCreated(\DateTime $created): self
     {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
 
     /**
-     * Set comment
-     *
-     * @param string $comment
-     *
-     * @return PromotionRequest
+     * @return $this
      */
-    public function setComment($comment)
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
         return $this;
     }
 
-    /**
-     * Get comment
-     *
-     * @return string
-     */
-    public function getComment()
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
     /**
-     * Set group
-     *
-     * @param Group $group
-     *
-     * @return PromotionRequest
+     * @return $this
      */
-    public function setGroup(Group $group)
+    public function setGroup(?Group $group): self
     {
         $this->group = $group;
 
         return $this;
     }
 
-    /**
-     * Get group
-     *
-     * @return Group
-     */
-    public function getGroup()
+    public function getGroup(): ?Group
     {
         return $this->group;
     }
 
     /**
-     * Set user
-     *
-     * @param User $user
-     *
-     * @return PromotionRequest
+     * @return $this
      */
-    public function setUser(User $user = null)
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * Get user
-     *
-     * @return User
-     */
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
     }

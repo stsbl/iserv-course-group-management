@@ -1,5 +1,7 @@
 <?php
-// src/Stsbl/CourseGroupManagementBundle/Service/ActCoursePromotion.php
+
+declare(strict_types=1);
+
 namespace Stsbl\CourseGroupManagementBundle\Service;
 
 /*
@@ -25,6 +27,7 @@ namespace Stsbl\CourseGroupManagementBundle\Service;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 use IServ\CoreBundle\Security\Core\SecurityHandler;
 use IServ\CoreBundle\Service\Shell;
 
@@ -32,7 +35,7 @@ use IServ\CoreBundle\Service\Shell;
  * @author Felix Jacobi <felix.jacobi@stsbl.de>
  * @license MIT license <https://opensource.org/licenses/MIT>
  */
-class ActCoursePromotion
+final class ActCoursePromotion
 {
     /**
      * @var SecurityHandler
@@ -44,12 +47,6 @@ class ActCoursePromotion
      */
     private $shell;
 
-    /**
-     * The constructor.
-     *
-     * @param SecurityHandler $securityHandler
-     * @param Shell $shell
-     */
     public function __construct(SecurityHandler $securityHandler, Shell $shell)
     {
         $this->securityHandler = $securityHandler;
@@ -58,10 +55,8 @@ class ActCoursePromotion
 
     /**
      * Special shell access for streamed iservchk execution.
-     *
-     * @param array $data
      */
-    public function run(array $data)
+    public function run(array $data): void
     {
         // Get user account and sesspw
         $token = $this->securityHandler->getToken();
@@ -73,11 +68,11 @@ class ActCoursePromotion
 
         // TODO: Check impact of this on Symfony.
         set_time_limit(7200);
-        putenv("SESSPW=".$sessPw);
-        putenv("IP=".$ip);
-        putenv("ARG=".json_encode($data));
+        putenv("SESSPW=" . $sessPw);
+        putenv("IP=" . $ip);
+        putenv("ARG=" . json_encode($data));
 
-        if (!$ph = popen("closefd sudo /usr/lib/iserv/actcoursepromotion "."'".$this->shell->quote($act)."' 2>&1", "r")) {
+        if (!$ph = popen("closefd sudo /usr/lib/iserv/actcoursepromotion " . "'" . $this->shell->quote($act) . "' 2>&1", "r")) {
             throw new \RuntimeException("Could not execute actcoursepromotion.");
         }
 
@@ -91,15 +86,13 @@ class ActCoursePromotion
 
     /**
      * Callback for stream output
-     *
-     * @param string $line
      */
-    private function streamCallBack($line)
+    private function streamCallBack(string $line): void
     {
         $line = preg_replace("/.\x08/", '', $line);
         $line = preg_replace('/\e\[([01])(?:;3([0-7]))?m/', '', $line);
         $line = preg_replace("/\e/", '', $line);
-        echo $line.'<br />';
+        echo $line . '<br />';
         ob_flush();
         flush();
     }
