@@ -94,13 +94,13 @@ msgstr "Bemerkung"
 #: modules/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php
 #: modules/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php
 #: modules/Stsbl/CourseGroupManagementBundle/EventListener/MenuSubscriber.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/prepare.html.twig.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/promote.html.twig.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/customize.html.twig.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/check.html.twig.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/index.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/mail.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/index.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/promote.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/customize.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/prepare.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/check.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 msgid "Course Group Management"
 msgstr "Kursgruppenverwaltung"
 
@@ -216,9 +216,8 @@ msgstr "Antragsteller"
 msgid "Group"
 msgstr "Gruppe"
 
-#: lib/actcoursepromotion
 #: modules/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php
-#, perl-format, php-format
+#, php-format
 msgid "Group %s can not renamed to %s: Account is already used."
 msgstr "Gruppe %s kann nicht nach %s umbenannt werden: Account ist noc belegt."
 
@@ -232,6 +231,10 @@ msgstr "Gruppe %s wird gelöscht"
 msgid "Group %s will renamed to %s"
 msgstr "Gruppe %s wird nach %s umbenannt"
 
+#: modules/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php
+msgid "Group does not have an owner. Please select manually."
+msgstr "Gruppe hat keinen Besitzer. Bitte manuell auswählen."
+
 #: priv/course-group-management
 #: modules/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php
 #: modules/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php
@@ -243,8 +246,8 @@ msgstr "Gruppe ist eine Kursgruppe"
 msgid "Groups"
 msgstr "Gruppen"
 
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/check.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 msgid "Groups which will deleted"
 msgstr "Gruppen, welche gelöscht werden"
 
@@ -252,9 +255,9 @@ msgstr "Gruppen, welche gelöscht werden"
 msgid "Groups which will not changed"
 msgstr "Gruppen, welche nicht geändert werden"
 
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/customize.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/check.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 msgid "Groups which will renamed"
 msgstr "Gruppen, welche umbenannt werden"
 
@@ -317,15 +320,15 @@ msgstr "Weiter"
 
 #: lib/actcoursepromotion
 #: modules/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/check.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 msgid "No groups will deleted."
 msgstr "Keine Gruppen werden gelöscht."
 
 #: lib/actcoursepromotion
 #: modules/Stsbl/CourseGroupManagementBundle/Resources/translations/messages.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/check.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 msgid "No groups will renamed."
 msgstr "Keine Gruppen werden umbenannt."
 
@@ -386,11 +389,11 @@ msgid "Promote"
 msgstr "Versetzen"
 
 #: modules/Stsbl/CourseGroupManagementBundle/Controller/AdminController.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/prepare.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/promote.html.twig.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/customize.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/prepare.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/check.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Admin/preview.html.twig.php
 msgid "Promote course groups"
 msgstr "Kursgruppen versetzen"
 
@@ -428,8 +431,8 @@ msgstr "Ablehnen"
 
 #: modules/Stsbl/CourseGroupManagementBundle/Admin/PromotionRequestAdmin.php
 #: modules/Stsbl/CourseGroupManagementBundle/Controller/RememberController.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/index.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/mail.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Remember/index.html.twig.php
 msgid "Remember group owners with empty groups"
 msgstr "Gruppenbesitzer mit leeren Gruppen erinnern"
 
@@ -454,8 +457,8 @@ msgstr "Versetzungen beantragen"
 
 #: modules/Stsbl/CourseGroupManagementBundle/Controller/CourseGroupManagementController.php
 #: modules/Stsbl/CourseGroupManagementBundle/EventListener/MenuSubscriber.php
-#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/CourseGroupManagement/request.html.twig.php
 #: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/Dashboard/pending.html.twig.php
+#: /tmp/twig2php-stsbl-iserv-course-group-management/modules/Stsbl/CourseGroupManagementBundle/Resources/views/CourseGroupManagement/request.html.twig.php
 msgid "Request promotion for course groups"
 msgstr "Versetzung für Kursgruppen beantragen"
 
