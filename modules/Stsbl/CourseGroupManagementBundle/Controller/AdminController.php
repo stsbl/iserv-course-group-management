@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Stsbl\CourseGroupManagementBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use IServ\BootstrapBundle\Form\Type\BootstrapCollectionType;
 use IServ\BootstrapBundle\Form\Type\FormActionsType;
 use IServ\CoreBundle\Controller\AbstractPageController;
 use IServ\CoreBundle\Entity\Group;
@@ -120,14 +121,14 @@ final class AdminController extends AbstractPageController
                 'label' => _('Replace parts of group name for groups with promotion request'),
                 'required' => false,
             ])
-            ->add('search', \IServ\BootstrapBundle\Form\Type\BootstrapCollectionType::class, [
+            ->add('search', BootstrapCollectionType::class, [
                 'entry_type' => TextType::class,
                 'label' => _('Search for'),
                 'attr' => [
                     'help_text' => _('The "Search for" and "Replace with" fields must have the same amounts of values.')
                 ]
             ])
-            ->add('replacement', \IServ\BootstrapBundle\Form\Type\BootstrapCollectionType::class, [
+            ->add('replacement', BootstrapCollectionType::class, [
                 'entry_type' => TextType::class,
                 'label' => _('Replace with'),
                 'attr' => [
@@ -494,7 +495,7 @@ final class AdminController extends AbstractPageController
             foreach ($groupsTransition as $key => $group) {
                 // magic
                 if (preg_match('|\d+|', $group['newName'], $m)) {
-                    $groupsTransition[$key]['newName'] = preg_replace(sprintf('|%s|', $m[0]), (int)$m[0] + 1, $group['newName'], 1);
+                    $groupsTransition[$key]['newName'] = preg_replace(sprintf('|%s|', $m[0]), $m[0] + 1, $group['newName'], 1);
                 }
             }
         }

@@ -162,6 +162,7 @@ final class CourseGroupManagementController extends AbstractPageController
                     $messages[] = __('Put in promotion request for group "%s".', $group);
 
                     $em->persist($promotionRequest);
+                    $em->flush();
                 }
             }
 
