@@ -495,7 +495,7 @@ final class AdminController extends AbstractPageController
             foreach ($groupsTransition as $key => $group) {
                 // magic
                 if (preg_match('|\d+|', $group['newName'], $m)) {
-                    $groupsTransition[$key]['newName'] = preg_replace(sprintf('|%s|', $m[0]), $m[0] + 1, $group['newName'], 1);
+                    $groupsTransition[$key]['newName'] = preg_replace(sprintf('|%s|', $m[0]), (string)($m[0] + 1), $group['newName'], 1);
                 }
             }
         }
