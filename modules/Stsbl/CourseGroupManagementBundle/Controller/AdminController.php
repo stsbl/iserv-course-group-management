@@ -668,8 +668,8 @@ final class AdminController extends AbstractPageController
         if (!$session->has('course_group_management_transition')) {
             throw new \RuntimeException('key course_group_management_transition is missing!');
         }
-        $pre = $this->render('StsblCourseGroupManagementBundle:Admin/actcoursepromotion:pre.html.twig')->getContent();
-        $post = $this->render('StsblCourseGroupManagementBundle:Admin/actcoursepromotion:post.html.twig')->getContent();
+        $pre = $this->render('@StsblCourseGroupManagement/Admin/actcoursepromotion/pre.html.twig')->getContent();
+        $post = $this->render('@StsblCourseGroupManagement/Admin/actcoursepromotion/post.html.twig')->getContent();
         $data = [];
 
         $data['rename'] = (object)$session->get('course_group_management_transition', []);

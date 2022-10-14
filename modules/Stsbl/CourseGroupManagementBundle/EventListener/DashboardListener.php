@@ -160,7 +160,7 @@ final class DashboardListener implements HomePageListenerInterface, ManageDashbo
 
         $event->addContent(
             'manage.stsblcoursegroupmanagement',
-            'StsblCourseGroupManagementBundle:Dashboard:pending.html.twig',
+            '@StsblCourseGroupManagement/Dashboard/pending.html.twig',
             [
                 'title' => __n('You can promote one course group for next school year', 'You can promote %d course groups for next school year', count($groups), count($groups)),
                 'text' => _('The following groups are in queue for promoting:'),
