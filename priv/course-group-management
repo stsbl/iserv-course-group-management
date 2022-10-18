@@ -1,16 +1,19 @@
 priv.manage_promotions:
+uuid 		e76b2618-f10f-4a43-83d3-8900c57c01c5
 module          Course Group Management
 description     Manage Promotions
 assign          admins
 assignroles     admin
 
 priv.request_promotions:
+uuid 		6ab0f321-be40-40c4-a020-382257ae1072
 module          Course Group Management
 description     Request Promotions
 assign          admins
 assignroles     admin teacher
 
 flag.course_group:
+uuid 		7fc102bd-4051-473e-8da4-1d7139e0a00c
 module		Course Group Management
 title		Group is a Course Group
 description	Groups with this flag will promoted if a promotion request was put in. Elsewhere there will deleted a the end of the school year.
