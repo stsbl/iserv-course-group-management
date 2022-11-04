@@ -1,3 +1,11 @@
+stsbl-iserv-course-group-management (22.11.04.1) testing; urgency=medium
+
+  * Replaced deprecated twig template syntax
+  * Added UUID to privleges and flags
+  * Modernized code
+
+ -- Felix Jacobi <Felix@jacobi-hamburg.net>  Fri, 04 Nov 2022 06:41:42 +0100
+
 stsbl-iserv-course-group-management (22.08.22.1) stable; urgency=medium
 
   * Fixed compatibility with PHP8
