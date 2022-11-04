@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Stsbl\CourseGroupManagementBundle\Crud\Batch;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use IServ\CrudBundle\Contracts\CrudContract;
 use IServ\CrudBundle\Crud\Batch\DeleteAction;
 use IServ\CrudBundle\Entity\FlashMessageBag;
 use IServ\CrudBundle\Exception\ObjectManagerException;
@@ -73,7 +74,7 @@ final class RejectAction extends DeleteAction
         /* @var $request PromotionRequest */
         foreach ($entities as $request) {
             // Replicate delete actions code
-            if ($this->crud->isAllowedToDelete($request)) {
+            if ($this->crud->isAllowedTo(CrudContract::ACTION_DELETE, $this->crud->getUser(), $request)) {
                 $success = false;
                 try {
                     $success = $this->crud->delete($request);

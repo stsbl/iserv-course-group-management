@@ -54,14 +54,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 final class CourseGroupManagementController extends AbstractPageController
 {
-    /**
-     * @var ItemInterface
-     */
-    private $managementMenu;
 
-    public function __construct(ItemInterface $managementMenu)
-    {
-        $this->managementMenu = $managementMenu;
+    public function __construct(
+        private readonly ItemInterface $managementMenu,
+    ) {
     }
 
     /**
@@ -189,7 +185,7 @@ final class CourseGroupManagementController extends AbstractPageController
         }
 
         // track path
-        if ($bundle === 'IServCoreBundle') {
+        if ($bundle === '@IServCore') {
             $this->addBreadcrumb(_('Administration'), $this->generateUrl('manage_index'));
             $this->addBreadcrumb(_('Request promotion for course groups'), $this->generateUrl($routeName));
         } else {

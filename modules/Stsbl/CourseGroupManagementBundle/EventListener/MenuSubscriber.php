@@ -87,7 +87,7 @@ final class MenuSubscriber implements AdminMenuListenerInterface, EventSubscribe
     {
         return [
             Events::MENU => 'onBuildAdminMenu',
-            ManageMenuEvent::MANAGEMENTMENU => 'onBuildManageMenu'
+            ManageMenuEvent::MANAGEMENTMENU => 'onBuildManageMenu',
         ];
     }
 

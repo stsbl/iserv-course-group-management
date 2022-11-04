@@ -10,6 +10,7 @@ use IServ\BootstrapBundle\Form\Type\FormActionsType;
 use IServ\CoreBundle\Controller\AbstractPageController;
 use IServ\CoreBundle\Entity\Group;
 use IServ\CoreBundle\Repository\GroupRepository;
+use IServ\Library\Flash\FlashInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Stsbl\CourseGroupManagementBundle\Security\Privilege;
@@ -22,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -62,9 +64,9 @@ final class AdminController extends AbstractPageController
     /**
      * Convert ArrayCollection or array of group entities to array of group account.
      *
-     * @param ArrayCollection|array $groups
+     * @return string[]
      */
-    private function groupEntitiesToArray($groups): array
+    private function groupEntitiesToArray(ArrayCollection|array $groups): array
     {
         if ($groups instanceof ArrayCollection) {
             $groups = $groups->toArray();
@@ -85,11 +87,14 @@ final class AdminController extends AbstractPageController
 
     /**
      * Convert array of group entities to ArrayCollection of group entities
+     *
+     * @param string[] $groups
+     * @return ArrayCollection<Group>
      */
     private function arrayToGroupEntities(array $groups): ArrayCollection
     {
         $collection = new ArrayCollection();
-        $er = $this->getDoctrine()->getRepository('IServCoreBundle:Group');
+        $er = $this->getDoctrine()->getRepository(Group::class);
 
         foreach ($groups as $group) {
             /* @var $group Group */
@@ -285,10 +290,8 @@ final class AdminController extends AbstractPageController
      *
      * @Route("/execute/prepare", name="admin_coursegroupmanagement_execute_prepare")
      * @Template()
-     *
-     * @return array|RedirectResponse
      */
-    public function prepareAction(Request $request)
+    public function prepareAction(Request $request, SessionInterface $session): RedirectResponse|array
     {
         // inject session data
         $formData = [];
@@ -348,13 +351,13 @@ final class AdminController extends AbstractPageController
                 $amountError = true;
             }
 
-            $this->get('session')->set('course_group_management_replace', $data['replace']);
-            $this->get('session')->set('course_group_management_increase', $data['increase']);
-            $this->get('session')->set('course_group_management_delete', $data['delete']);
+            $session->set('course_group_management_replace', $data['replace']);
+            $session->set('course_group_management_increase', $data['increase']);
+            $session->set('course_group_management_delete', $data['delete']);
 
             if ($data['replace'] === true && !$amountError) {
-                $this->get('session')->set('course_group_management_replace_search', $data['search']);
-                $this->get('session')->set('course_group_management_replace_replacement', $data['replacement']);
+                $session->set('course_group_management_replace_search', $data['search']);
+                $session->set('course_group_management_replace_replacement', $data['replacement']);
             }
         } else {
             foreach ($form->getErrors(true) as $e) {
@@ -363,7 +366,7 @@ final class AdminController extends AbstractPageController
         }
 
         if (!empty($errors)) {
-            $this->addFlash('error', implode("\n", $errors));
+            $this->flash()->error(implode("\n", $errors));
         }
 
         if ($redirect) {
@@ -386,10 +389,8 @@ final class AdminController extends AbstractPageController
      *
      * @Route("/execute/preview",name="admin_coursegroupmanagement_execute_preview")
      * @Template()
-     *
-     * @return array|RedirectResponse
      */
-    public function previewAction(Request $request)
+    public function previewAction(Request $request, SessionInterface $session): RedirectResponse|array
     {
         $form = $this->getPreviewForm();
         $form->handleRequest($request);
@@ -408,7 +409,6 @@ final class AdminController extends AbstractPageController
             return $this->redirectToRoute('admin_coursegroupmanagement_execute_promote');
         }
 
-        $session = $this->get('session');
         $deletedGroups = [];
         $groupsTransition = [];
 
@@ -439,15 +439,11 @@ final class AdminController extends AbstractPageController
      *
      * @Route("/execute/check",name="admin_coursegroupmanagement_execute_check")
      * @Template()
-     *
-     * @return array|RedirectResponse
      */
-    public function checkAction(Request $request)
+    public function checkAction(Request $request, SessionInterface $session): RedirectResponse|array
     {
-        $session = $this->get('session');
-
         /* @var $er GroupRepository */
-        $er = $this->getDoctrine()->getRepository('IServCoreBundle:Group');
+        $er = $this->getDoctrine()->getRepository(Group::class);
         $groupActs = [];
         foreach ($er->findAll() as $g) {
             $groupActs[] = $g->getAccount();
@@ -490,8 +486,10 @@ final class AdminController extends AbstractPageController
             $groupsTransition[$group->getAccount()] = ['oldName' => $group->getName(), 'newName' => $group->getName(), 'owner' => $ownerAccount];
         }
 
-        if ($session->has('course_group_management_increase') &&
-            $session->get('course_group_management_increase') === true) {
+        if (
+            $session->has('course_group_management_increase') &&
+            $session->get('course_group_management_increase') === true
+        ) {
             foreach ($groupsTransition as $key => $group) {
                 // magic
                 if (preg_match('|\d+|', $group['newName'], $m)) {
@@ -500,10 +498,12 @@ final class AdminController extends AbstractPageController
             }
         }
 
-        if ($session->has('course_group_management_replace') &&
+        if (
+            $session->has('course_group_management_replace') &&
             $session->get('course_group_management_replace') === true &&
             $session->has('course_group_management_replace_search') &&
-            $session->has('course_group_management_replace_replacement')) {
+            $session->has('course_group_management_replace_replacement')
+        ) {
             foreach ($groupsTransition as $key => $group) {
                 $groupsTransition[$key]['newName'] = str_replace($session->get('course_group_management_replace_search'), $session->get('course_group_management_replace_replacement'), $group['newName']);
             }
@@ -549,7 +549,7 @@ final class AdminController extends AbstractPageController
         }
 
         if (count($errors) > 0) {
-            $this->get('iserv.flash')->error(implode("\n", $errors));
+            $this->flash()->error(implode("\n", $errors));
         }
 
         $unchangedGroups = [];
@@ -591,7 +591,7 @@ final class AdminController extends AbstractPageController
             'deleted' => $deletedGroups,
             'form' => $form->createView(),
             'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management',
-            'userRepository' => $this->getDoctrine()->getRepository('IServCoreBundle:User')
+            'userRepository' => $this->getDoctrine()->getRepository(\IServ\CoreBundle\Entity\User::class),
         ];
     }
 
@@ -600,12 +600,9 @@ final class AdminController extends AbstractPageController
      *
      * @Route("/execute/customize", name="admin_coursegroupmanagement_execute_customize")
      * @Template()
-     *
-     * @return array|RedirectResponse
      */
-    public function customizeAction(Request $request)
+    public function customizeAction(Request $request, SessionInterface $session): RedirectResponse|array
     {
-        $session = $this->get('session');
         $groupsTransition = [];
 
         if ($session->has('course_group_management_transition')) {
@@ -657,10 +654,8 @@ final class AdminController extends AbstractPageController
      *
      * @Route("/execute/promote/run", name="admin_coursegroupmanagement_execute_promote_run")
      */
-    public function promoteRunAction(ActCoursePromotion $coursePromotion): StreamedResponse
+    public function promoteRunAction(ActCoursePromotion $coursePromotion, SessionInterface $session): StreamedResponse
     {
-        $session = $this->get('session');
-
         if (!$session->has('course_group_management_delete')) {
             throw new \RuntimeException('key course_group_management_delete is missing!');
         }
@@ -706,5 +701,21 @@ final class AdminController extends AbstractPageController
         return [
             'help' => 'https://it.stsbl.de/documentation/mods/stsbl-iserv-course-group-management'
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices(): array
+    {
+        $deps = parent::getSubscribedServices();
+        $deps[] = FlashInterface::class;
+
+        return $deps;
+    }
+
+    private function flash(): FlashInterface
+    {
+        return $this->get(FlashInterface::class);
     }
 }

@@ -37,24 +37,9 @@ final class Form
     /**
      * Convert a base64 encoded string to a string that can be used as an
      * identifier for Symfony forms
-     *
-     * @param string $string
-     * @return string
      */
     public static function base64ToSymfonyFormCompatibleName(string $string): string
     {
         return str_replace(['+', '/', '='], ['__', '_:', '-'], $string);
-    }
-
-    /**
-     * Convert a base64 encoded string that was encoded to a string that can be
-     * used as an identifier for Symfony forms back to a base64 encoded string
-     *
-     * @param string $string
-     * @return string
-     */
-    public static function symfonyFormCompatibleNameToBase64(string $string): string
-    {
-        return str_replace(['__', '_:', '-'], ['+', '/', '='], $string);
     }
 }

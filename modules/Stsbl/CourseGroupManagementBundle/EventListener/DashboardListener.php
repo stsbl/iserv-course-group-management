@@ -45,24 +45,14 @@ use Stsbl\CourseGroupManagementBundle\Security\Privilege;
 final class DashboardListener implements HomePageListenerInterface, ManageDashboardListenerInterface
 {
     /**
-     * @var Config
-     */
-    private $config;
-
-    /**
-     * @var ManagerRegistry
-     */
-    private $doctrine;
-
-    /**
      * @var bool
      */
-    private $isIDeskEvent = false;
+    private bool $isIDeskEvent = false;
 
-    public function __construct(ManagerRegistry $doctrine, Config $config)
-    {
-        $this->doctrine = $doctrine;
-        $this->config = $config;
+    public function __construct(
+        private readonly ManagerRegistry $doctrine,
+        private readonly Config $config,
+    ) {
     }
 
     /**

@@ -37,20 +37,10 @@ use IServ\CoreBundle\Service\Shell;
  */
 final class ActCoursePromotion
 {
-    /**
-     * @var SecurityHandler
-     */
-    private $securityHandler;
-
-    /**
-     * @var Shell
-     */
-    private $shell;
-
-    public function __construct(SecurityHandler $securityHandler, Shell $shell)
-    {
-        $this->securityHandler = $securityHandler;
-        $this->shell = $shell;
+    public function __construct(
+        private readonly SecurityHandler $securityHandler,
+        private readonly Shell $shell,
+    ) {
     }
 
     /**

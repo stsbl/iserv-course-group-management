@@ -9,6 +9,7 @@ use IServ\CoreBundle\Entity\Group;
 use IServ\CoreBundle\Entity\User;
 use IServ\CrudBundle\Entity\CrudInterface;
 use IServ\CrudBundle\Entity\IgnorableConstraintsInterface;
+use IServ\Library\Zeit\Zeit;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -52,42 +53,39 @@ class PromotionRequest implements CrudInterface, IgnorableConstraintsInterface
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @Assert\NotBlank(message="Please select the group which should promoted.")
      * @ORM\ManyToOne(targetEntity="\IServ\CoreBundle\Entity\Group", fetch="EAGER")
      * @ORM\JoinColumn(name="actgrp", referencedColumnName="act", nullable=false)
-     *
-     * @var Group
      */
-    private $group;
+    private ?Group $group = null;
 
     /**
      * @Assert\NotBlank(message="Please select the filer of the promotion.", groups={"ignorable"})
      * @ORM\ManyToOne(targetEntity="\IServ\CoreBundle\Entity\User", fetch="EAGER")
      * @ORM\JoinColumn(name="actusr", referencedColumnName="act", nullable=false)
-     *
-     * @var User
      */
-    private $user;
+    private ?User $user = null;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
-     *
-     * @var \DateTime
+     * @ORM\Column(type="datetimetz_immutable", nullable=false)
      */
-    private $created;
+    private \DateTimeImmutable $created;
 
     /**
      * @ORM\Column(type="text")
      *
      * @var string
      */
-    private $comment;
+    private ?string $comment = null;
+
+    public function __construct()
+    {
+        $this->created = Zeit::now();
+    }
 
     /**
      * Lifecycle callback to set the creation date
@@ -96,11 +94,9 @@ class PromotionRequest implements CrudInterface, IgnorableConstraintsInterface
      */
     public function onCreate(): void
     {
-        $this->setCreated(new \DateTime("now"));
-
         // default user to group owner
-        if ($this->getUser() === null && $this->getGroup()->getOwner() !== null) {
-            $this->setUser($this->getGroup()->getOwner());
+        if ($this->getUser() === null && $this->getGroup()?->getOwner() !== null) {
+            $this->setUser($this->getGroup()?->getOwner());
         }
     }
 
@@ -120,17 +116,7 @@ class PromotionRequest implements CrudInterface, IgnorableConstraintsInterface
         return $this->id;
     }
 
-    /**
-     * @return $this
-     */
-    public function setCreated(\DateTime $created): self
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    public function getCreated(): ?\DateTime
+    public function getCreated(): ?\DateTimeImmutable
     {
         return $this->created;
     }
