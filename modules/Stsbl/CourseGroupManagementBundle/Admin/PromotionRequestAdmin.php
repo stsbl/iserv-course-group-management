@@ -107,7 +107,7 @@ final class PromotionRequestAdmin extends AdminServiceCrud
                         $subQb
                             ->resetDQLParts()
                             ->select('r')
-                            ->from('StsblCourseGroupManagementBundle:PromotionRequest', 'r')
+                            ->from(\Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest::class, 'r')
                             ->where($subQb->expr()->eq('g.account', 'r.group'));
 
                         return $er->createFindByFlagQueryBuilder(Privilege::FLAG_COURSE_GROUP, 'g')

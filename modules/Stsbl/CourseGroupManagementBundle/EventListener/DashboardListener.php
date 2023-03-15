@@ -105,7 +105,7 @@ final class DashboardListener implements HomePageListenerInterface, ManageDashbo
         $subQb
             ->resetDQLParts()
             ->select('r')
-            ->from('StsblCourseGroupManagementBundle:PromotionRequest', 'r')
+            ->from(\Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest::class, 'r')
             ->where($subQb->expr()->eq('g.account', 'r.group'))
         ;
 

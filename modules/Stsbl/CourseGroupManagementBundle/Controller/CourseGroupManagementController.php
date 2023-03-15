@@ -54,7 +54,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 final class CourseGroupManagementController extends AbstractPageController
 {
-
     public function __construct(
         private readonly ItemInterface $managementMenu,
     ) {
@@ -86,7 +85,7 @@ final class CourseGroupManagementController extends AbstractPageController
                     $subQb
                         ->resetDQLParts()
                         ->select('r')
-                        ->from('StsblCourseGroupManagementBundle:PromotionRequest', 'r')
+                        ->from(\Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest::class, 'r')
                         ->where($subQb->expr()->eq('g.account', 'r.group'))
                     ;
 
