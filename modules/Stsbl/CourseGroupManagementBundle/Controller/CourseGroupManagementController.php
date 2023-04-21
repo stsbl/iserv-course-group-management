@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Stsbl\CourseGroupManagementBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use IServ\CoreBundle\Controller\AbstractPageController;
+use IServ\CoreBundle\Entity\Group;
 use IServ\CoreBundle\Service\Logger;
 use Knp\Menu\ItemInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -69,7 +71,7 @@ final class CourseGroupManagementController extends AbstractPageController
         $builder
             ->add('groups', EntityType::class, [
                 'label' => _('Groups'),
-                'class' => 'IServCoreBundle:Group',
+                'class' => Group::class,
                 'select2-icon' => 'legacy-act-group',
                 'multiple' => true,
                 'required' => false,
@@ -85,7 +87,7 @@ final class CourseGroupManagementController extends AbstractPageController
                     $subQb
                         ->resetDQLParts()
                         ->select('r')
-                        ->from(\Stsbl\CourseGroupManagementBundle\Entity\PromotionRequest::class, 'r')
+                        ->from(PromotionRequest::class, 'r')
                         ->where($subQb->expr()->eq('g.account', 'r.group'))
                     ;
 
@@ -123,15 +125,13 @@ final class CourseGroupManagementController extends AbstractPageController
      * @Security("is_granted('PRIV_REQUEST_PROMOTIONS')")
      * @Template()
      */
-    public function requestAction(Request $request, Logger $logger, ValidatorInterface $validator): array
+    public function requestAction(Request $request, Logger $logger, ValidatorInterface $validator, EntityManagerInterface $em): array
     {
         $form = $this->getUnlockForm();
         $form->handleRequest($request);
         $routeName = $request->get('_route');
         $messages = [];
         $errors = [];
-
-        $em = $this->getDoctrine()->getManager();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $groups = $form->getData()['groups'];
