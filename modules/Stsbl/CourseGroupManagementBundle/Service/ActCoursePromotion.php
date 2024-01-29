@@ -66,8 +66,7 @@ final class ActCoursePromotion
             throw new \RuntimeException("Could not execute actcoursepromotion.");
         }
 
-        while (is_string($line = fgets($ph)))
-        {
+        while (is_string($line = fgets($ph))) {
             $this->streamCallBack($line);
         }
 

@@ -36,7 +36,7 @@ namespace Stsbl\CourseGroupManagementBundle\Security;
  */
 final class Privilege
 {
-   public const MANAGE_PROMOTIONS = 'PRIV_MANAGE_PROMOTIONS';
-   public const REQUEST_PROMOTIONS = 'PRIV_REQUEST_PROMOTIONS';
-   public const FLAG_COURSE_GROUP = 'course_group';
+    public const MANAGE_PROMOTIONS = 'PRIV_MANAGE_PROMOTIONS';
+    public const REQUEST_PROMOTIONS = 'PRIV_REQUEST_PROMOTIONS';
+    public const FLAG_COURSE_GROUP = 'course_group';
 }
